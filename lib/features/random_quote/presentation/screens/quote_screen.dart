@@ -80,7 +80,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
         ),
         onPressed: () {
           if (AppLocalizations.of(context)!.isEnLocale) {
-            BlocProvider.of<LocaleCubit>(context).toArabic();
+            BlocProvider.of<LocaleCubit>(context).toFarsi();
           } else {
             BlocProvider.of<LocaleCubit>(context).toEnglish();
           }
