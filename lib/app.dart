@@ -13,27 +13,28 @@ class QuoteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => di.sl<LocaleCubit>()),
-        ],
-        child: BlocBuilder<LocaleCubit, LocaleState>(
-          buildWhen: (previousState, currentState) {
-            return previousState != currentState;
-          },
-          builder: (context, state) {
-            return MaterialApp(
-              title: AppStrings.appName,
-              locale: state.locale,
-              debugShowCheckedModeBanner: false,
-              theme: appTheme(),
-              onGenerateRoute: AppRoutes.onGenerateRoute,
-              supportedLocales: AppLocalizationsSetup.supportedLocales,
-              localeResolutionCallback:
-                  AppLocalizationsSetup.localeResolutionCallback,
-              localizationsDelegates:
-                  AppLocalizationsSetup.localizationsDelegates,
-            );
-          },
-        ));
+      providers: [
+        BlocProvider(create: (context) => di.sl<LocaleCubit>()),
+      ],
+      child: BlocBuilder<LocaleCubit, LocaleState>(
+        buildWhen: (previousState, currentState) {
+          return previousState != currentState;
+        },
+        builder: (context, state) {
+          return MaterialApp(
+            title: AppStrings.appName,
+            locale: state.locale,
+            debugShowCheckedModeBanner: false,
+            theme: appTheme(),
+            onGenerateRoute: AppRoutes.onGenerateRoute,
+            supportedLocales: AppLocalizationsSetup.supportedLocales,
+            localeResolutionCallback:
+                AppLocalizationsSetup.localeResolutionCallback,
+            localizationsDelegates:
+                AppLocalizationsSetup.localizationsDelegates,
+          );
+        },
+      ),
+    );
   }
 }

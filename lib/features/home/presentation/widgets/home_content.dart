@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../domain/entities/quote.dart';
 
-class QuoteContent extends StatelessWidget {
+class HomeContent extends StatelessWidget {
   final Quote quote;
 
-  const QuoteContent({Key? key, required this.quote}) : super(key: key);
+  const HomeContent({Key? key, required this.quote}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
