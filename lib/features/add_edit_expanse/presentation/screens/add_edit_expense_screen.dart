@@ -18,12 +18,9 @@ class AddEditExpenseScreen extends StatefulWidget {
 }
 
 class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
-  _getExpense() => BlocProvider.of<AddEditExpenseCubit>(context).getExpense();
-
   @override
   void initState() {
     super.initState();
-    _getExpense();
   }
 
   Widget _buildBodyContent() {
@@ -37,7 +34,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
           );
         } else if (state is AddEditExpenseError) {
           return error_widget.ErrorWidget(
-            onPress: () => _getExpense(),
+            onPress: () {},
           );
         } else if (state is AddEditExpenseLoaded) {
           return Column(
@@ -46,7 +43,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
                 expense: state.expense,
               ),
               InkWell(
-                onTap: () => _getExpense(),
+                onTap: () {},
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 15),
                   padding: const EdgeInsets.all(10),
@@ -64,11 +61,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             ],
           );
         } else {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.primary,
-            ),
-          );
+          return const AddEditExpenseContent();
         }
       }),
     );
@@ -77,34 +70,11 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      leading: IconButton(
-        icon: Icon(
-          Icons.translate_outlined,
-          color: AppColors.primary,
-        ),
-        onPressed: () {
-          if (AppLocalizations.of(context)!.isEnLocale) {
-            BlocProvider.of<LocaleCubit>(context).toFarsi();
-          } else {
-            BlocProvider.of<LocaleCubit>(context).toEnglish();
-          }
-        },
-      ),
-      title: Text(AppLocalizations.of(context)!.translate('app_name')!),
+      title: Text(AppLocalizations.of(context)!.translate('add_expense')!),
     );
-    return RefreshIndicator(
-      child: Scaffold(
-        appBar: appBar,
-        body: _buildBodyContent(),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.addEditExpanseRoute);
-          },
-          label: Text(AppLocalizations.of(context)!.translate('add_expense')!),
-          icon: const Icon(Icons.add),
-        ),
-      ),
-      onRefresh: () => _getExpense(),
+    return Scaffold(
+      appBar: appBar,
+      body: _buildBodyContent(),
     );
   }
 }

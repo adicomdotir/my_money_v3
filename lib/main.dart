@@ -9,7 +9,7 @@ Future<void> main() async {
   await di.init();
   BlocOverrides.runZoned(
     () {
-      runApp(const QuoteApp());
+      runApp(const MyMoneyApp());
     },
     blocObserver: AppBlocObserver(),
   );

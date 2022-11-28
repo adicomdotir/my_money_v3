@@ -1,5 +1,5 @@
 {
-    "app_name": "Book Nook",
+    "app_name": "My Money",
     "ops": "OPS!",
     "please_check_your_internet_connection_and_try_again": "Please check your Internet Connection and try again",
     "try_again": "Try Again",
@@ -10,5 +10,10 @@
     "reload_screen": "Reload Screen",
     "want_to_logout": "Do you want to logout ?",
     "logout": "Logout",
-    "add_expense": "Add Expense"
+    "add_expense": "Add Expense",
+    "title": "Title",
+    "price": "Price",
+    "select_date": "Select Date",
+    "category": "Category",
+    "save": "Save"
 }

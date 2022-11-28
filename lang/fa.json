@@ -1,5 +1,5 @@
 {
-    "app_name": "یا پول لا من 1398",
+    "app_name": "پول من",
     "ops": "عفواً !",
     "please_check_your_internet_connection_and_try_again": "من فضلك أفحص اتصالك بالانترنت ، وأعد المحاولة",
     "try_again": "حاول مجدداَ",
@@ -10,5 +10,10 @@
     "reload_screen": "إعادة تحميل الصفحة",
     "want_to_logout": "هل تريد تسجيل الخروج؟",
     "logout": "تسجيل خروج",
-    "add_expense": "Add Expense"
+    "add_expense": "اضافه کردن هزینه",
+    "title": "عنوان",
+    "price": "قیمت",
+    "select_date": "انتخاب تاریخ",
+    "category": "دسته",
+    "save": "ذخیره"
 }

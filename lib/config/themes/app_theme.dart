@@ -6,19 +6,11 @@ import '../../core/utils/app_strings.dart';
 ThemeData appTheme() {
   return ThemeData(
     primaryColor: AppColors.primary,
-    hintColor: AppColors.hint,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: Colors.white,
+    // hintColor: AppColors.hint,
+    // scaffoldBackgroundColor: Colors.white,
     fontFamily: AppStrings.fontFamily,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
-      color: Colors.transparent,
-      elevation: 0,
-      titleTextStyle: TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-        fontSize: 20,
-      ),
     ),
   );
 }
