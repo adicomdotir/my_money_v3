@@ -1,3 +1,5 @@
+import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
+import 'package:my_money_v3/features/add_edit_category/presentation/screens/add_edit_category_screen.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/screens/add_edit_expense_screen.dart';
 import 'package:my_money_v3/features/home/presentation/screens/home_screen.dart';
@@ -13,6 +15,7 @@ class Routes {
   static const String initialRoute = '/';
   static const String randomQuoteRoute = '/randomQuote';
   static const String addEditExpanseRoute = '/addEditExpanseRoute';
+  static const String addEditCategoryRoute = '/addEditCategoryRoute';
 }
 
 class AppRoutes {
@@ -39,6 +42,15 @@ class AppRoutes {
             return BlocProvider(
               create: ((context) => di.sl<AddEditExpenseCubit>()),
               child: const AddEditExpenseScreen(),
+            );
+          }),
+        );
+      case Routes.addEditCategoryRoute:
+        return MaterialPageRoute(
+          builder: ((context) {
+            return BlocProvider(
+              create: ((context) => di.sl<AddEditCategoryCubit>()),
+              child: const AddEditCategoryScreen(),
             );
           }),
         );

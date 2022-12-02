@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_repository_impl.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
@@ -39,6 +40,9 @@ Future<void> init() async {
   );
   sl.registerFactory<AddEditExpenseCubit>(
     () => AddEditExpenseCubit(getExpenseUseCase: sl()),
+  );
+  sl.registerFactory<AddEditCategoryCubit>(
+    () => AddEditCategoryCubit(getExpenseUseCase: sl()),
   );
 
   // Use cases

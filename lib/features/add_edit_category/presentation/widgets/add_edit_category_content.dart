@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
 
 import '../../../../core/utils/app_colors.dart';
@@ -93,9 +92,8 @@ class AddEditExpenseContent extends StatelessWidget {
                 width: 16,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(Routes.addEditCategoryRoute);
-                },
+                splashColor: Colors.amber,
+                onTap: () {},
                 child: Container(
                   width: 48,
                   height: 48,
