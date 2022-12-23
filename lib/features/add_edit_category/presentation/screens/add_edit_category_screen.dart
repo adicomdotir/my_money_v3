@@ -3,6 +3,7 @@ import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:my_money_v3/features/add_edit_category/presentation/widgets/add_edit_category_content.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/widgets/add_edit_expense_content.dart';
 
 import '../../../../config/locale/app_localizations.dart';
@@ -24,23 +25,23 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   }
 
   Widget _buildBodyContent() {
-    return BlocBuilder<AddEditCategoryCubit, AddEditExpenseState>(
+    return BlocBuilder<AddEditCategoryCubit, AddEditCategoryState>(
       builder: ((context, state) {
-        if (state is AddEditExpenseIsLoading) {
+        if (state is AddEditCategoryIsLoading) {
           return Center(
             child: SpinKitFadingCircle(
               color: AppColors.primary,
             ),
           );
-        } else if (state is AddEditExpenseError) {
+        } else if (state is AddEditCategoryError) {
           return error_widget.ErrorWidget(
             onPress: () {},
           );
-        } else if (state is AddEditExpenseLoaded) {
+        } else if (state is AddEditCategoryLoaded) {
           return Column(
             children: [
-              AddEditExpenseContent(
-                expense: state.expense,
+              AddEditCategoryContent(
+                category: state.category,
               ),
               InkWell(
                 onTap: () {},
@@ -60,8 +61,13 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
               ),
             ],
           );
+        } else if (state is AddEditCategorySuccess) {
+          if (state.id > 0) {
+            Navigator.pop(context);
+          }
+          return Container();
         } else {
-          return const AddEditExpenseContent();
+          return AddEditCategoryContent();
         }
       }),
     );
@@ -70,7 +76,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text(AppLocalizations.of(context)!.translate('add_expense')!),
+      title: Text(AppLocalizations.of(context)!.translate('add_category')!),
     );
     return Scaffold(
       appBar: appBar,

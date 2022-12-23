@@ -13,8 +13,7 @@ class DatabaseHelper {
     _expenses = await Hive.openBox('expenses');
   }
 
-  void addCategory(Map<String, dynamic> categoryJson) async {
-    int id = await _categories.add(categoryJson);
-    print(id);
+  Future<int> addCategory(Map<String, dynamic> categoryJson) async {
+    return await _categories.add(categoryJson);
   }
 }

@@ -1,29 +1,28 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../domain/usecases/add_category_use_case.dart';
 
 part 'add_edit_category_state.dart';
 
-class AddEditCategoryCubit extends Cubit<AddEditExpenseState> {
+class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
   final AddCategoryUseCase addCategoryUseCase;
 
   AddEditCategoryCubit({required this.addCategoryUseCase})
-      : super(AddEditExpenseInitial());
+      : super(AddEditCategoryInitial());
 
-  Future<void> addCategory(String title, String color) async {
-    emit(AddEditExpenseIsLoading());
+  Future<void> addCategory(Category category) async {
+    emit(AddEditCategoryIsLoading());
     Either<Failure, dynamic> response =
-        await addCategoryUseCase(CategoryParams(title, color));
+        await addCategoryUseCase(CategoryParams(category));
     emit(
       response.fold(
-        (failure) => AddEditExpenseError(msg: _mapFailureToMsg(failure)),
-        (quote) => AddEditExpenseLoaded(expense: quote),
+        (failure) => AddEditCategoryError(msg: _mapFailureToMsg(failure)),
+        (id) => AddEditCategorySuccess(id: id),
       ),
     );
   }

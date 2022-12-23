@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
+import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 
-import '../../../../core/utils/app_colors.dart';
+List<Category> categoryList = [
+  Category(id: -1, parentId: -1, title: 'Empty', color: 'color'),
+  Category(id: 1, parentId: -1, title: 'title1', color: 'color'),
+  Category(id: 2, parentId: -1, title: 'title2', color: 'color'),
+];
 
-class AddEditExpenseContent extends StatelessWidget {
-  final Expense? expense;
+class AddEditCategoryContent extends StatefulWidget {
+  Category? category;
 
-  const AddEditExpenseContent({Key? key, this.expense}) : super(key: key);
+  AddEditCategoryContent({Key? key, this.category}) : super(key: key);
+
+  @override
+  State<AddEditCategoryContent> createState() => _AddEditCategoryContentState();
+}
+
+class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
+  final TextEditingController _controller = TextEditingController();
+  Category _parentCategory =
+      Category(id: -1, parentId: -1, title: 'Empty', color: 'color');
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +31,7 @@ class AddEditExpenseContent extends StatelessWidget {
       child: Column(
         children: [
           TextField(
+            controller: _controller,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -26,42 +42,13 @@ class AddEditExpenseContent extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              labelText: AppLocalizations.of(context)!.translate('price')!,
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  AppLocalizations.of(context)!.translate('select_date')!,
-                ),
-              ),
-              const Text(
-                '0000',
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
           Row(
             children: [
               Expanded(
                 child: InputDecorator(
                   decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context)!.translate('category')!,
+                    labelText: AppLocalizations.of(context)!
+                        .translate('parent_category')!,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12.0,
                       vertical: 0.0,
@@ -71,40 +58,24 @@ class AddEditExpenseContent extends StatelessWidget {
                     ),
                   ),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: 'One',
+                    child: DropdownButton<Category>(
+                      value: _parentCategory,
                       icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 16,
-                      onChanged: (String? newValue) {},
-                      items: ['One', 'Two']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      onChanged: (Category? newValue) {
+                        _parentCategory = newValue!;
+                        setState(() {});
+                      },
+                      items: categoryList.map<DropdownMenuItem<Category>>(
+                        (Category value) {
+                          return DropdownMenuItem<Category>(
+                            value: value,
+                            child: Text(value.title),
+                          );
+                        },
+                      ).toList(),
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              InkWell(
-                splashColor: Colors.amber,
-                onTap: () {},
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 32,
                   ),
                 ),
               ),
@@ -114,7 +85,18 @@ class AddEditExpenseContent extends StatelessWidget {
             height: 16,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              int parentId = _parentCategory.id;
+              widget.category = Category(
+                id: 0,
+                parentId: parentId,
+                title: _controller.text,
+                color: '',
+              );
+              context
+                  .read<AddEditCategoryCubit>()
+                  .addCategory(widget.category!);
+            },
             child: Text(AppLocalizations.of(context)!.translate('save')!),
           )
         ],

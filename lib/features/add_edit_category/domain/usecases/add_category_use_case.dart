@@ -4,6 +4,7 @@ import 'package:my_money_v3/features/add_edit_category/data/models/category_mode
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
+import '../entities/category.dart';
 import '../repositories/category_repository.dart';
 
 class AddCategoryUseCase implements UseCase<int, CategoryParams> {
@@ -15,22 +16,19 @@ class AddCategoryUseCase implements UseCase<int, CategoryParams> {
   Future<Either<Failure, int>> call(CategoryParams params) =>
       categoryRepository.addCategory(
         CategoryModel(
-          id: 0,
-          title: params.title,
-          color: params.color,
+          id: params.category.id,
+          parentId: params.category.parentId,
+          title: params.category.title,
+          color: params.category.color,
         ),
       );
 }
 
 class CategoryParams extends Equatable {
-  final String title;
-  final String color;
+  final Category category;
 
-  const CategoryParams(
-    this.title,
-    this.color,
-  );
+  const CategoryParams(this.category);
 
   @override
-  List<Object?> get props => [title, color];
+  List<Object?> get props => [category];
 }

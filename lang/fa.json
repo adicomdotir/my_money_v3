@@ -15,5 +15,6 @@
     "price": "قیمت",
     "select_date": "انتخاب تاریخ",
     "category": "دسته",
-    "save": "ذخیره"
+    "save": "ذخیره",
+    "add_category": "اضافه کردن دسته"
 }

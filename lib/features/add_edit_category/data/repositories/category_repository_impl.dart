@@ -19,9 +19,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
   });
 
   @override
-  Future<Either<Failure, int>> addCategory(CategoryModel categoryModel) {
-    // TODO: implement addCategory
-    throw UnimplementedError();
+  Future<Either<Failure, int>> addCategory(CategoryModel categoryModel) async {
+    int result = await categoryLocalDataSource.addCategory(categoryModel);
+    return Right(result);
   }
 
   // @override

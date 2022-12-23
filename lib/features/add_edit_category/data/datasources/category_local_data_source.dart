@@ -7,20 +7,20 @@ import '../../../../core/utils/app_strings.dart';
 import '../models/category_model.dart';
 
 abstract class CategoryLocalDataSource {
-  Future<void> addCategory(CategoryModel categoryModel);
+  Future<int> addCategory(CategoryModel categoryModel);
   Future<void> updateCategory(CategoryModel categoryModel);
   Future<void> removeCategory(int id);
   Future<CategoryModel> getCategory();
 }
 
-class ExpenseLocalDataSourceImpl implements CategoryLocalDataSource {
+class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   final DatabaseHelper databaseHelper;
 
-  ExpenseLocalDataSourceImpl({required this.databaseHelper});
+  CategoryLocalDataSourceImpl({required this.databaseHelper});
 
   @override
-  Future<void> addCategory(CategoryModel categoryModel) async {
-    databaseHelper.addCategory(categoryModel.toJson());
+  Future<int> addCategory(CategoryModel categoryModel) async {
+    return await databaseHelper.addCategory(categoryModel.toJson());
   }
 
   @override

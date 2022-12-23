@@ -1,6 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:my_money_v3/core/db/db.dart';
+import 'package:my_money_v3/features/add_edit_category/data/datasources/category_local_data_source.dart';
+import 'package:my_money_v3/features/add_edit_category/data/repositories/category_repository_impl.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/repositories/category_repository.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/usecases/add_category_use_case.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_repository_impl.dart';
@@ -42,7 +47,7 @@ Future<void> init() async {
     () => AddEditExpenseCubit(getExpenseUseCase: sl()),
   );
   sl.registerFactory<AddEditCategoryCubit>(
-    () => AddEditCategoryCubit(getExpenseUseCase: sl()),
+    () => AddEditCategoryCubit(addCategoryUseCase: sl()),
   );
 
   // Use cases
@@ -57,6 +62,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<GetExpenseUseCase>(
     () => GetExpenseUseCase(expenseRepository: sl()),
+  );
+  sl.registerLazySingleton<AddCategoryUseCase>(
+    () => AddCategoryUseCase(categoryRepository: sl()),
   );
 
   // Repository
@@ -77,6 +85,9 @@ Future<void> init() async {
       expenseLocalDataSource: sl(),
     ),
   );
+  sl.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<RandomQuoteLocalDataSource>(
@@ -93,6 +104,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseRemoteDataSource>(
     () => ExpenseRemoteDataSourceImpl(apiConsumer: sl()),
+  );
+  sl.registerLazySingleton<CategoryLocalDataSource>(
+    () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
   );
 
   //! Core
@@ -117,4 +131,5 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(() => DatabaseHelper());
 }

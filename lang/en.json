@@ -15,5 +15,7 @@
     "price": "Price",
     "select_date": "Select Date",
     "category": "Category",
-    "save": "Save"
+    "save": "Save",
+    "add_category": "Add Category",
+    "parent_category": "Parent Category"
 }

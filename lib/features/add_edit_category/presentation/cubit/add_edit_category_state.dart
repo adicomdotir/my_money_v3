@@ -1,29 +1,38 @@
 part of 'add_edit_category_cubit.dart';
 
-abstract class AddEditExpenseState extends Equatable {
-  const AddEditExpenseState();
+abstract class AddEditCategoryState extends Equatable {
+  const AddEditCategoryState();
 
   @override
   List<Object> get props => [];
 }
 
-class AddEditExpenseInitial extends AddEditExpenseState {}
+class AddEditCategoryInitial extends AddEditCategoryState {}
 
-class AddEditExpenseIsLoading extends AddEditExpenseState {}
+class AddEditCategoryIsLoading extends AddEditCategoryState {}
 
-class AddEditExpenseLoaded extends AddEditExpenseState {
-  final Expense expense;
+class AddEditCategoryLoaded extends AddEditCategoryState {
+  final Category category;
 
-  const AddEditExpenseLoaded({required this.expense});
+  const AddEditCategoryLoaded({required this.category});
 
   @override
-  List<Object> get props => [expense];
+  List<Object> get props => [Category];
 }
 
-class AddEditExpenseError extends AddEditExpenseState {
+class AddEditCategorySuccess extends AddEditCategoryState {
+  final int id;
+
+  const AddEditCategorySuccess({required this.id});
+
+  @override
+  List<Object> get props => [Category];
+}
+
+class AddEditCategoryError extends AddEditCategoryState {
   final String msg;
 
-  const AddEditExpenseError({required this.msg});
+  const AddEditCategoryError({required this.msg});
 
   @override
   List<Object> get props => [msg];
