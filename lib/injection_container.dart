@@ -6,6 +6,7 @@ import 'package:my_money_v3/features/add_edit_category/data/datasources/category
 import 'package:my_money_v3/features/add_edit_category/data/repositories/category_repository_impl.dart';
 import 'package:my_money_v3/features/add_edit_category/domain/repositories/category_repository.dart';
 import 'package:my_money_v3/features/add_edit_category/domain/usecases/add_category_use_case.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/usecases/get_categories_use_case.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_repository_impl.dart';
@@ -47,7 +48,10 @@ Future<void> init() async {
     () => AddEditExpenseCubit(getExpenseUseCase: sl()),
   );
   sl.registerFactory<AddEditCategoryCubit>(
-    () => AddEditCategoryCubit(addCategoryUseCase: sl()),
+    () => AddEditCategoryCubit(
+      addCategoryUseCase: sl(),
+      getCategoriesUseCase: sl(),
+    ),
   );
 
   // Use cases
@@ -65,6 +69,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AddCategoryUseCase>(
     () => AddCategoryUseCase(categoryRepository: sl()),
+  );
+  sl.registerLazySingleton<GetCategoriesUseCase>(
+    () => GetCategoriesUseCase(categoryRepository: sl()),
   );
 
   // Repository

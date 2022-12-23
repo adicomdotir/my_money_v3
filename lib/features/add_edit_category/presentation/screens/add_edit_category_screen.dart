@@ -21,6 +21,7 @@ class AddEditCategoryScreen extends StatefulWidget {
 class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   @override
   void initState() {
+    context.read<AddEditCategoryCubit>().getCategories();
     super.initState();
   }
 
@@ -66,6 +67,9 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             Navigator.pop(context);
           }
           return Container();
+        } else if (state is AddEditCategoryListLoaded) {
+          print(state.categories);
+          return AddEditCategoryContent();
         } else {
           return AddEditCategoryContent();
         }

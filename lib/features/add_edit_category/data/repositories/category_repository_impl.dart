@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/features/add_edit_category/data/datasources/category_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_category/data/models/category_model.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_category/domain/repositories/category_repository.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
@@ -21,6 +22,12 @@ class CategoryRepositoryImpl implements CategoryRepository {
   @override
   Future<Either<Failure, int>> addCategory(CategoryModel categoryModel) async {
     int result = await categoryLocalDataSource.addCategory(categoryModel);
+    return Right(result);
+  }
+
+  @override
+  Future<Either<Failure, List<Category>>> getCategories() async {
+    final result = await categoryLocalDataSource.getCategories();
     return Right(result);
   }
 

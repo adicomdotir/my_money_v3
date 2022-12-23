@@ -20,6 +20,15 @@ class AddEditCategoryLoaded extends AddEditCategoryState {
   List<Object> get props => [Category];
 }
 
+class AddEditCategoryListLoaded extends AddEditCategoryState {
+  final List<Category> categories;
+
+  const AddEditCategoryListLoaded({required this.categories});
+
+  @override
+  List<Object> get props => [Category];
+}
+
 class AddEditCategorySuccess extends AddEditCategoryState {
   final int id;
 

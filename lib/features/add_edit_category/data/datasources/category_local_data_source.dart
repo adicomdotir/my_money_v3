@@ -11,6 +11,7 @@ abstract class CategoryLocalDataSource {
   Future<void> updateCategory(CategoryModel categoryModel);
   Future<void> removeCategory(int id);
   Future<CategoryModel> getCategory();
+  Future<List<CategoryModel>> getCategories();
 }
 
 class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
@@ -39,6 +40,14 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   Future<void> updateCategory(CategoryModel categoryModel) {
     // TODO: implement updateCategory
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<CategoryModel>> getCategories() async {
+    final result = await databaseHelper.getCategories();
+    return result.map<CategoryModel>((e) {
+      return CategoryModel.fromJson(jsonDecode(jsonEncode(e)));
+    }).toList();
   }
 
   // @override
