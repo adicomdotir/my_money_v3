@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/utils/id_generator.dart';
+import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
+import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 
 import '../../../../core/utils/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddEditExpenseContent extends StatelessWidget {
+class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
+  final List<Category> categories;
 
-  const AddEditExpenseContent({Key? key, this.expense}) : super(key: key);
+  const AddEditExpenseContent({
+    Key? key,
+    this.expense,
+    required this.categories,
+  }) : super(key: key);
+
+  @override
+  State<AddEditExpenseContent> createState() => _AddEditExpenseContentState();
+}
+
+class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
+  final TextEditingController _titleCtrl = TextEditingController();
+  final TextEditingController _priceCtrl = TextEditingController();
+  Category? selectedCategory;
+
+  @override
+  void dispose() {
+    _titleCtrl.dispose();
+    _priceCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +42,7 @@ class AddEditExpenseContent extends StatelessWidget {
       child: Column(
         children: [
           TextField(
+            controller: _titleCtrl,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -28,6 +54,7 @@ class AddEditExpenseContent extends StatelessWidget {
             height: 16,
           ),
           TextField(
+            controller: _priceCtrl,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -72,19 +99,24 @@ class AddEditExpenseContent extends StatelessWidget {
                     ),
                   ),
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: 'One',
+                    child: DropdownButton<Category>(
+                      value: selectedCategory,
                       icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 16,
-                      onChanged: (String? newValue) {},
-                      items: ['One', 'Two']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      onChanged: (Category? newValue) {
+                        setState(() {
+                          selectedCategory = newValue;
+                        });
+                      },
+                      items: widget.categories.map<DropdownMenuItem<Category>>(
+                        (Category value) {
+                          return DropdownMenuItem<Category>(
+                            value: value,
+                            child: Text(value.title),
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 ),
@@ -116,7 +148,16 @@ class AddEditExpenseContent extends StatelessWidget {
             height: 16,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              final expense = Expense(
+                id: idGenerator(),
+                title: _titleCtrl.text,
+                date: DateTime.now().millisecondsSinceEpoch,
+                categoryId: selectedCategory?.id ?? '',
+                price: int.parse(_priceCtrl.text),
+              );
+              context.read<AddEditExpenseCubit>().addExpense(expense);
+            },
             child: Text(AppLocalizations.of(context)!.translate('save')!),
           )
         ],

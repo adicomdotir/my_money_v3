@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
+import 'package:my_money_v3/features/add_edit_expanse/data/models/expense_model.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 
@@ -20,14 +21,12 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   });
 
   @override
-  Future<Either<Failure, Expense>> getExpense() async {
-    // if (await networkInfo.isConnected) {
+  Future<Either<Failure, int>> addExpense(ExpenseModel expenseModel) async {
     try {
-      final remoteRandomExpense = await expenseRemoteDataSource.getExpense();
-      expenseLocalDataSource.cacheExpense(remoteRandomExpense);
-      return Right(remoteRandomExpense);
-    } on ServerException {
-      return Left(ServerFailure());
+      int id = await expenseLocalDataSource.addExpense(expenseModel);
+      return Right(id);
+    } on Exception {
+      return Left(DatabaseFailure());
     }
   }
   //   else {

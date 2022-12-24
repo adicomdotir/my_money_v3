@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
@@ -18,8 +19,12 @@ class AddEditExpenseScreen extends StatefulWidget {
 }
 
 class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
+  _getCategories() =>
+      BlocProvider.of<AddEditExpenseCubit>(context).getCategories();
+
   @override
   void initState() {
+    _getCategories();
     super.initState();
   }
 
@@ -41,6 +46,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             children: [
               AddEditExpenseContent(
                 expense: state.expense,
+                categories: [],
               ),
               InkWell(
                 onTap: () {},
@@ -60,8 +66,17 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
               ),
             ],
           );
+        } else if (state is AddEditExpenseSuccess) {
+          Navigator.pop(context);
+          return Container();
+        } else if (state is AddEditExpenseLoadCategories) {
+          return AddEditExpenseContent(
+            categories: state.categories,
+          );
         } else {
-          return const AddEditExpenseContent();
+          return const AddEditExpenseContent(
+            categories: [],
+          );
         }
       }),
     );

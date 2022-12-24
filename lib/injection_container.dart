@@ -11,7 +11,7 @@ import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_ed
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_repository_impl.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/usecases/get_expense_use_case.dart';
+import 'package:my_money_v3/features/add_edit_expanse/domain/usecases/add_edit_expense_use_case.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_consumer.dart';
@@ -45,7 +45,10 @@ Future<void> init() async {
     () => LocaleCubit(getSavedLangUseCase: sl(), changeLangUseCase: sl()),
   );
   sl.registerFactory<AddEditExpenseCubit>(
-    () => AddEditExpenseCubit(getExpenseUseCase: sl()),
+    () => AddEditExpenseCubit(
+      addEditExpenseUseCase: sl(),
+      getCategoriesUseCase: sl(),
+    ),
   );
   sl.registerFactory<AddEditCategoryCubit>(
     () => AddEditCategoryCubit(
@@ -64,14 +67,14 @@ Future<void> init() async {
   sl.registerLazySingleton<ChangeLangUseCase>(
     () => ChangeLangUseCase(langRepository: sl()),
   );
-  sl.registerLazySingleton<GetExpenseUseCase>(
-    () => GetExpenseUseCase(expenseRepository: sl()),
-  );
   sl.registerLazySingleton<AddCategoryUseCase>(
     () => AddCategoryUseCase(categoryRepository: sl()),
   );
   sl.registerLazySingleton<GetCategoriesUseCase>(
     () => GetCategoriesUseCase(categoryRepository: sl()),
+  );
+  sl.registerLazySingleton<AddEditExpenseUseCase>(
+    () => AddEditExpenseUseCase(expenseRepository: sl()),
   );
 
   // Repository
@@ -107,7 +110,7 @@ Future<void> init() async {
     () => LangLocalDataSourceImpl(sharedPreferences: sl()),
   );
   sl.registerLazySingleton<ExpenseLocalDataSource>(
-    () => ExpenseLocalDataSourceImpl(sharedPreferences: sl()),
+    () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
   );
   sl.registerLazySingleton<ExpenseRemoteDataSource>(
     () => ExpenseRemoteDataSourceImpl(apiConsumer: sl()),

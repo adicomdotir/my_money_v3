@@ -22,4 +22,9 @@ class DatabaseHelper {
     Box<dynamic> categories = await Hive.openBox('categories');
     return categories.values.toList();
   }
+
+  Future<int> addExpanse(Map<String, dynamic> expenseJson) async {
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+    return await expenses.add(expenseJson);
+  }
 }

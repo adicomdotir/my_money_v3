@@ -2,23 +2,32 @@ import '../../domain/entities/expense.dart';
 
 class ExpenseModel extends Expense {
   const ExpenseModel({
-    required String author,
-    required int id,
-    required String content,
-    required String permalink,
-  }) : super(author: author, id: id, content: content, permalink: permalink);
+    required String id,
+    required String title,
+    required String categoryId,
+    required int date,
+    required int price,
+  }) : super(
+          id: id,
+          title: title,
+          categoryId: categoryId,
+          date: date,
+          price: price,
+        );
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
-        author: json['author'],
         id: json['id'],
-        content: json['Expense'],
-        permalink: json['permalink'],
+        title: json['title'],
+        categoryId: json['categoryId'],
+        date: json['date'],
+        price: json['price'],
       );
 
   Map<String, dynamic> toJson() => {
-        'author': author,
         'id': id,
-        'Expense': content,
-        'permalink': permalink,
+        'title': title,
+        'categoryId': categoryId,
+        'date': date,
+        'price': price,
       };
 }

@@ -1,18 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class Expense extends Equatable {
-  final String author;
-  final int id;
-  final String content;
-  final String permalink;
+  final String id;
+  final String title;
+  final int price;
+  final int date;
+  final String categoryId;
 
   const Expense({
-    required this.author,
     required this.id,
-    required this.content,
-    required this.permalink,
+    required this.title,
+    required this.price,
+    required this.date,
+    required this.categoryId,
   });
 
   @override
-  List<Object?> get props => [author, id, content, permalink];
+  List<Object?> get props => [title, id, date, categoryId];
 }

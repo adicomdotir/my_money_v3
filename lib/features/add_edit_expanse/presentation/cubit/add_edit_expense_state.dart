@@ -20,6 +20,24 @@ class AddEditExpenseLoaded extends AddEditExpenseState {
   List<Object> get props => [expense];
 }
 
+class AddEditExpenseLoadCategories extends AddEditExpenseState {
+  final List<Category> categories;
+
+  const AddEditExpenseLoadCategories({required this.categories});
+
+  @override
+  List<Object> get props => [categories];
+}
+
+class AddEditExpenseSuccess extends AddEditExpenseState {
+  final int id;
+
+  const AddEditExpenseSuccess({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}
+
 class AddEditExpenseError extends AddEditExpenseState {
   final String msg;
 
