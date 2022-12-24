@@ -9,6 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await di.init();
+
   BlocOverrides.runZoned(
     () {
       runApp(const MyMoneyApp());

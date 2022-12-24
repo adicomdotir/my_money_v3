@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class Category extends Equatable {
-  final int id;
-  final int parentId;
+  final String id;
+  final String parentId;
   final String title;
   final String color;
 

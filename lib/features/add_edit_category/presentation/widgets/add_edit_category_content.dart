@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
+import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 
-List<Category> categoryList = [
-  Category(id: -1, parentId: -1, title: 'Empty', color: 'color'),
-  Category(id: 1, parentId: -1, title: 'title1', color: 'color'),
-  Category(id: 2, parentId: -1, title: 'title2', color: 'color'),
-];
-
 class AddEditCategoryContent extends StatefulWidget {
   Category? category;
+  List<Category> categories;
 
-  AddEditCategoryContent({Key? key, this.category}) : super(key: key);
+  AddEditCategoryContent({
+    Key? key,
+    this.category,
+    required this.categories,
+  }) : super(key: key);
 
   @override
   State<AddEditCategoryContent> createState() => _AddEditCategoryContentState();
@@ -21,8 +21,26 @@ class AddEditCategoryContent extends StatefulWidget {
 
 class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   final TextEditingController _controller = TextEditingController();
-  Category _parentCategory =
-      Category(id: -1, parentId: -1, title: 'Empty', color: 'color');
+  Category _parentCategory = const Category(
+    id: '-1',
+    parentId: '-1',
+    title: 'Empty',
+    color: 'color',
+  );
+  List<Category> categories = [];
+
+  @override
+  void initState() {
+    categories.add(_parentCategory);
+    categories.addAll(widget.categories);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +85,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                         _parentCategory = newValue!;
                         setState(() {});
                       },
-                      items: categoryList.map<DropdownMenuItem<Category>>(
+                      items: categories.map<DropdownMenuItem<Category>>(
                         (Category value) {
                           return DropdownMenuItem<Category>(
                             value: value,
@@ -86,9 +104,9 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           ),
           ElevatedButton(
             onPressed: () {
-              int parentId = _parentCategory.id;
+              String parentId = _parentCategory.id;
               widget.category = Category(
-                id: 0,
+                id: idGenerator(),
                 parentId: parentId,
                 title: _controller.text,
                 color: '',

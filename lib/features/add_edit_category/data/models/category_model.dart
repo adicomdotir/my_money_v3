@@ -2,8 +2,8 @@ import '../../domain/entities/category.dart';
 
 class CategoryModel extends Category {
   const CategoryModel({
-    required int id,
-    required int parentId,
+    required String id,
+    required String parentId,
     required String title,
     required String color,
   }) : super(id: id, parentId: parentId, title: title, color: color);

@@ -40,27 +40,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
           );
         } else if (state is AddEditCategoryLoaded) {
           return Column(
-            children: [
-              AddEditCategoryContent(
-                category: state.category,
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 15),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.primary,
-                  ),
-                  child: const Icon(
-                    Icons.refresh,
-                    size: 28,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
+            children: [],
           );
         } else if (state is AddEditCategorySuccess) {
           if (state.id > 0) {
@@ -68,10 +48,13 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
           }
           return Container();
         } else if (state is AddEditCategoryListLoaded) {
-          print(state.categories);
-          return AddEditCategoryContent();
+          return AddEditCategoryContent(
+            categories: state.categories,
+          );
         } else {
-          return AddEditCategoryContent();
+          return AddEditCategoryContent(
+            categories: [],
+          );
         }
       }),
     );
