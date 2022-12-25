@@ -21,5 +21,6 @@
     "expenses": "Expenses",
     "categories": "Categories",
     "expense_description": "List of expenses",
-    "category_description": "List of categories"
+    "category_description": "List of categories",
+    "price_postfix": "Toman"
 }

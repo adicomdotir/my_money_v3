@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:my_money_v3/core/db/db.dart';
-import '../models/expense_model.dart';
+import '../../../../core/data/models/expense_model.dart';
 
 abstract class ExpenseListLocalDataSource {
   Future<List<ExpenseModel>> getExpenses();

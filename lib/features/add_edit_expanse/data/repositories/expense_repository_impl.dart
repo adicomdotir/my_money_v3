@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:my_money_v3/core/data/models/expense_model.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/models/expense_model.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 
 import '../../../../core/error/exceptions.dart';

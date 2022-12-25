@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../repositories/lang_repository.dart';
 
 class GetSavedLangUseCase implements UseCase<String, NoParams> {

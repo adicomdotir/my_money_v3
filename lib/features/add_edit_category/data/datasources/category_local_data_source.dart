@@ -4,7 +4,7 @@ import 'package:my_money_v3/core/db/db.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../models/category_model.dart';
+import '../../../../core/data/models/category_model.dart';
 
 abstract class CategoryLocalDataSource {
   Future<int> addCategory(CategoryModel categoryModel);

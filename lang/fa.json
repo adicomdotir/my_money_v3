@@ -20,5 +20,6 @@
     "expenses": "هزینه ها",
     "categories": "دسته ها",
     "expense_description": "لیست هزینه ها",
-    "category_description": "لیست دسته ها"
+    "category_description": "لیست دسته ها",
+    "price_postfix": "تومان"
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
+import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 
-import '../../../../core/utils/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddEditExpenseContent extends StatefulWidget {

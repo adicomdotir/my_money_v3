@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
+import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 
 class AddEditCategoryContent extends StatefulWidget {

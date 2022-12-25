@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/features/add_edit_category/domain/entities/category.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
+import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_category/domain/usecases/get_categories_use_case.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/entities/expense.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../domain/usecases/add_edit_expense_use_case.dart';
 

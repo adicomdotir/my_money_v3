@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/usecases/usecase.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../domain/usecases/change_lang.dart';
 import '../../domain/usecases/get_saved_lang.dart';

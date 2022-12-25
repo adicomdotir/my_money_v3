@@ -1,6 +1,7 @@
+import 'package:my_money_v3/core/data/models/expense_model.dart';
+
 import '../../../../core/api/api_consumer.dart';
 import '../../../../core/api/end_points.dart';
-import '../models/expense_model.dart';
 
 abstract class ExpenseRemoteDataSource {
   Future<ExpenseModel> getExpense();

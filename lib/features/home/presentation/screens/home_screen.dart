@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   _getRandomQuote() =>
       BlocProvider.of<RandomQuoteCubit>(context).getRandomQuote();
 
@@ -79,22 +80,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final appBar = AppBar(
       leading: IconButton(
-        icon: Icon(
-          Icons.translate_outlined,
-          color: AppColors.primary,
+        icon: const Icon(
+          Icons.menu,
         ),
         onPressed: () {
-          if (AppLocalizations.of(context)!.isEnLocale) {
-            BlocProvider.of<LocaleCubit>(context).toFarsi();
-          } else {
-            BlocProvider.of<LocaleCubit>(context).toEnglish();
-          }
+          _key.currentState!.openDrawer();
         },
       ),
       title: Text(AppLocalizations.of(context)!.translate('app_name')!),
+      actions: [
+        IconButton(
+          icon: Icon(
+            Icons.translate_outlined,
+            color: AppColors.primary,
+          ),
+          onPressed: () {
+            if (AppLocalizations.of(context)!.isEnLocale) {
+              BlocProvider.of<LocaleCubit>(context).toFarsi();
+            } else {
+              BlocProvider.of<LocaleCubit>(context).toEnglish();
+            }
+          },
+        )
+      ],
     );
     return RefreshIndicator(
       child: Scaffold(
+        key: _key,
         appBar: appBar,
         drawer: Drawer(
           child: ListView(

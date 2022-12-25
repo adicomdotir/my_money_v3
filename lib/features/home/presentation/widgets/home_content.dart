@@ -14,16 +14,22 @@ class HomeContent extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-          color: AppColors.primary, borderRadius: BorderRadius.circular(30)),
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: Column(
         children: [
-          Text(quote.content,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            quote.content,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 15),
-            child: Text(quote.author,
-                style: Theme.of(context).textTheme.bodyMedium),
+            child: Text(
+              quote.author,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           )
         ],
       ),

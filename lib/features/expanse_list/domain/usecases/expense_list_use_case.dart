@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/expense.dart';
+import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../core/domain/entities/expense.dart';
 import '../repositories/expense_list_repository.dart';
 
 class ExpenseListUseCase implements UseCase<List<Expense>, NoParams> {

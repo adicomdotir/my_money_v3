@@ -1,4 +1,4 @@
-import '../../domain/entities/expense.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 
 class ExpenseModel extends Expense {
   const ExpenseModel({

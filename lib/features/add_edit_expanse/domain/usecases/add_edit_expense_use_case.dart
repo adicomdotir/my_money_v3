@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/models/expense_model.dart';
+import 'package:my_money_v3/core/data/models/expense_model.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../entities/expense.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../repositories/expense_repository.dart';
 
 class AddEditExpenseUseCase implements UseCase<int, ExpenseParams> {

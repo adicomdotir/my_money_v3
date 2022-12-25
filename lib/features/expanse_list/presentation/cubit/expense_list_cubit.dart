@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/features/expanse_list/domain/entities/expense.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecases/usecase.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 
 part 'expense_list_state.dart';
