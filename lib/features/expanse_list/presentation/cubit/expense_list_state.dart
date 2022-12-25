@@ -11,6 +11,8 @@ class ExpenseListInitial extends ExpenseListState {}
 
 class ExpenseListIsLoading extends ExpenseListState {}
 
+class ExpenseListDeleteSuccess extends ExpenseListState {}
+
 class ExpenseListLoaded extends ExpenseListState {
   final List<Expense> expenses;
 

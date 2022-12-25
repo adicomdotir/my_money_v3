@@ -7,13 +7,13 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/domain/usecases/usecase.dart';
 import '../repositories/expense_repository.dart';
 
-class AddEditExpenseUseCase implements UseCase<int, ExpenseParams> {
+class AddEditExpenseUseCase implements UseCase<void, ExpenseParams> {
   final ExpenseRepository expenseRepository;
 
   AddEditExpenseUseCase({required this.expenseRepository});
 
   @override
-  Future<Either<Failure, int>> call(ExpenseParams expenseParams) =>
+  Future<Either<Failure, void>> call(ExpenseParams expenseParams) =>
       expenseRepository.addExpense(
         ExpenseModel(
           id: expenseParams.expense.id,

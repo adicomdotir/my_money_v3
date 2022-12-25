@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:my_money_v3/features/expanse_list/data/datasources/expnese_list_local_data_source.dart';
 import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/core/error/failures.dart';
@@ -14,6 +16,12 @@ class ExpenseListRepositoryImpl implements ExpenseListRepository {
   @override
   Future<Either<Failure, List<Expense>>> getExpenses() async {
     final result = await expenseListLocalDataSource.getExpenses();
+    return Right(result);
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteExpense(String id) async {
+    final result = await expenseListLocalDataSource.deleteExpense(id);
     return Right(result);
   }
 }

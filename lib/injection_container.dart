@@ -16,6 +16,7 @@ import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edi
 import 'package:my_money_v3/features/expanse_list/data/datasources/expnese_list_local_data_source.dart';
 import 'package:my_money_v3/features/expanse_list/data/repositories/expense_list_repository_impl.dart';
 import 'package:my_money_v3/features/expanse_list/domain/repositories/expense_list_repository.dart';
+import 'package:my_money_v3/features/expanse_list/domain/usecases/delete_expense_use_case.dart';
 import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
 import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,7 +63,10 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory<ExpenseListCubit>(
-    () => ExpenseListCubit(expenseListUseCase: sl()),
+    () => ExpenseListCubit(
+      expenseListUseCase: sl(),
+      deleteExpenseUseCase: sl(),
+    ),
   );
 
   // Use cases
@@ -86,6 +90,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseListUseCase>(
     () => ExpenseListUseCase(expenseListRepository: sl()),
+  );
+  sl.registerLazySingleton<DeleteExpenseUseCase>(
+    () => DeleteExpenseUseCase(expenseListRepository: sl()),
   );
 
   // Repository

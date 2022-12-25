@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
 import '../../../../core/domain/entities/expense.dart';
+import '../cubit/expense_list_cubit.dart';
 
 class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
@@ -58,12 +60,37 @@ class ExpenseCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(expense.title),
-            Text(
-              '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(expense.title),
+                Text(
+                  '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
+                ),
+              ],
             ),
-            Text(expense.categoryId),
-            Text(dateFormat(expense.date)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(dateFormat(expense.date)),
+                    Text(expense.categoryId),
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    BlocProvider.of<ExpenseListCubit>(context)
+                        .deleteExpense(expense.id);
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

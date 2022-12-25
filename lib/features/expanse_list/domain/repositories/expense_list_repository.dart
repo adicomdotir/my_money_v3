@@ -4,4 +4,5 @@ import '../../../../core/domain/entities/expense.dart';
 
 abstract class ExpenseListRepository {
   Future<Either<Failure, List<Expense>>> getExpenses();
+  Future<Either<Failure, void>> deleteExpense(String id);
 }

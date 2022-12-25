@@ -45,6 +45,9 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               ),
             ],
           );
+        } else if (state is ExpenseListDeleteSuccess) {
+          _getExpenses();
+          return Container();
         } else {
           return const ExpenseListContent(
             expenses: [],

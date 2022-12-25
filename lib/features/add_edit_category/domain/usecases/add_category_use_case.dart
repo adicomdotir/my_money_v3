@@ -7,13 +7,13 @@ import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/domain/entities/category.dart';
 import '../repositories/category_repository.dart';
 
-class AddCategoryUseCase implements UseCase<int, CategoryParams> {
+class AddCategoryUseCase implements UseCase<void, CategoryParams> {
   final CategoryRepository categoryRepository;
 
   AddCategoryUseCase({required this.categoryRepository});
 
   @override
-  Future<Either<Failure, int>> call(CategoryParams params) =>
+  Future<Either<Failure, void>> call(CategoryParams params) =>
       categoryRepository.addCategory(
         CategoryModel(
           id: params.category.id,

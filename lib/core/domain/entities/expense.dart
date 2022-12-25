@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:my_money_v3/core/domain/entities/category.dart';
 
 class Expense extends Equatable {
   final String id;
@@ -6,6 +7,7 @@ class Expense extends Equatable {
   final int price;
   final int date;
   final String categoryId;
+  final Category? category;
 
   const Expense({
     required this.id,
@@ -13,8 +15,9 @@ class Expense extends Equatable {
     required this.price,
     required this.date,
     required this.categoryId,
+    this.category,
   });
 
   @override
-  List<Object?> get props => [title, id, date, categoryId];
+  List<Object?> get props => [title, id, date, categoryId, price];
 }

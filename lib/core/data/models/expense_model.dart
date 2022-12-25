@@ -1,3 +1,4 @@
+import 'package:my_money_v3/core/data/models/category_model.dart';
 import 'package:my_money_v3/core/domain/entities/expense.dart';
 
 class ExpenseModel extends Expense {
@@ -7,12 +8,14 @@ class ExpenseModel extends Expense {
     required String categoryId,
     required int date,
     required int price,
+    CategoryModel? categoryModel,
   }) : super(
           id: id,
           title: title,
           categoryId: categoryId,
           date: date,
           price: price,
+          category: categoryModel,
         );
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(

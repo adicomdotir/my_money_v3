@@ -20,10 +20,10 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   });
 
   @override
-  Future<Either<Failure, int>> addExpense(ExpenseModel expenseModel) async {
+  Future<Either<Failure, void>> addExpense(ExpenseModel expenseModel) async {
     try {
-      int id = await expenseLocalDataSource.addExpense(expenseModel);
-      return Right(id);
+      var result = await expenseLocalDataSource.addExpense(expenseModel);
+      return Right(result);
     } on Exception {
       return Left(DatabaseFailure());
     }
