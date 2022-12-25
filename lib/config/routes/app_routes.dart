@@ -2,6 +2,8 @@ import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_ed
 import 'package:my_money_v3/features/add_edit_category/presentation/screens/add_edit_category_screen.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/screens/add_edit_expense_screen.dart';
+import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
+import 'package:my_money_v3/features/expanse_list/presentation/screens/expense_list_screen.dart';
 import 'package:my_money_v3/features/home/presentation/screens/home_screen.dart';
 import 'package:my_money_v3/injection_container.dart' as di;
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class Routes {
   static const String randomQuoteRoute = '/randomQuote';
   static const String addEditExpanseRoute = '/addEditExpanseRoute';
   static const String addEditCategoryRoute = '/addEditCategoryRoute';
+  static const String expenseListRoute = '/expenseListRoute';
 }
 
 class AppRoutes {
@@ -51,6 +54,15 @@ class AppRoutes {
             return BlocProvider(
               create: ((context) => di.sl<AddEditCategoryCubit>()),
               child: const AddEditCategoryScreen(),
+            );
+          }),
+        );
+      case Routes.expenseListRoute:
+        return MaterialPageRoute(
+          builder: ((context) {
+            return BlocProvider(
+              create: ((context) => di.sl<ExpenseListCubit>()),
+              child: const ExpenseListScreen(),
             );
           }),
         );

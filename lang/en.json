@@ -17,5 +17,9 @@
     "category": "Category",
     "save": "Save",
     "add_category": "Add Category",
-    "parent_category": "Parent Category"
+    "parent_category": "Parent Category",
+    "expenses": "Expenses",
+    "categories": "Categories",
+    "expense_description": "List of expenses",
+    "category_description": "List of categories"
 }

@@ -27,4 +27,9 @@ class DatabaseHelper {
     Box<dynamic> expenses = await Hive.openBox('expenses');
     return await expenses.add(expenseJson);
   }
+
+  Future<List<dynamic>> getExpenses() async {
+    Box<dynamic> categories = await Hive.openBox('expenses');
+    return categories.values.toList();
+  }
 }

@@ -16,5 +16,9 @@
     "select_date": "انتخاب تاریخ",
     "category": "دسته",
     "save": "ذخیره",
-    "add_category": "اضافه کردن دسته"
+    "add_category": "اضافه کردن دسته",
+    "expenses": "هزینه ها",
+    "categories": "دسته ها",
+    "expense_description": "لیست هزینه ها",
+    "category_description": "لیست دسته ها"
 }

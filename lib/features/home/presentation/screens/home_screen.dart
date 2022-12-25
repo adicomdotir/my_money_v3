@@ -96,6 +96,40 @@ class _HomeScreenState extends State<HomeScreen> {
     return RefreshIndicator(
       child: Scaffold(
         appBar: appBar,
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.expenseListRoute);
+                },
+                child: ListTile(
+                  trailing: const Icon(Icons.arrow_forward_outlined),
+                  title: Text(
+                    AppLocalizations.of(context)!.translate('expenses')!,
+                  ),
+                  subtitle: Text(
+                    AppLocalizations.of(context)!
+                        .translate('expense_description')!,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: ListTile(
+                  trailing: const Icon(Icons.arrow_forward_outlined),
+                  title: Text(
+                    AppLocalizations.of(context)!.translate('categories')!,
+                  ),
+                  subtitle: Text(
+                    AppLocalizations.of(context)!
+                        .translate('category_description')!,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         body: _buildBodyContent(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {

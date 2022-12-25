@@ -15,7 +15,8 @@ ThemeData appTheme() {
   //   ),
   // );
   return FlexThemeData.light(
-    scheme: FlexScheme.bahamaBlue,
+    scheme: FlexScheme.brandBlue,
     fontFamily: AppStrings.fontFamily,
+    scaffoldBackground: Colors.grey[200],
   );
 }

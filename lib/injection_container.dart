@@ -13,6 +13,11 @@ import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/usecases/add_edit_expense_use_case.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
+import 'package:my_money_v3/features/expanse_list/data/datasources/expnese_list_local_data_source.dart';
+import 'package:my_money_v3/features/expanse_list/data/repositories/expense_list_repository_impl.dart';
+import 'package:my_money_v3/features/expanse_list/domain/repositories/expense_list_repository.dart';
+import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
+import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_consumer.dart';
 import 'core/api/app_interceptors.dart';
@@ -56,6 +61,9 @@ Future<void> init() async {
       getCategoriesUseCase: sl(),
     ),
   );
+  sl.registerFactory<ExpenseListCubit>(
+    () => ExpenseListCubit(expenseListUseCase: sl()),
+  );
 
   // Use cases
   sl.registerLazySingleton<GetRandomQuote>(
@@ -75,6 +83,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AddEditExpenseUseCase>(
     () => AddEditExpenseUseCase(expenseRepository: sl()),
+  );
+  sl.registerLazySingleton<ExpenseListUseCase>(
+    () => ExpenseListUseCase(expenseListRepository: sl()),
   );
 
   // Repository
@@ -98,6 +109,9 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
   );
+  sl.registerLazySingleton<ExpenseListRepository>(
+    () => ExpenseListRepositoryImpl(expenseListLocalDataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<RandomQuoteLocalDataSource>(
@@ -117,6 +131,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<ExpenseListLocalDataSource>(
+    () => ExpenseListLocalDataSourceImpl(databaseHelper: sl()),
   );
 
   //! Core
