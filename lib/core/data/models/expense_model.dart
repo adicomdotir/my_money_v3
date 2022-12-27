@@ -24,6 +24,7 @@ class ExpenseModel extends Expense {
         categoryId: json['categoryId'],
         date: json['date'],
         price: json['price'],
+        categoryModel: CategoryModel.fromJson(json['category']),
       );
 
   Map<String, dynamic> toJson() => {

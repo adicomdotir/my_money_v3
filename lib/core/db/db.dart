@@ -34,7 +34,12 @@ class DatabaseHelper {
   }
 
   Future<List<dynamic>> getExpenses() async {
-    Box<dynamic> categories = await Hive.openBox('expenses');
-    return categories.values.toList();
+    Box<dynamic> categories = await Hive.openBox('categories');
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+    for (var element in expenses.values) {
+      final map = categories.get(element['categoryId']);
+      element['category'] = map;
+    }
+    return expenses.values.toList();
   }
 }

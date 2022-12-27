@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
@@ -75,14 +74,20 @@ class ExpenseCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(dateFormat(expense.date)),
-                    Text(expense.categoryId),
+                    Text(
+                      '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
+                    ),
+                    Text(expense.category!.title),
                   ],
                 ),
                 IconButton(
-                  onPressed: () {
-                    BlocProvider.of<ExpenseListCubit>(context)
-                        .deleteExpense(expense.id);
+                  onPressed: () async {
+                    await showDeleteDialog(context).then((value) {
+                      if (value != null && value) {
+                        BlocProvider.of<ExpenseListCubit>(context)
+                            .deleteExpense(expense.id);
+                      }
+                    });
                   },
                   icon: const Icon(
                     Icons.delete,
@@ -96,4 +101,30 @@ class ExpenseCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<bool?> showDeleteDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content:
+            Text(AppLocalizations.of(context)!.translate('delete_question')!),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            child: Text(AppLocalizations.of(context)!.translate('yes')!),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: Text(AppLocalizations.of(context)!.translate('no')!),
+          ),
+        ],
+      );
+    },
+  );
 }

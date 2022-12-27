@@ -22,5 +22,9 @@
     "categories": "Categories",
     "expense_description": "List of expenses",
     "category_description": "List of categories",
-    "price_postfix": "Toman"
+    "price_postfix": "Toman",
+    "delete_question": "Are you sure to delete item?",
+    "yes": "Yes",
+    "no": "No",
+    "date": "Date"
 }

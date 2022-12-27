@@ -21,5 +21,9 @@
     "categories": "دسته ها",
     "expense_description": "لیست هزینه ها",
     "category_description": "لیست دسته ها",
-    "price_postfix": "تومان"
+    "price_postfix": "تومان",
+    "delete_question": "ایا برای حذف ایتم مطمئن هستید؟",
+    "yes": "بله",
+    "no": "خیر",
+    "date": "تاریخ"
 }
