@@ -28,6 +28,16 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
   Category? selectedCategory;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.expense != null) {
+      _titleCtrl.text = widget.expense!.title;
+      _priceCtrl.text = widget.expense!.price.toString();
+      selectedCategory = widget.expense!.category;
+    }
+  }
+
+  @override
   void dispose() {
     _titleCtrl.dispose();
     _priceCtrl.dispose();

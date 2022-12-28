@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
+import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
@@ -53,50 +54,59 @@ class ExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(expense.title),
-                Text(
-                  '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
-                    ),
-                    Text(expense.category!.title),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await showDeleteDialog(context).then((value) {
-                      if (value != null && value) {
-                        BlocProvider.of<ExpenseListCubit>(context)
-                            .deleteExpense(expense.id);
-                      }
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.addEditExpanseRoute,
+          arguments: {'expense': expense},
+        );
+      },
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(expense.title),
+                  Text(
+                    '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
                   ),
-                )
-              ],
-            ),
-          ],
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
+                      ),
+                      Text(expense.category!.title),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await showDeleteDialog(context).then((value) {
+                        if (value != null && value) {
+                          BlocProvider.of<ExpenseListCubit>(context)
+                              .deleteExpense(expense.id);
+                        }
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

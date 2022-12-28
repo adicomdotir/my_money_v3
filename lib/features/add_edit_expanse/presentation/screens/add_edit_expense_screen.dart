@@ -1,5 +1,4 @@
-import 'package:http/http.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,6 @@ import 'package:my_money_v3/features/add_edit_expanse/presentation/widgets/add_e
 
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../splash/presentation/cubit/locale_cubit.dart';
 import '../cubit/add_edit_expense_cubit.dart';
 
 class AddEditExpenseScreen extends StatefulWidget {
@@ -19,6 +17,8 @@ class AddEditExpenseScreen extends StatefulWidget {
 }
 
 class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
+  Expense? expense;
+
   _getCategories() =>
       BlocProvider.of<AddEditExpenseCubit>(context).getCategories();
 
@@ -72,6 +72,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         } else if (state is AddEditExpenseLoadCategories) {
           return AddEditExpenseContent(
             categories: state.categories,
+            expense: expense,
           );
         } else {
           return const AddEditExpenseContent(
@@ -84,6 +85,9 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map;
+    expense = args['expense'];
+
     final appBar = AppBar(
       title: Text(AppLocalizations.of(context)!.translate('add_expense')!),
     );

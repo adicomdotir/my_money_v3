@@ -47,6 +47,7 @@ class AppRoutes {
               child: const AddEditExpenseScreen(),
             );
           }),
+          settings: routeSettings,
         );
       case Routes.addEditCategoryRoute:
         return MaterialPageRoute(
