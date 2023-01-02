@@ -112,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.categoryListRoute);
+                },
                 child: ListTile(
                   trailing: const Icon(Icons.arrow_forward_outlined),
                   title: Text(

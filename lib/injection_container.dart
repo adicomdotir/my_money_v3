@@ -13,6 +13,7 @@ import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/usecases/add_edit_expense_use_case.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
+import 'package:my_money_v3/features/category_list/domain/repositories/category_list_repository.dart';
 import 'package:my_money_v3/features/expanse_list/data/datasources/expnese_list_local_data_source.dart';
 import 'package:my_money_v3/features/expanse_list/data/repositories/expense_list_repository_impl.dart';
 import 'package:my_money_v3/features/expanse_list/domain/repositories/expense_list_repository.dart';
@@ -25,6 +26,11 @@ import 'core/api/app_interceptors.dart';
 import 'core/api/dio_consumer.dart';
 import 'core/network/netwok_info.dart';
 import 'features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
+import 'features/category_list/data/datasources/category_list_local_data_source.dart';
+import 'features/category_list/data/repositories/category_list_repository_impl.dart';
+import 'features/category_list/domain/usecases/category_list_use_case.dart';
+import 'features/category_list/domain/usecases/delete_category_use_case.dart';
+import 'features/category_list/presentation/cubit/category_list_cubit.dart';
 import 'features/home/data/datasources/random_quote_local_data_source.dart';
 import 'features/home/data/datasources/random_quote_remote_data_source.dart';
 import 'features/home/data/repositories/quote_repository_impl.dart';
@@ -68,6 +74,12 @@ Future<void> init() async {
       deleteExpenseUseCase: sl(),
     ),
   );
+  sl.registerFactory<CategoryListCubit>(
+    () => CategoryListCubit(
+      categoryListUseCase: sl(),
+      deleteCategoryUseCase: sl(),
+    ),
+  );
 
   // Use cases
   sl.registerLazySingleton<GetRandomQuote>(
@@ -94,6 +106,12 @@ Future<void> init() async {
   sl.registerLazySingleton<DeleteExpenseUseCase>(
     () => DeleteExpenseUseCase(expenseListRepository: sl()),
   );
+  sl.registerLazySingleton<CategoryListUseCase>(
+    () => CategoryListUseCase(categoryListRepository: sl()),
+  );
+  sl.registerLazySingleton<DeleteCategoryUseCase>(
+    () => DeleteCategoryUseCase(categoryListRepository: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<QuoteRepository>(
@@ -119,6 +137,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ExpenseListRepository>(
     () => ExpenseListRepositoryImpl(expenseListLocalDataSource: sl()),
   );
+  sl.registerLazySingleton<CategoryListRepository>(
+    () => CategoryListRepositoryImpl(categoryListLocalDataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<RandomQuoteLocalDataSource>(
@@ -141,6 +162,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseListLocalDataSource>(
     () => ExpenseListLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<CategoryListLocalDataSource>(
+    () => CategoryListLocalDataSourceImpl(databaseHelper: sl()),
   );
 
   //! Core

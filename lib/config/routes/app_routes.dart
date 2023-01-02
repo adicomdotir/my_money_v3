@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/utils/app_strings.dart';
+import '../../features/category_list/presentation/cubit/category_list_cubit.dart';
+import '../../features/category_list/presentation/screens/category_list_screen.dart';
 import '../../features/home/presentation/cubit/random_quote_cubit.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 
@@ -19,6 +21,7 @@ class Routes {
   static const String addEditExpanseRoute = '/addEditExpanseRoute';
   static const String addEditCategoryRoute = '/addEditCategoryRoute';
   static const String expenseListRoute = '/expenseListRoute';
+  static const String categoryListRoute = '/categoryListRoute';
 }
 
 class AppRoutes {
@@ -64,6 +67,15 @@ class AppRoutes {
             return BlocProvider(
               create: ((context) => di.sl<ExpenseListCubit>()),
               child: const ExpenseListScreen(),
+            );
+          }),
+        );
+      case Routes.categoryListRoute:
+        return MaterialPageRoute(
+          builder: ((context) {
+            return BlocProvider(
+              create: ((context) => di.sl<CategoryListCubit>()),
+              child: const CategoryListScreen(),
             );
           }),
         );
