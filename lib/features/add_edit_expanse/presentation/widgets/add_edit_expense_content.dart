@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/domain/entities/expense.dart';
+import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import '../../../../core/utils/numeric_text_formatter.dart';
 
 class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
@@ -26,10 +31,12 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _priceCtrl = TextEditingController();
   Category? selectedCategory;
+  Jalali? selectedDate;
 
   @override
   void initState() {
     super.initState();
+    selectedDate = Jalali.now();
     if (widget.expense != null) {
       _titleCtrl.text = widget.expense!.title;
       _priceCtrl.text = widget.expense!.price.toString();
@@ -65,6 +72,10 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
           TextField(
             controller: _priceCtrl,
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              NumericTextFormatter()
+            ],
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -79,13 +90,18 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _selectDate(context);
+                },
                 child: Text(
                   AppLocalizations.of(context)!.translate('select_date')!,
                 ),
               ),
-              const Text(
-                '0000',
+              Text(
+                dateFormat(
+                  selectedDate?.toDateTime().millisecondsSinceEpoch ??
+                      DateTime.now().millisecondsSinceEpoch,
+                ),
               )
             ],
           ),
@@ -158,19 +174,46 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
           ),
           ElevatedButton(
             onPressed: () {
-              final expense = Expense(
-                id: idGenerator(),
-                title: _titleCtrl.text,
-                date: DateTime.now().millisecondsSinceEpoch,
-                categoryId: selectedCategory?.id ?? '',
-                price: int.parse(_priceCtrl.text),
-              );
-              context.read<AddEditExpenseCubit>().addExpense(expense);
+              if (widget.expense == null) {
+                final expense = Expense(
+                  id: idGenerator(),
+                  title: _titleCtrl.text,
+                  date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                  categoryId: selectedCategory?.id ?? '',
+                  price: int.parse(_priceCtrl.text.replaceAll(',', '')),
+                );
+                context.read<AddEditExpenseCubit>().addExpense(expense);
+              } else {
+                final expense = Expense(
+                  id: widget.expense!.id,
+                  title: _titleCtrl.text,
+                  date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                  categoryId: selectedCategory?.id ?? '',
+                  price: int.parse(_priceCtrl.text.replaceAll(',', '')),
+                );
+                context.read<AddEditExpenseCubit>().editExpense(expense);
+              }
             },
-            child: Text(AppLocalizations.of(context)!.translate('save')!),
+            child: widget.expense == null
+                ? Text(AppLocalizations.of(context)!.translate('save')!)
+                : Text(AppLocalizations.of(context)!.translate('update')!),
           )
         ],
       ),
     );
+  }
+
+  _selectDate(BuildContext context) async {
+    Jalali? selected = await showPersianDatePicker(
+      context: context,
+      initialDate: Jalali.fromDateTime(DateTime.now()),
+      firstDate: Jalali(1370, 1),
+      lastDate: Jalali(1450, 1),
+    );
+    if (selected != null && selected != selectedDate) {
+      setState(() {
+        selectedDate = selected;
+      });
+    }
   }
 }

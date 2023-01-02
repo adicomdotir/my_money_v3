@@ -26,5 +26,7 @@
     "delete_question": "Are you sure to delete item?",
     "yes": "Yes",
     "no": "No",
-    "date": "Date"
+    "date": "Date",
+    "update": "Update",
+    "edit_expense": "Edit Expense"
 }

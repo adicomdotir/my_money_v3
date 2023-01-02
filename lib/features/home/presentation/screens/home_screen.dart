@@ -88,21 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       title: Text(AppLocalizations.of(context)!.translate('app_name')!),
-      actions: [
-        IconButton(
-          icon: Icon(
-            Icons.translate_outlined,
-            color: AppColors.primary,
-          ),
-          onPressed: () {
-            if (AppLocalizations.of(context)!.isEnLocale) {
-              BlocProvider.of<LocaleCubit>(context).toFarsi();
-            } else {
-              BlocProvider.of<LocaleCubit>(context).toEnglish();
-            }
-          },
-        )
-      ],
     );
     return RefreshIndicator(
       child: Scaffold(

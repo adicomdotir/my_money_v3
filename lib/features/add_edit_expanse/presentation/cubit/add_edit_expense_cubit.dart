@@ -33,6 +33,18 @@ class AddEditExpenseCubit extends Cubit<AddEditExpenseState> {
     );
   }
 
+  Future<void> editExpense(Expense expense) async {
+    emit(AddEditExpenseIsLoading());
+    Either<Failure, dynamic> response =
+        await addEditExpenseUseCase(ExpenseParams(expense));
+    emit(
+      response.fold(
+        (failure) => AddEditExpenseError(msg: _mapFailureToMsg(failure)),
+        (id) => AddEditExpenseSuccess(id: id),
+      ),
+    );
+  }
+
   Future<void> getCategories() async {
     emit(AddEditExpenseIsLoading());
     Either<Failure, List<Category>> response =

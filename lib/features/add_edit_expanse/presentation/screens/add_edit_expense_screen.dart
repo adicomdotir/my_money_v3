@@ -85,11 +85,15 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Map;
-    expense = args['expense'];
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      final args = ModalRoute.of(context)?.settings.arguments as Map;
+      expense = args['expense'];
+    }
 
     final appBar = AppBar(
-      title: Text(AppLocalizations.of(context)!.translate('add_expense')!),
+      title: expense == null
+          ? Text(AppLocalizations.of(context)!.translate('add_expense')!)
+          : Text(AppLocalizations.of(context)!.translate('edit_expense')!),
     );
     return Scaffold(
       appBar: appBar,
