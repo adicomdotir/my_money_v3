@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +29,7 @@ class MyMoneyApp extends StatelessWidget {
             // The Mandy red, light theme.
             theme: appTheme(),
             // The Mandy red, dark theme.
-            darkTheme: FlexThemeData.dark(scheme: FlexScheme.amber),
+            darkTheme: FlexThemeData.dark(scheme: FlexScheme.material),
             // Use dark or light theme based on system setting.
             themeMode: ThemeMode.system,
             onGenerateRoute: AppRoutes.onGenerateRoute,

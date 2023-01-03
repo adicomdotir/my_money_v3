@@ -15,7 +15,7 @@ ThemeData appTheme() {
   //   ),
   // );
   return FlexThemeData.light(
-    scheme: FlexScheme.brandBlue,
+    scheme: FlexScheme.verdunHemlock,
     fontFamily: AppStrings.fontFamily,
     scaffoldBackground: Colors.grey[200],
   );
