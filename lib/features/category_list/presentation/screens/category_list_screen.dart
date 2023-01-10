@@ -1,3 +1,4 @@
+import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,6 +66,13 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     );
     return Scaffold(
       appBar: appBar,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.addEditCategoryRoute);
+        },
+        label: Text(AppLocalizations.of(context)!.translate('add_category')!),
+        icon: const Icon(Icons.add),
+      ),
       body: _buildBodyContent(),
     );
   }
