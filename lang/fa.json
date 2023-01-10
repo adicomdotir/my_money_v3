@@ -17,6 +17,7 @@
     "category": "دسته",
     "save": "ذخیره",
     "add_category": "اضافه کردن دسته",
+    "parent_category": "زیرمجموعه دسته",
     "expenses": "هزینه ها",
     "categories": "دسته ها",
     "expense_description": "لیست هزینه ها",
@@ -27,5 +28,6 @@
     "no": "خیر",
     "date": "تاریخ",
     "update": "بروزرسانی",
-    "edit_expense": "ویرایش هزینه"
+    "edit_expense": "ویرایش هزینه",
+    "edit_category": "ویرایش دسته"
 }

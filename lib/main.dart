@@ -9,11 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await di.init();
+  Bloc.observer = AppBlocObserver();
 
-  BlocOverrides.runZoned(
-    () {
-      runApp(const MyMoneyApp());
-    },
-    blocObserver: AppBlocObserver(),
-  );
+  runApp(const MyMoneyApp());
 }

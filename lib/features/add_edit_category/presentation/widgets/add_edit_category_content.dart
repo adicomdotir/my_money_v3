@@ -33,6 +33,16 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   void initState() {
     categories.add(_parentCategory);
     categories.addAll(widget.categories);
+    if (widget.category != null) {
+      _controller.text = widget.category?.title ?? '';
+      if (widget.category!.parentId != '-1') {
+        for (var category in categories) {
+          if (category.id == widget.category!.parentId) {
+            _parentCategory = category;
+          }
+        }
+      }
+    }
     super.initState();
   }
 
@@ -105,17 +115,27 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           ElevatedButton(
             onPressed: () {
               String parentId = _parentCategory.id;
-              widget.category = Category(
-                id: idGenerator(),
-                parentId: parentId,
-                title: _controller.text,
-                color: '',
-              );
-              context
-                  .read<AddEditCategoryCubit>()
-                  .addCategory(widget.category!);
+              if (widget.category == null) {
+                final tmpCategory = Category(
+                  id: idGenerator(),
+                  parentId: parentId,
+                  title: _controller.text,
+                  color: '',
+                );
+                context.read<AddEditCategoryCubit>().addCategory(tmpCategory);
+              } else {
+                final tmpCategory = Category(
+                  id: widget.category!.id,
+                  parentId: parentId,
+                  title: _controller.text,
+                  color: '',
+                );
+                context.read<AddEditCategoryCubit>().editCategory(tmpCategory);
+              }
             },
-            child: Text(AppLocalizations.of(context)!.translate('save')!),
+            child: widget.category == null
+                ? Text(AppLocalizations.of(context)!.translate('save')!)
+                : Text(AppLocalizations.of(context)!.translate('update')!),
           )
         ],
       ),

@@ -28,5 +28,6 @@
     "no": "No",
     "date": "Date",
     "update": "Update",
-    "edit_expense": "Edit Expense"
+    "edit_expense": "Edit Expense",
+    "edit_category": "Edit Category"
 }

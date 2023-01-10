@@ -58,8 +58,8 @@ class CategoryCard extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          Routes.addEditExpanseRoute,
-          arguments: {'expense': category},
+          Routes.addEditCategoryRoute,
+          arguments: {'category': category},
         );
       },
       child: Card(

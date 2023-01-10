@@ -60,6 +60,7 @@ class AppRoutes {
               child: const AddEditCategoryScreen(),
             );
           }),
+          settings: routeSettings,
         );
       case Routes.expenseListRoute:
         return MaterialPageRoute(
