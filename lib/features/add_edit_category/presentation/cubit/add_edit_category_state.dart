@@ -30,7 +30,7 @@ class AddEditCategoryListLoaded extends AddEditCategoryState {
 }
 
 class AddEditCategorySuccess extends AddEditCategoryState {
-  final int id;
+  final String id;
 
   const AddEditCategorySuccess({required this.id});
 

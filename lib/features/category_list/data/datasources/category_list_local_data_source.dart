@@ -24,6 +24,6 @@ class CategoryListLocalDataSourceImpl implements CategoryListLocalDataSource {
 
   @override
   Future<void> deleteCategory(String id) async {
-    return await databaseHelper.deleteExpanse(id);
+    return await databaseHelper.deleteCategory(id);
   }
 }

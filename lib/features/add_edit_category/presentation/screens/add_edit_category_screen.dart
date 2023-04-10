@@ -43,9 +43,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             children: [],
           );
         } else if (state is AddEditCategorySuccess) {
-          if (state.id > 0) {
-            Navigator.pop(context);
-          }
+          Navigator.pop(context);
           return Container();
         } else if (state is AddEditCategoryListLoaded) {
           return AddEditCategoryContent(

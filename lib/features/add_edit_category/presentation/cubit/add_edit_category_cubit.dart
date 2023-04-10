@@ -22,7 +22,7 @@ class AddEditCategoryCubit extends Cubit<AddEditCategoryState> {
 
   Future<void> addCategory(Category category) async {
     emit(AddEditCategoryIsLoading());
-    Either<Failure, dynamic> response =
+    Either<Failure, String> response =
         await addCategoryUseCase(CategoryParams(category));
     emit(
       response.fold(

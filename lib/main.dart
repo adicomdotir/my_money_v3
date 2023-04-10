@@ -12,4 +12,45 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
 
   runApp(const MyMoneyApp());
+  // ThemeData lightTheme = ThemeData.light().copyWith(
+  //   colorScheme: ColorScheme.light(
+  //     primary: Color(0xFF6FCF97),
+  //     secondary: Color(0xFFCF6FA7),
+  //   ),
+  // );
+
+  // runApp(
+  //   MaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     theme: lightTheme,
+  //     home: Scaffold(
+  //       appBar: AppBar(
+  //         title: Text('Title'),
+  //         actions: [
+  //           IconButton(
+  //             onPressed: () {},
+  //             icon: Icon(Icons.settings),
+  //           )
+  //         ],
+  //       ),
+  //       floatingActionButton: FloatingActionButton(
+  //         child: Icon(Icons.add),
+  //         onPressed: () {},
+  //       ),
+  //       body: Column(
+  //         children: [
+  //           Text('This text is in the center'),
+  //           ElevatedButton(
+  //             onPressed: () {},
+  //             child: Text('Button'),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: null,
+  //             child: Text('Button'),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   ),
+  // );
 }

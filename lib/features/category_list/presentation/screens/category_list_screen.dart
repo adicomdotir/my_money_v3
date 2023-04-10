@@ -28,7 +28,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
 
   Widget _buildBodyContent() {
     return BlocBuilder<CategoryListCubit, CategoryListState>(
-      builder: ((context, state) {
+      builder: (context, state) {
         if (state is CategoryListIsLoading) {
           return Center(
             child: SpinKitFadingCircle(
@@ -55,7 +55,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
             categories: [],
           );
         }
-      }),
+      },
     );
   }
 

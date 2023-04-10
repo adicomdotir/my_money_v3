@@ -13,9 +13,13 @@ class DatabaseHelper {
   //   print('init complete');
   // }
 
-  Future<void> addCategory(Map<String, dynamic> categoryJson, String id) async {
+  Future<String> addCategory(
+    Map<String, dynamic> categoryJson,
+    String id,
+  ) async {
     Box<dynamic> categories = await Hive.openBox('categories');
-    return await categories.put(id, categoryJson);
+    await categories.put(id, categoryJson);
+    return id;
   }
 
   Future<List<dynamic>> getCategories() async {
@@ -31,6 +35,11 @@ class DatabaseHelper {
   Future<void> deleteExpanse(String id) async {
     Box<dynamic> expenses = await Hive.openBox('expenses');
     return await expenses.delete(id);
+  }
+
+  Future<void> deleteCategory(String id) async {
+    Box<dynamic> categories = await Hive.openBox('categories');
+    return await categories.delete(id);
   }
 
   Future<List<dynamic>> getExpenses() async {

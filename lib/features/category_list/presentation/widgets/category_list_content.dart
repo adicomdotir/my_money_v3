@@ -60,7 +60,9 @@ class CategoryCard extends StatelessWidget {
           context,
           Routes.addEditCategoryRoute,
           arguments: {'category': category},
-        );
+        ).whenComplete(() {
+          BlocProvider.of<CategoryListCubit>(context).getCategories();
+        });
       },
       child: Card(
         elevation: 2,
