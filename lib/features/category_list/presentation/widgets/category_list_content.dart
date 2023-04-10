@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
+import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
 import '../../../../core/domain/entities/category.dart';
@@ -70,25 +71,39 @@ class CategoryCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(category.title),
-                  IconButton(
-                    onPressed: () async {
-                      await showDeleteDialog(context).then((value) {
-                        if (value != null && value) {
-                          BlocProvider.of<CategoryListCubit>(context)
-                              .deleteCategory(category.id);
-                        }
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
+              SizedBox(
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 10,
+                          color: HexColor(category.color),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        Text(category.title),
+                      ],
                     ),
-                  ),
-                ],
+                    IconButton(
+                      onPressed: () async {
+                        await showDeleteDialog(context).then((value) {
+                          if (value != null && value) {
+                            BlocProvider.of<CategoryListCubit>(context)
+                                .deleteCategory(category.id);
+                          }
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

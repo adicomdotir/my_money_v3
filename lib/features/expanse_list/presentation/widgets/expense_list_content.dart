@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
+import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
 import '../../../../core/domain/entities/expense.dart';
@@ -64,46 +65,62 @@ class ExpenseCard extends StatelessWidget {
       },
       child: Card(
         elevation: 2,
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          height: 100,
+          child: Row(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(expense.title),
-                  Text(
-                    '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
-                  ),
-                ],
+              Container(
+                width: 10,
+                height: 50,
+                color: HexColor(expense.category!.color),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
-                      ),
-                      Text(expense.category!.title),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      await showDeleteDialog(context).then((value) {
-                        if (value != null && value) {
-                          BlocProvider.of<ExpenseListCubit>(context)
-                              .deleteExpense(expense.id);
-                        }
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(expense.title),
+                        Text(
+                          '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
+                        ),
+                      ],
                     ),
-                  )
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
+                            ),
+                            Text(expense.category!.title),
+                          ],
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await showDeleteDialog(context).then((value) {
+                              if (value != null && value) {
+                                BlocProvider.of<ExpenseListCubit>(context)
+                                    .deleteExpense(expense.id);
+                              }
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
