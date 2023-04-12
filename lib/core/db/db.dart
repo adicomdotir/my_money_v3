@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_money_v3/core/data/models/expense_model.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/widgets/add_edit_category_content.dart';
 
 class DatabaseHelper {
@@ -49,6 +50,14 @@ class DatabaseHelper {
       final map = categories.get(element['categoryId']);
       element['category'] = map;
     }
-    return expenses.values.toList();
+    final startDate = DateTime.now();
+    final result = expenses.values.toList();
+    result.sort((a, b) {
+      return b['date'] - a['date'];
+    });
+    final endDate = DateTime.now();
+    print('MS ${endDate.difference(startDate).inMilliseconds}');
+    print('count ${result.length}');
+    return result;
   }
 }
