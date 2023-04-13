@@ -26,7 +26,12 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   }
 
   Widget _buildBodyContent() {
-    return BlocBuilder<AddEditCategoryCubit, AddEditCategoryState>(
+    return BlocConsumer<AddEditCategoryCubit, AddEditCategoryState>(
+      listener: (context, state) {
+        if (state is AddEditCategorySuccess) {
+          Navigator.pop(context);
+        }
+      },
       builder: ((context, state) {
         if (state is AddEditCategoryIsLoading) {
           return Center(
@@ -43,7 +48,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             children: [],
           );
         } else if (state is AddEditCategorySuccess) {
-          Navigator.pop(context);
+          // Navigator.pop(context);
           return Container();
         } else if (state is AddEditCategoryListLoaded) {
           return AddEditCategoryContent(

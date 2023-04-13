@@ -7,6 +7,7 @@ class HexColor extends Color {
     if (hexColor.length == 6) {
       hexColor = 'FF$hexColor';
     }
+    if (hexColor.isEmpty) hexColor = 'FFFFFFFF';
     return int.parse(hexColor, radix: 16);
   }
 
