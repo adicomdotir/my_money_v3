@@ -31,12 +31,11 @@ import 'features/category_list/data/repositories/category_list_repository_impl.d
 import 'features/category_list/domain/usecases/category_list_use_case.dart';
 import 'features/category_list/domain/usecases/delete_category_use_case.dart';
 import 'features/category_list/presentation/cubit/category_list_cubit.dart';
-import 'features/home/data/datasources/random_quote_local_data_source.dart';
-import 'features/home/data/datasources/random_quote_remote_data_source.dart';
-import 'features/home/data/repositories/quote_repository_impl.dart';
+import 'features/home/data/datasources/home_info_local_data_source.dart';
+import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/quote_repository.dart';
-import 'features/home/domain/usecases/get_random_quote.dart';
-import 'features/home/presentation/cubit/random_quote_cubit.dart';
+import 'features/home/domain/usecases/get_home_info.dart';
+import 'features/home/presentation/cubit/home_info_cubit.dart';
 import 'features/splash/data/datasources/lang_local_data_source.dart';
 import 'features/splash/data/repositories/lang_repository_impl.dart';
 import 'features/splash/domain/repositories/lang_repository.dart';
@@ -50,8 +49,8 @@ Future<void> init() async {
   //! Features
 
   // Blocs
-  sl.registerFactory<RandomQuoteCubit>(
-    () => RandomQuoteCubit(getRandomQuoteUseCase: sl()),
+  sl.registerFactory<HomeInfoCubit>(
+    () => HomeInfoCubit(getHomeInfoUseCase: sl()),
   );
   sl.registerFactory<LocaleCubit>(
     () => LocaleCubit(getSavedLangUseCase: sl(), changeLangUseCase: sl()),
@@ -82,8 +81,8 @@ Future<void> init() async {
   );
 
   // Use cases
-  sl.registerLazySingleton<GetRandomQuote>(
-    () => GetRandomQuote(quoteRepository: sl()),
+  sl.registerLazySingleton<GetHomeInfo>(
+    () => GetHomeInfo(quoteRepository: sl()),
   );
   sl.registerLazySingleton<GetSavedLangUseCase>(
     () => GetSavedLangUseCase(langRepository: sl()),
@@ -114,11 +113,9 @@ Future<void> init() async {
   );
 
   // Repository
-  sl.registerLazySingleton<QuoteRepository>(
-    () => QuoteRepositoryImpl(
-      networkInfo: sl(),
-      randomQuoteRemoteDataSource: sl(),
-      randomQuoteLocalDataSource: sl(),
+  sl.registerLazySingleton<HomeInfoRepository>(
+    () => HomeInfoRepositoryImpl(
+      homeInfoLocalDataSource: sl(),
     ),
   );
   sl.registerLazySingleton<LangRepository>(
@@ -142,11 +139,8 @@ Future<void> init() async {
   );
 
   // Data Sources
-  sl.registerLazySingleton<RandomQuoteLocalDataSource>(
-    () => RandomQuoteLocalDataSourceImpl(sharedPreferences: sl()),
-  );
-  sl.registerLazySingleton<RandomQuoteRemoteDataSource>(
-    () => RandomQuoteRemoteDataSourceImpl(apiConsumer: sl()),
+  sl.registerLazySingleton<HomeInfoLocalDataSource>(
+    () => HomeInfoLocalDataSourceImpl(databaseHelper: sl()),
   );
   sl.registerLazySingleton<LangLocalDataSource>(
     () => LangLocalDataSourceImpl(sharedPreferences: sl()),

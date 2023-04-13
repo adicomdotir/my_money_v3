@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../splash/presentation/cubit/locale_cubit.dart';
-import '../cubit/random_quote_cubit.dart';
+import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,60 +19,44 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  _getRandomQuote() =>
-      BlocProvider.of<RandomQuoteCubit>(context).getRandomQuote();
+  _getHomeInfo() => BlocProvider.of<HomeInfoCubit>(context).getHomeInfo();
 
   @override
   void initState() {
     super.initState();
-    _getRandomQuote();
+    _getHomeInfo();
   }
 
   Widget _buildBodyContent() {
-    return BlocBuilder<RandomQuoteCubit, RandomQuoteState>(
-      builder: ((context, state) {
-        if (state is RandomQuoteIsLoading) {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.primary,
-            ),
-          );
-        } else if (state is RandomQuoteError) {
-          return error_widget.ErrorWidget(
-            onPress: () => _getRandomQuote(),
-          );
-        } else if (state is RandomQuoteLoaded) {
-          return Column(
-            children: [
-              HomeContent(
-                quote: state.quote,
-              ),
-              InkWell(
-                onTap: () => _getRandomQuote(),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 15),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.primary,
-                  ),
-                  child: const Icon(
-                    Icons.refresh,
-                    size: 28,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.primary,
-            ),
-          );
-        }
-      }),
+    return BlocBuilder<HomeInfoCubit, HomeInfoState>(
+      builder: (context, state) {
+        // if (state is RandomQuoteIsLoading) {
+        //   return Center(
+        //     child: SpinKitFadingCircle(
+        //       color: AppColors.primary,
+        //     ),
+        //   );
+        // } else if (state is RandomQuoteError) {
+        //   return error_widget.ErrorWidget(
+        //     onPress: () => _getRandomQuote(),
+        //   );
+        // } else if (state is RandomQuoteLoaded) {
+        //   return Column(
+        //     children: [
+        //       HomeContent(
+        //         quote: state.quote,
+        //       ),
+        //     ],
+        //   );
+        // } else {
+        //   return Center(
+        //     child: Text(
+        //       'color: AppColors.primary',
+        //     ),
+        //   );
+        // }
+        return HomeContent();
+      },
     );
   }
 
@@ -138,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(Icons.add),
         ),
       ),
-      onRefresh: () => _getRandomQuote(),
+      onRefresh: () => _getHomeInfo(),
     );
   }
 }

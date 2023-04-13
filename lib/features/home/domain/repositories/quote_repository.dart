@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 import '../../../../core/error/failures.dart';
-import '../entities/quote.dart';
 
-abstract class QuoteRepository {
-  Future<Either<Failure, Quote>> getRandomQuote();
+abstract class HomeInfoRepository {
+  Future<Either<Failure, HomeInfoEntity>> getHomeInfo();
 }

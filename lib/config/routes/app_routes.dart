@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/utils/app_strings.dart';
 import '../../features/category_list/presentation/cubit/category_list_cubit.dart';
 import '../../features/category_list/presentation/screens/category_list_screen.dart';
-import '../../features/home/presentation/cubit/random_quote_cubit.dart';
+import '../../features/home/presentation/cubit/home_info_cubit.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 
 class Routes {
@@ -37,7 +37,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: ((context) {
             return BlocProvider(
-              create: ((context) => di.sl<RandomQuoteCubit>()),
+              create: ((context) => di.sl<HomeInfoCubit>()),
               child: const HomeScreen(),
             );
           }),
