@@ -6,15 +6,19 @@ import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart'
 import '../../../../core/utils/app_colors.dart';
 
 class HomeContent extends StatelessWidget {
-  HomeContent({Key? key}) : super(key: key);
+  const HomeContent({
+    Key? key,
+    required this.homeInfoList,
+  }) : super(key: key);
 
-  final HomeInfoEntity homeInfoList = HomeInfoEntity(expenseByCategory: []);
+  final HomeInfoEntity homeInfoList;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: double.maxFinite,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -26,10 +30,15 @@ class HomeContent extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: homeInfoList.length,
+          Container(
+            color: Colors.blueGrey.shade100,
+            child: ListView.separated(
+              itemCount: homeInfoList.expenseByCategory.length,
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 16,
+              ),
               itemBuilder: (context, index) {
+                final item = homeInfoList.expenseByCategory[index];
                 return Column(
                   children: [
                     SizedBox(
@@ -42,27 +51,26 @@ class HomeContent extends StatelessWidget {
                             children: [
                               Container(
                                 width: 10,
-                                color: HexColor(homeInfoList[index].color),
+                                color: HexColor(
+                                  item.color,
+                                ),
                               ),
                               const SizedBox(
                                 width: 16,
                               ),
-                              Text(homeInfoList[index].title),
+                              Text(item.title),
                             ],
                           ),
                           Text(
-                            '${priceFormat(homeInfoList[index].price)} تومان',
+                            '${priceFormat(item.price)} تومان',
                           ),
                         ],
                       ),
                     ),
                     Container(
                       height: 2,
-                      color: HexColor(homeInfoList[index].color),
+                      color: HexColor(item.color),
                     ),
-                    const SizedBox(
-                      height: 16,
-                    )
                   ],
                 );
               },

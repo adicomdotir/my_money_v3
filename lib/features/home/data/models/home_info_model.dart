@@ -7,8 +7,10 @@ class HomeInfoModel extends HomeInfoEntity {
   }) : super(expenseByCategory: expenseByCategory);
 
   factory HomeInfoModel.fromJson(Map<String, dynamic> json) => HomeInfoModel(
-        expenseByCategory:
-            ExpenseByCategoryModel.fromJson(json['expenseByCategory']),
+        expenseByCategory: List<ExpenseByCategoryModel>.from(
+          json['expenseByCategory']
+              .map((x) => ExpenseByCategoryModel.fromJson(x)),
+        ),
       );
 
   Map<String, dynamic> toJson() => {

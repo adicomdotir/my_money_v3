@@ -30,32 +30,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildBodyContent() {
     return BlocBuilder<HomeInfoCubit, HomeInfoState>(
       builder: (context, state) {
-        // if (state is RandomQuoteIsLoading) {
-        //   return Center(
-        //     child: SpinKitFadingCircle(
-        //       color: AppColors.primary,
-        //     ),
-        //   );
-        // } else if (state is RandomQuoteError) {
-        //   return error_widget.ErrorWidget(
-        //     onPress: () => _getRandomQuote(),
-        //   );
-        // } else if (state is RandomQuoteLoaded) {
-        //   return Column(
-        //     children: [
-        //       HomeContent(
-        //         quote: state.quote,
-        //       ),
-        //     ],
-        //   );
-        // } else {
-        //   return Center(
-        //     child: Text(
-        //       'color: AppColors.primary',
-        //     ),
-        //   );
-        // }
-        return HomeContent();
+        if (state is HomeInfoIsLoading) {
+          return Center(
+            child: SpinKitFadingCircle(
+              color: AppColors.primary,
+            ),
+          );
+        } else if (state is HomeInfoError) {
+          return error_widget.ErrorWidget(
+            onPress: () => _getHomeInfo(),
+          );
+        } else if (state is HomeInfoLoaded) {
+          print(state.homeInfoEntity);
+          return Column(
+            children: [
+              HomeContent(
+                homeInfoList: state.homeInfoEntity,
+              ),
+            ],
+          );
+        } else {
+          return Center(
+            child: Text(
+              'color: AppColors.primary',
+            ),
+          );
+        }
       },
     );
   }
