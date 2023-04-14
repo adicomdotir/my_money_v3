@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
             onPress: () => _getHomeInfo(),
           );
         } else if (state is HomeInfoLoaded) {
-          print(state.homeInfoEntity);
           return Column(
             children: [
               HomeContent(

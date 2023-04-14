@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
@@ -15,10 +17,64 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
+    final height =
+        MediaQuery.of(context).size.height - AppBar().preferredSize.height - 24;
+    return SizedBox(
       width: double.maxFinite,
-      height: MediaQuery.of(context).size.height * 0.5,
+      child: Column(
+        children: [
+          reportGeneral(height),
+          reportByCategory(height, context),
+        ],
+      ),
+    );
+  }
+
+  Container reportGeneral(double height) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      height: height * .3,
+      child: Column(
+        children: [
+          reportGeneralItem('هزینه امروز', homeInfoList.todayPrice),
+          const SizedBox(
+            height: 12,
+          ),
+          reportGeneralItem('هزینه ماه', homeInfoList.monthPrice),
+          const SizedBox(
+            height: 12,
+          ),
+          reportGeneralItem('هزینه ۳۰ روز گذشته', homeInfoList.thirtyDaysPrice),
+          const SizedBox(
+            height: 12,
+          ),
+          reportGeneralItem('هزینه ۹۰ روز گذشته', homeInfoList.ninetyDaysPrice),
+        ],
+      ),
+    );
+  }
+
+  Container reportGeneralItem(String title, int price) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.blueGrey.shade100,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title),
+          Text('${priceFormat(price)} تومان'),
+        ],
+      ),
+    );
+  }
+
+  Container reportByCategory(double height, BuildContext context) {
+    return Container(
+      height: height * .7,
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -30,8 +86,7 @@ class HomeContent extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Container(
-            color: Colors.blueGrey.shade100,
+          Expanded(
             child: ListView.separated(
               itemCount: homeInfoList.expenseByCategory.length,
               separatorBuilder: (context, index) => const SizedBox(
