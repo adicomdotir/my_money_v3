@@ -6,7 +6,6 @@ import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart'
 import '../../../../core/error/failures.dart';
 import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../domain/entities/quote.dart';
 import '../../domain/usecases/get_home_info.dart';
 
 part 'home_info_state.dart';

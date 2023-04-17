@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late Timer _timer;
 
-  _goNext() => Navigator.pushReplacementNamed(context, Routes.randomQuoteRoute);
+  _goNext() => Navigator.pushReplacementNamed(context, Routes.homeRoute);
 
   _startDelay() {
     _timer = Timer(const Duration(milliseconds: 2000), () => _goNext());
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(ImgAssets.quote),
+        child: Image.asset(ImgAssets.logo),
       ),
     );
   }

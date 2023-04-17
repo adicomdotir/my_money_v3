@@ -39,7 +39,7 @@ flutter:
   assets:
     - lang/fa.json
     - lang/en.json
-    - assets/images/quote.png
+    - assets/images/logo.png
 
   fonts:
     - family: Vazir

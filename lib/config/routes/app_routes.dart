@@ -17,7 +17,7 @@ import '../../features/splash/presentation/screens/splash_screen.dart';
 
 class Routes {
   static const String initialRoute = '/';
-  static const String randomQuoteRoute = '/randomQuote';
+  static const String homeRoute = '/homeRoute';
   static const String addEditExpanseRoute = '/addEditExpanseRoute';
   static const String addEditCategoryRoute = '/addEditCategoryRoute';
   static const String expenseListRoute = '/expenseListRoute';
@@ -33,7 +33,7 @@ class AppRoutes {
             return const SplashScreen();
           },
         );
-      case Routes.randomQuoteRoute:
+      case Routes.homeRoute:
         return MaterialPageRoute(
           builder: ((context) {
             return BlocProvider(

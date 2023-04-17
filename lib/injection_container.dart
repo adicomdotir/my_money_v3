@@ -33,7 +33,7 @@ import 'features/category_list/domain/usecases/delete_category_use_case.dart';
 import 'features/category_list/presentation/cubit/category_list_cubit.dart';
 import 'features/home/data/datasources/home_info_local_data_source.dart';
 import 'features/home/data/repositories/home_info_repository_impl.dart';
-import 'features/home/domain/repositories/quote_repository.dart';
+import 'features/home/domain/repositories/home_info_repository.dart';
 import 'features/home/domain/usecases/get_home_info.dart';
 import 'features/home/presentation/cubit/home_info_cubit.dart';
 import 'features/splash/data/datasources/lang_local_data_source.dart';
@@ -82,7 +82,7 @@ Future<void> init() async {
 
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
-    () => GetHomeInfo(quoteRepository: sl()),
+    () => GetHomeInfo(homeInfoRepository: sl()),
   );
   sl.registerLazySingleton<GetSavedLangUseCase>(
     () => GetSavedLangUseCase(langRepository: sl()),
