@@ -113,12 +113,36 @@ class DatabaseHelper {
           .reduce((sum, price) => sum + price);
     }
 
+    // 30 days expense
+    DateTime nowDate = DateTime.now().subtract(const Duration(days: 30));
+    int thirtyDaysDate = nowDate.millisecondsSinceEpoch;
+    final thirtyDaysResult =
+        expenses.values.where((element) => element['date'] >= thirtyDaysDate);
+    int thirtyDaysPrice = 0;
+    if (thirtyDaysResult.isNotEmpty) {
+      thirtyDaysPrice = thirtyDaysResult
+          .map((e) => e['price'])
+          .reduce((sum, price) => sum + price);
+    }
+
+    // 3 month expense
+    nowDate = DateTime.now().subtract(const Duration(days: 90));
+    int threeMonthDate = nowDate.millisecondsSinceEpoch;
+    final threeMonthResult =
+        expenses.values.where((element) => element['date'] >= threeMonthDate);
+    int threeMonthPrice = 0;
+    if (threeMonthResult.isNotEmpty) {
+      threeMonthPrice = threeMonthResult
+          .map((e) => e['price'])
+          .reduce((sum, price) => sum + price);
+    }
+
     return {
       'expenseByCategory': list,
       'todayPrice': todayPrice,
       'monthPrice': monthPrice,
-      'thirtyDaysPrice': 1,
-      'ninetyDaysPrice': 1
+      'thirtyDaysPrice': thirtyDaysPrice,
+      'ninetyDaysPrice': threeMonthPrice
     };
   }
 }

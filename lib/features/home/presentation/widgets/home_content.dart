@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../core/utils/app_colors.dart';
 
@@ -31,16 +32,23 @@ class HomeContent extends StatelessWidget {
   }
 
   Container reportGeneral(double height) {
+    final jalali = Jalali.now();
     return Container(
       padding: const EdgeInsets.all(12),
       height: height * .3,
       child: Column(
         children: [
-          reportGeneralItem('هزینه امروز', homeInfoList.todayPrice),
+          reportGeneralItem(
+            'هزینه امروز (${jalali.formatShortMonthDay()})',
+            homeInfoList.todayPrice,
+          ),
           const SizedBox(
             height: 12,
           ),
-          reportGeneralItem('هزینه ماه', homeInfoList.monthPrice),
+          reportGeneralItem(
+            'هزینه ماه (${jalali.formatter.mN})',
+            homeInfoList.monthPrice,
+          ),
           const SizedBox(
             height: 12,
           ),

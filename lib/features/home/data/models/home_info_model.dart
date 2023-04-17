@@ -32,5 +32,9 @@ class HomeInfoModel extends HomeInfoEntity {
           (expenseByCategory as List<ExpenseByCategoryModel>)
               .map((x) => x.toJson()),
         ),
+        'todayPrice': todayPrice,
+        'monthPrice': monthPrice,
+        'thirtyDaysPrice': thirtyDaysPrice,
+        'ninetyDaysPrice': ninetyDaysPrice,
       };
 }

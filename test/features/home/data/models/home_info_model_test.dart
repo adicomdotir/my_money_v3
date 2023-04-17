@@ -26,6 +26,10 @@ void main() {
             'color': color2,
           },
         ],
+        'todayPrice': 1,
+        'monthPrice': 1,
+        'thirtyDaysPrice': 1,
+        'ninetyDaysPrice': 1,
       };
       const expectedModel = HomeInfoModel(
         expenseByCategory: [
@@ -40,6 +44,10 @@ void main() {
             color: color2,
           ),
         ],
+        todayPrice: 1,
+        monthPrice: 1,
+        thirtyDaysPrice: 1,
+        ninetyDaysPrice: 1,
       );
 
       // Act
@@ -63,6 +71,10 @@ void main() {
       );
       const model = HomeInfoModel(
         expenseByCategory: [expense1, expense2],
+        todayPrice: 1,
+        monthPrice: 1,
+        thirtyDaysPrice: 1,
+        ninetyDaysPrice: 1,
       );
       final expectedJson = {
         'expenseByCategory': [
@@ -77,6 +89,10 @@ void main() {
             'color': color2,
           },
         ],
+        'todayPrice': 1,
+        'monthPrice': 1,
+        'thirtyDaysPrice': 1,
+        'ninetyDaysPrice': 1,
       };
 
       // Act
