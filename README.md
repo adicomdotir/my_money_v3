@@ -1,2 +1,6 @@
 # My Money V3
-### (Start version with Java in Android Native, Other version with Kotlin with MVP Pattern in Android Native, Version 2 with simple flutter and Now Version 3 with flutter and Clean Architecture)
+
+- Begin with a version using Java in Android Native. 
+- Create a second version using Kotlin with MVP Pattern in Android Native. 
+- Version 2 was a simple flutter version. 
+- Now create Version 3 with flutter and Clean Architecture.
