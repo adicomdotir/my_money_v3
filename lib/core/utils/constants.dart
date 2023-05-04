@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 class Constants {
   static void showErrorDialog({
     required BuildContext context,

@@ -6,7 +6,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../splash/presentation/cubit/locale_cubit.dart';
 import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
@@ -49,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         } else {
-          return Center(
+          return const Center(
             child: Text(
               'color: AppColors.primary',
             ),

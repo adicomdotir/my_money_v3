@@ -23,24 +23,24 @@ class AddEditExpenseCubit extends Cubit<AddEditExpenseState> {
 
   Future<void> addExpense(Expense expense) async {
     emit(AddEditExpenseIsLoading());
-    Either<Failure, dynamic> response =
+    Either<Failure, void> response =
         await addEditExpenseUseCase(ExpenseParams(expense));
     emit(
       response.fold(
         (failure) => AddEditExpenseError(msg: _mapFailureToMsg(failure)),
-        (id) => AddEditExpenseSuccess(id: id),
+        (_) => const AddEditExpenseSuccess(),
       ),
     );
   }
 
   Future<void> editExpense(Expense expense) async {
     emit(AddEditExpenseIsLoading());
-    Either<Failure, dynamic> response =
+    Either<Failure, void> response =
         await addEditExpenseUseCase(ExpenseParams(expense));
     emit(
       response.fold(
         (failure) => AddEditExpenseError(msg: _mapFailureToMsg(failure)),
-        (id) => AddEditExpenseSuccess(id: id),
+        (_) => const AddEditExpenseSuccess(),
       ),
     );
   }

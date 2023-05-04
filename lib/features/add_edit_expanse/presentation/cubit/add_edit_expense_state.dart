@@ -30,12 +30,10 @@ class AddEditExpenseLoadCategories extends AddEditExpenseState {
 }
 
 class AddEditExpenseSuccess extends AddEditExpenseState {
-  final int id;
-
-  const AddEditExpenseSuccess({required this.id});
+  const AddEditExpenseSuccess();
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [];
 }
 
 class AddEditExpenseError extends AddEditExpenseState {

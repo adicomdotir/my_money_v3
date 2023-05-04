@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/add_edit_category/data/datasources/category_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_category/data/repositories/category_repository_impl.dart';
@@ -21,10 +19,6 @@ import 'package:my_money_v3/features/expanse_list/domain/usecases/delete_expense
 import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
 import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/api/api_consumer.dart';
-import 'core/api/app_interceptors.dart';
-import 'core/api/dio_consumer.dart';
-import 'core/network/netwok_info.dart';
 import 'features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
 import 'features/category_list/data/datasources/category_list_local_data_source.dart';
 import 'features/category_list/data/repositories/category_list_repository_impl.dart';
@@ -123,7 +117,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseRepository>(
     () => ExpenseRepositoryImpl(
-      networkInfo: sl(),
       expenseRemoteDataSource: sl(),
       expenseLocalDataSource: sl(),
     ),
@@ -149,7 +142,7 @@ Future<void> init() async {
     () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
   );
   sl.registerLazySingleton<ExpenseRemoteDataSource>(
-    () => ExpenseRemoteDataSourceImpl(apiConsumer: sl()),
+    () => ExpenseRemoteDataSourceImpl(),
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
@@ -161,27 +154,8 @@ Future<void> init() async {
     () => CategoryListLocalDataSourceImpl(databaseHelper: sl()),
   );
 
-  //! Core
-  sl.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImpl(connectionChecker: sl()),
-  );
-  sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(client: sl()));
-
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => AppIntercepters());
-  sl.registerLazySingleton(
-    () => LogInterceptor(
-      request: true,
-      requestBody: true,
-      requestHeader: true,
-      responseBody: true,
-      responseHeader: true,
-      error: true,
-    ),
-  );
-  sl.registerLazySingleton(() => InternetConnectionChecker());
-  sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => DatabaseHelper());
 }

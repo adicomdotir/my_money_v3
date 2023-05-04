@@ -45,7 +45,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
           );
         } else if (state is AddEditCategoryLoaded) {
           return Column(
-            children: [],
+            children: const [],
           );
         } else if (state is AddEditCategorySuccess) {
           // Navigator.pop(context);
@@ -56,7 +56,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             category: category,
           );
         } else {
-          return AddEditCategoryContent(
+          return const AddEditCategoryContent(
             categories: [],
           );
         }

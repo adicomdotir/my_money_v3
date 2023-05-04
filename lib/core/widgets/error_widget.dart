@@ -27,13 +27,19 @@ class ErrorWidget extends StatelessWidget {
           child: Text(
             AppLocalizations.of(context)!.translate('something_went_wrong')!,
             style: const TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         Text(
           AppLocalizations.of(context)!.translate('try_again')!,
           style: TextStyle(
-              color: AppColors.hint, fontSize: 18, fontWeight: FontWeight.w500),
+            color: AppColors.hint,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         Container(
           height: 55,
@@ -41,17 +47,20 @@ class ErrorWidget extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 15),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                foregroundColor: Theme.of(context).primaryColor,
-                backgroundColor: AppColors.primary,
-                elevation: 500,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50))),
+              foregroundColor: Theme.of(context).primaryColor,
+              backgroundColor: AppColors.primary,
+              elevation: 500,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+            ),
             child: Text(
               AppLocalizations.of(context)!.translate('reload_screen')!,
               style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             onPressed: () {
               if (onPress != null) {

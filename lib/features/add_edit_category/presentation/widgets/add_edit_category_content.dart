@@ -8,10 +8,10 @@ import 'package:my_money_v3/core/utils/opposite_color.dart';
 import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
-  Category? category;
-  List<Category> categories;
+  final Category? category;
+  final List<Category> categories;
 
-  AddEditCategoryContent({
+  const AddEditCategoryContent({
     Key? key,
     this.category,
     required this.categories,

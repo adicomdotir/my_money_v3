@@ -4,17 +4,13 @@ import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expense_r
 import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
 import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/network/netwok_info.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository {
-  final NetworkInfo networkInfo;
   final ExpenseRemoteDataSource expenseRemoteDataSource;
   final ExpenseLocalDataSource expenseLocalDataSource;
 
   ExpenseRepositoryImpl({
-    required this.networkInfo,
     required this.expenseRemoteDataSource,
     required this.expenseLocalDataSource,
   });

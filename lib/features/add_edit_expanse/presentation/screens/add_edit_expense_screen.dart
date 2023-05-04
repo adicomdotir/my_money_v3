@@ -29,12 +29,13 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
   }
 
   Widget _buildBodyContent() {
+    // _getCategories();
     return BlocBuilder<AddEditExpenseCubit, AddEditExpenseState>(
       builder: ((context, state) {
         if (state is AddEditExpenseIsLoading) {
           return Center(
             child: SpinKitFadingCircle(
-              color: AppColors.primary,
+              color: Theme.of(context).primaryColor,
             ),
           );
         } else if (state is AddEditExpenseError) {
@@ -44,10 +45,10 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         } else if (state is AddEditExpenseLoaded) {
           return Column(
             children: [
-              AddEditExpenseContent(
-                expense: state.expense,
-                categories: [],
-              ),
+              // AddEditExpenseContent(
+              //   expense: state.expense,
+              //   categories: [],
+              // ),
               InkWell(
                 onTap: () {},
                 child: Container(

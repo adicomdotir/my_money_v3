@@ -1,12 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-
-import '../../../../core/utils/app_colors.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({

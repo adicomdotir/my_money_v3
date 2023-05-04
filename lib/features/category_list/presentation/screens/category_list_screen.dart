@@ -3,7 +3,6 @@ import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_money_v3/features/add_edit_category/domain/usecases/get_categories_use_case.dart';
 
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -30,8 +29,6 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   Widget _buildBodyContent() {
     return BlocBuilder<CategoryListCubit, CategoryListState>(
       builder: (context, state) {
-        print('888888888888888888');
-        print(state);
         if (state is CategoryListIsLoading) {
           return Center(
             child: SpinKitFadingCircle(
