@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
+import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
 
 import '../../../../core/domain/entities/category.dart';
-import '../cubit/category_list_cubit.dart';
 
 class CategoryListContent extends StatefulWidget {
   final List<Category> categories;
@@ -60,7 +60,7 @@ class CategoryCard extends StatelessWidget {
           Routes.addEditCategoryRoute,
           arguments: {'category': category},
         ).whenComplete(() {
-          BlocProvider.of<CategoryListCubit>(context).getCategories();
+          BlocProvider.of<CategoryCubit>(context).getCategories();
         });
       },
       child: Card(
@@ -90,7 +90,7 @@ class CategoryCard extends StatelessWidget {
                       onPressed: () async {
                         await showDeleteDialog(context).then((value) {
                           if (value != null && value) {
-                            BlocProvider.of<CategoryListCubit>(context)
+                            BlocProvider.of<CategoryCubit>(context)
                                 .deleteCategory(category.id);
                           }
                         });

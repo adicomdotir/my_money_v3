@@ -2,10 +2,8 @@ import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../config/locale/app_localizations.dart';
-import '../../../../core/utils/app_colors.dart';
 import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
@@ -30,10 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<HomeInfoCubit, HomeInfoState>(
       builder: (context, state) {
         if (state is HomeInfoIsLoading) {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.primary,
-            ),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         } else if (state is HomeInfoError) {
           return error_widget.ErrorWidget(

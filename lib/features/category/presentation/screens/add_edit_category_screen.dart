@@ -2,12 +2,10 @@ import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_money_v3/features/add_edit_category/presentation/widgets/add_edit_category_content.dart';
+import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
+import 'package:my_money_v3/features/category/presentation/widgets/add_edit_category_content.dart';
 
 import '../../../../config/locale/app_localizations.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../cubit/add_edit_category_cubit.dart';
 
 class AddEditCategoryScreen extends StatefulWidget {
   const AddEditCategoryScreen({Key? key}) : super(key: key);
@@ -21,46 +19,35 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
 
   @override
   void initState() {
-    context.read<AddEditCategoryCubit>().getCategories();
+    // context.read<CategoryCubit>().getCategories();
     super.initState();
   }
 
   Widget _buildBodyContent() {
-    return BlocConsumer<AddEditCategoryCubit, AddEditCategoryState>(
+    return BlocConsumer<CategoryCubit, CategoryState>(
       listener: (context, state) {
-        if (state is AddEditCategorySuccess) {
+        if (state is CategoryAddOrEditSuccess) {
           Navigator.pop(context);
         }
       },
-      builder: ((context, state) {
-        if (state is AddEditCategoryIsLoading) {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: AppColors.primary,
-            ),
+      builder: (context, state) {
+        print(state);
+        if (state is CategoryIsLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        } else if (state is AddEditCategoryError) {
+        } else if (state is CategoryError) {
           return error_widget.ErrorWidget(
             onPress: () {},
           );
-        } else if (state is AddEditCategoryLoaded) {
-          return Column(
-            children: const [],
-          );
-        } else if (state is AddEditCategorySuccess) {
-          // Navigator.pop(context);
-          return Container();
-        } else if (state is AddEditCategoryListLoaded) {
-          return AddEditCategoryContent(
-            categories: state.categories,
-            category: category,
-          );
-        } else {
+        } else if (state is CategoryInitial) {
           return const AddEditCategoryContent(
             categories: [],
           );
+        } else {
+          return const Text('Unknown');
         }
-      }),
+      },
     );
   }
 

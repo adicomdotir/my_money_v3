@@ -5,7 +5,7 @@ import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/core/utils/opposite_color.dart';
-import 'package:my_money_v3/features/add_edit_category/presentation/cubit/add_edit_category_cubit.dart';
+import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
@@ -26,7 +26,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   Category _parentCategory = const Category(
     id: '-1',
     parentId: '-1',
-    title: 'Empty',
+    title: 'خالی',
     color: 'color',
   );
   List<Category> categories = [];
@@ -168,7 +168,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                   title: _controller.text,
                   color: colorStr,
                 );
-                context.read<AddEditCategoryCubit>().addCategory(tmpCategory);
+                context.read<CategoryCubit>().addCategory(tmpCategory);
               } else {
                 final tmpCategory = Category(
                   id: widget.category!.id,
@@ -176,7 +176,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                   title: _controller.text,
                   color: colorStr,
                 );
-                context.read<AddEditCategoryCubit>().editCategory(tmpCategory);
+                context.read<CategoryCubit>().editCategory(tmpCategory);
               }
             },
             child: widget.category == null

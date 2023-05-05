@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:my_money_v3/features/add_edit_category/data/datasources/category_local_data_source.dart';
 import 'package:my_money_v3/core/data/models/category_model.dart';
 import 'package:my_money_v3/core/domain/entities/category.dart';
-import 'package:my_money_v3/features/add_edit_category/domain/repositories/category_repository.dart';
 
 import '../../../../core/error/failures.dart';
+import '../../domain/repositories/category_repository.dart';
+import '../datasources/category_local_data_source.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryLocalDataSource categoryLocalDataSource;

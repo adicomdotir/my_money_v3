@@ -1,13 +1,12 @@
-import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_money_v3/features/add_edit_expanse/presentation/widgets/add_edit_expense_content.dart';
 
 import '../../../../config/locale/app_localizations.dart';
+import '../../../../core/domain/entities/expense.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../cubit/add_edit_expense_cubit.dart';
+import '../widgets/add_edit_expense_content.dart';
 
 class AddEditExpenseScreen extends StatefulWidget {
   const AddEditExpenseScreen({Key? key}) : super(key: key);
@@ -33,10 +32,8 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     return BlocBuilder<AddEditExpenseCubit, AddEditExpenseState>(
       builder: ((context, state) {
         if (state is AddEditExpenseIsLoading) {
-          return Center(
-            child: SpinKitFadingCircle(
-              color: Theme.of(context).primaryColor,
-            ),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         } else if (state is AddEditExpenseError) {
           return error_widget.ErrorWidget(
