@@ -7,11 +7,13 @@ import '../cubit/categories_drop_down_cubit.dart';
 import '../../../../injection_container.dart' as di;
 
 class CategoriesDropDownWidget extends StatefulWidget {
-  final void Function(Category) onSelected;
+  final void Function(String) onSelected;
+  final String value;
 
   const CategoriesDropDownWidget({
     super.key,
     required this.onSelected,
+    required this.value,
   });
 
   @override
@@ -19,10 +21,11 @@ class CategoriesDropDownWidget extends StatefulWidget {
 }
 
 class _CategoriesDropDownState extends State<CategoriesDropDownWidget> {
-  Category? selectedCategory;
+  String? selectedId;
 
   @override
   void initState() {
+    selectedId = widget.value;
     super.initState();
   }
 
@@ -35,6 +38,21 @@ class _CategoriesDropDownState extends State<CategoriesDropDownWidget> {
           if (state is CategoriesDropDownLoading) {
             return const CircularProgressIndicator();
           } else if (state is CategoriesDropDownLoaded) {
+            final dropDownList = state.categories.map<DropdownMenuItem<String>>(
+              (Category value) {
+                return DropdownMenuItem<String>(
+                  value: value.id,
+                  child: Text(value.title),
+                );
+              },
+            ).toList();
+            dropDownList.insert(
+              0,
+              const DropdownMenuItem(
+                value: '',
+                child: Text(''),
+              ),
+            );
             return InputDecorator(
               decoration: InputDecoration(
                 labelText:
@@ -48,25 +66,18 @@ class _CategoriesDropDownState extends State<CategoriesDropDownWidget> {
                 ),
               ),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton<Category>(
-                  value: selectedCategory,
+                child: DropdownButton<String>(
+                  value: selectedId,
                   icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 24,
                   elevation: 16,
-                  onChanged: (Category? newValue) {
+                  onChanged: (String? newValue) {
                     setState(() {
-                      selectedCategory = newValue;
+                      selectedId = newValue;
                     });
                     widget.onSelected(newValue!);
                   },
-                  items: state.categories.map<DropdownMenuItem<Category>>(
-                    (Category value) {
-                      return DropdownMenuItem<Category>(
-                        value: value,
-                        child: Text(value.title),
-                      );
-                    },
-                  ).toList(),
+                  items: dropDownList,
                 ),
               ),
             );

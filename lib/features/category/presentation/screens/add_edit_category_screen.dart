@@ -40,8 +40,8 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
             onPress: () {},
           );
         } else if (state is CategoryInitial) {
-          return const AddEditCategoryContent(
-            categories: [],
+          return AddEditCategoryContent(
+            category: category,
           );
         } else {
           return const Text('Unknown');

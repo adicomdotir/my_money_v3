@@ -10,12 +10,10 @@ import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/categ
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
-  final List<Category> categories;
 
   const AddEditCategoryContent({
     Key? key,
     this.category,
-    required this.categories,
   }) : super(key: key);
 
   @override
@@ -24,30 +22,11 @@ class AddEditCategoryContent extends StatefulWidget {
 
 class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   final TextEditingController _controller = TextEditingController();
-  Category _parentCategory = const Category(
-    id: '-1',
-    parentId: '-1',
-    title: 'خالی',
-    color: 'color',
-  );
-  List<Category> categories = [];
   String colorStr = '';
+  String? parentId;
 
   @override
   void initState() {
-    categories.add(_parentCategory);
-    categories.addAll(widget.categories);
-    if (widget.category != null) {
-      _controller.text = widget.category?.title ?? '';
-      colorStr = widget.category?.color ?? '';
-      if (widget.category!.parentId != '-1') {
-        for (var category in categories) {
-          if (category.id == widget.category!.parentId) {
-            _parentCategory = category;
-          }
-        }
-      }
-    }
     super.initState();
   }
 
@@ -59,6 +38,8 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.text = widget.category?.title ?? '';
+    debugPrint(widget.category?.parentId);
     return Container(
       margin: const EdgeInsets.all(20),
       child: Column(
@@ -76,8 +57,9 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             height: 16,
           ),
           CategoriesDropDownWidget(
+            value: widget.category?.parentId ?? '',
             onSelected: (selectedValue) {
-              _parentCategory = selectedValue;
+              parentId = selectedValue;
             },
           ),
           const SizedBox(
@@ -127,11 +109,10 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           ),
           ElevatedButton(
             onPressed: () {
-              String parentId = _parentCategory.id;
               if (widget.category == null) {
                 final tmpCategory = Category(
                   id: idGenerator(),
-                  parentId: parentId,
+                  parentId: parentId ?? '',
                   title: _controller.text,
                   color: colorStr,
                 );
@@ -139,7 +120,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
               } else {
                 final tmpCategory = Category(
                   id: widget.category!.id,
-                  parentId: parentId,
+                  parentId: parentId ?? '',
                   title: _controller.text,
                   color: colorStr,
                 );
