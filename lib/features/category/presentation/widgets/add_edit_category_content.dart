@@ -27,6 +27,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
 
   @override
   void initState() {
+    _controller.text = widget.category?.title ?? '';
     super.initState();
   }
 
@@ -38,7 +39,6 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.text = widget.category?.title ?? '';
     debugPrint(widget.category?.parentId);
     return Container(
       margin: const EdgeInsets.all(20),
