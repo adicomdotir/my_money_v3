@@ -50,7 +50,10 @@ class _CategoriesDropDownState extends State<CategoriesDropDownWidget> {
               0,
               const DropdownMenuItem(
                 value: '',
-                child: Text(''),
+                child: Text(
+                  'انتخاب کنید',
+                  style: TextStyle(color: Colors.grey),
+                ),
               ),
             );
             return InputDecorator(
