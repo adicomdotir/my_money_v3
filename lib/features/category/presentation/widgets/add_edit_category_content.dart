@@ -6,6 +6,7 @@ import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/core/domain/entities/category.dart';
 import 'package:my_money_v3/core/utils/opposite_color.dart';
 import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
+import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
@@ -74,44 +75,10 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           const SizedBox(
             height: 16,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!
-                        .translate('parent_category')!,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 0.0,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<Category>(
-                      value: _parentCategory,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (Category? newValue) {
-                        _parentCategory = newValue!;
-                        setState(() {});
-                      },
-                      items: categories.map<DropdownMenuItem<Category>>(
-                        (Category value) {
-                          return DropdownMenuItem<Category>(
-                            value: value,
-                            child: Text(value.title),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          CategoriesDropDownWidget(
+            onSelected: (selectedValue) {
+              _parentCategory = selectedValue;
+            },
           ),
           const SizedBox(
             height: 16,

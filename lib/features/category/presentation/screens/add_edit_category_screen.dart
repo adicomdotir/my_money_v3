@@ -31,7 +31,6 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
         }
       },
       builder: (context, state) {
-        print(state);
         if (state is CategoryIsLoading) {
           return const Center(
             child: CircularProgressIndicator(),

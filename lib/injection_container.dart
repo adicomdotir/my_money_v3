@@ -11,6 +11,7 @@ import 'package:my_money_v3/features/expanse_list/domain/repositories/expense_li
 import 'package:my_money_v3/features/expanse_list/domain/usecases/delete_expense_use_case.dart';
 import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
 import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
+import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
 import 'features/category/data/datasources/category_list_local_data_source.dart';
@@ -65,6 +66,11 @@ Future<void> init() async {
     () => ExpenseListCubit(
       expenseListUseCase: sl(),
       deleteExpenseUseCase: sl(),
+    ),
+  );
+  sl.registerFactory<CategoriesDropDownCubit>(
+    () => CategoriesDropDownCubit(
+      categoryListUseCase: sl(),
     ),
   );
 
