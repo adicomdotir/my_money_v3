@@ -5,6 +5,6 @@ import '../../../../core/error/failures.dart';
 
 abstract class ExpenseRepository {
   Future<Either<Failure, void>> addExpense(ExpenseModel expenseModel);
-  Future<Either<Failure, List<Expense>>> getExpenses();
+  Future<Either<Failure, List<Expense>>> getExpenses([int? jalali]);
   Future<Either<Failure, void>> deleteExpense(String id);
 }

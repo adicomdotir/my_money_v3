@@ -36,7 +36,7 @@ class _ExpenseListContentState extends State<ExpenseListContent> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(16),
         child: ListView.builder(
           itemCount: widget.expenses.length,
           itemBuilder: (context, index) {

@@ -5,7 +5,6 @@ import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/features/expense/domain/usecases/add_edit_expense_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../domain/usecases/delete_expense_use_case.dart';
 import '../../domain/usecases/expense_list_use_case.dart';
@@ -23,10 +22,10 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     required this.addEditExpenseUseCase,
   }) : super(ExpenseInitial());
 
-  Future<void> getExpenses() async {
+  Future<void> getExpenses([int? jalali]) async {
     emit(ExpenseIsLoading());
     Either<Failure, List<Expense>> response =
-        await expenseListUseCase(NoParams());
+        await expenseListUseCase(GetExpensesParams(jalali));
     emit(
       response.fold(
         (failure) => ExpenseError(msg: _mapFailureToMsg(failure)),

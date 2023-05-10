@@ -27,8 +27,8 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
   }
 
   @override
-  Future<Either<Failure, List<Expense>>> getExpenses() async {
-    final result = await expenseLocalDataSource.getExpenses();
+  Future<Either<Failure, List<Expense>>> getExpenses([int? jalali]) async {
+    final result = await expenseLocalDataSource.getExpenses(jalali);
     return Right(result);
   }
 
