@@ -1,19 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:my_money_v3/core/db/db.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/repositories/expense_repository_impl.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/usecases/add_edit_expense_use_case.dart';
-import 'package:my_money_v3/features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
-import 'package:my_money_v3/features/expanse_list/data/datasources/expnese_list_local_data_source.dart';
-import 'package:my_money_v3/features/expanse_list/data/repositories/expense_list_repository_impl.dart';
-import 'package:my_money_v3/features/expanse_list/domain/repositories/expense_list_repository.dart';
-import 'package:my_money_v3/features/expanse_list/domain/usecases/delete_expense_use_case.dart';
-import 'package:my_money_v3/features/expanse_list/domain/usecases/expense_list_use_case.dart';
-import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
-import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
+
+import 'package:my_money_v3/core/db/db.dart';
+import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
+
 import 'features/category/data/datasources/category_list_local_data_source.dart';
 import 'features/category/data/datasources/category_local_data_source.dart';
 import 'features/category/data/repositories/category_list_repository_impl.dart';
@@ -25,6 +15,15 @@ import 'features/category/domain/usecases/category_list_use_case.dart';
 import 'features/category/domain/usecases/delete_category_use_case.dart';
 import 'features/category/domain/usecases/get_categories_use_case.dart';
 import 'features/category/presentation/cubit/category_cubit.dart';
+import 'features/expense/data/datasources/expense_remote_data_source.dart';
+import 'features/expense/data/datasources/expnese_local_data_source.dart';
+import 'features/expense/data/repositories/expense_repository_impl.dart';
+import 'features/expense/domain/repositories/expense_repository.dart';
+import 'features/expense/domain/usecases/add_edit_expense_use_case.dart';
+import 'features/expense/domain/usecases/delete_expense_use_case.dart';
+import 'features/expense/domain/usecases/expense_list_use_case.dart';
+import 'features/expense/presentation/cubit/add_edit_expense_cubit.dart';
+import 'features/expense/presentation/cubit/expense_list_cubit.dart';
 import 'features/home/data/datasources/home_info_local_data_source.dart';
 import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/home_info_repository.dart';
@@ -94,10 +93,10 @@ Future<void> init() async {
     () => AddEditExpenseUseCase(expenseRepository: sl()),
   );
   sl.registerLazySingleton<ExpenseListUseCase>(
-    () => ExpenseListUseCase(expenseListRepository: sl()),
+    () => ExpenseListUseCase(expenseRepository: sl()),
   );
   sl.registerLazySingleton<DeleteExpenseUseCase>(
-    () => DeleteExpenseUseCase(expenseListRepository: sl()),
+    () => DeleteExpenseUseCase(expenseRepository: sl()),
   );
   sl.registerLazySingleton<CategoryListUseCase>(
     () => CategoryListUseCase(categoryListRepository: sl()),
@@ -124,9 +123,6 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
   );
-  sl.registerLazySingleton<ExpenseListRepository>(
-    () => ExpenseListRepositoryImpl(expenseListLocalDataSource: sl()),
-  );
   sl.registerLazySingleton<CategoryListRepository>(
     () => CategoryListRepositoryImpl(categoryListLocalDataSource: sl()),
   );
@@ -146,9 +142,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<ExpenseListLocalDataSource>(
-    () => ExpenseListLocalDataSourceImpl(databaseHelper: sl()),
   );
   sl.registerLazySingleton<CategoryListLocalDataSource>(
     () => CategoryListLocalDataSourceImpl(databaseHelper: sl()),
