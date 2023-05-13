@@ -1,9 +1,9 @@
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/features/expanse_list/presentation/cubit/expense_list_cubit.dart';
 
 import '../../../../config/locale/app_localizations.dart';
+import '../cubit/expense_list_cubit.dart';
 import '../widgets/expense_list_content.dart';
 
 class ExpenseListScreen extends StatefulWidget {

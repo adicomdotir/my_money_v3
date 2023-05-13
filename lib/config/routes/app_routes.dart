@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/utils/app_strings.dart';
-import '../../features/add_edit_expanse/presentation/cubit/add_edit_expense_cubit.dart';
-import '../../features/add_edit_expanse/presentation/screens/add_edit_expense_screen.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
 import '../../features/category/presentation/screens/add_edit_category_screen.dart';
 import '../../features/category/presentation/screens/category_list_screen.dart';
-import '../../features/expanse_list/presentation/cubit/expense_list_cubit.dart';
-import '../../features/expanse_list/presentation/screens/expense_list_screen.dart';
+import '../../features/expense/presentation/cubit/add_edit_expense_cubit.dart';
+import '../../features/expense/presentation/cubit/expense_list_cubit.dart';
+import '../../features/expense/presentation/screens/add_edit_expense_screen.dart';
+import '../../features/expense/presentation/screens/expense_list_screen.dart';
 import '../../features/home/presentation/cubit/home_info_cubit.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';

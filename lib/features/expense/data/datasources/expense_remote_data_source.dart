@@ -9,9 +9,6 @@ class ExpenseRemoteDataSourceImpl implements ExpenseRemoteDataSource {
 
   @override
   Future<ExpenseModel> getExpense() async {
-    // final response = await apiConsumer.get(
-    //   EndPoints.randomExpense,
-    // );
     return ExpenseModel.fromJson(const {});
   }
 }

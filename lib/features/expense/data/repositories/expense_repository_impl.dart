@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/core/data/models/expense_model.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expense_remote_data_source.dart';
-import 'package:my_money_v3/features/add_edit_expanse/data/datasources/expnese_local_data_source.dart';
-import 'package:my_money_v3/features/add_edit_expanse/domain/repositories/expense_repository.dart';
 
+import '../../../../core/domain/entities/expense.dart';
 import '../../../../core/error/failures.dart';
+import '../../domain/repositories/expense_repository.dart';
+import '../datasources/expense_remote_data_source.dart';
+import '../datasources/expnese_local_data_source.dart';
 
 class ExpenseRepositoryImpl implements ExpenseRepository {
   final ExpenseRemoteDataSource expenseRemoteDataSource;
@@ -24,14 +25,16 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       return Left(DatabaseFailure());
     }
   }
-  //   else {
-  //     try {
-  //       final cacheRandomExpense =
-  //           await randomExpenseLocalDataSource.getLastRandomExpense();
-  //       return Right(cacheRandomExpense);
-  //     } on CacheException {
-  //       return Left(CacheFailure());
-  //     }
-  //   }
-  // }
+
+  @override
+  Future<Either<Failure, List<Expense>>> getExpenses() async {
+    final result = await expenseLocalDataSource.getExpenses();
+    return Right(result);
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteExpense(String id) async {
+    final result = await expenseLocalDataSource.deleteExpense(id);
+    return Right(result);
+  }
 }

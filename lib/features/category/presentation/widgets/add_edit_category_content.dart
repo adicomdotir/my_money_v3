@@ -81,6 +81,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                             colorStr,
                             style: TextStyle(
                               color: generateOppositeColor(colorStr),
+                              fontFamily: 'Roboto',
                             ),
                           ),
                         )
@@ -146,7 +147,7 @@ Future<String?> colorDialog(BuildContext context) {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppLocalizations.of(context)!.translate('delete_question')!),
+            const Text('رنگ مورد نظر را انتخاب کنید'),
             const SizedBox(
               height: 16,
             ),
@@ -194,4 +195,5 @@ const appColorList = [
   '#FF5722',
   '#795548',
   '#9E9E9E',
+  '#607D8B',
 ];
