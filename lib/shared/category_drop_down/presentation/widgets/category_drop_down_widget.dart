@@ -6,21 +6,21 @@ import '../../../../core/domain/entities/category.dart';
 import '../cubit/categories_drop_down_cubit.dart';
 import '../../../../injection_container.dart' as di;
 
-class CategoriesDropDownWidget extends StatefulWidget {
+class CategoryDropDownWidget extends StatefulWidget {
   final void Function(String) onSelected;
   final String value;
 
-  const CategoriesDropDownWidget({
+  const CategoryDropDownWidget({
     super.key,
     required this.onSelected,
     required this.value,
   });
 
   @override
-  State<CategoriesDropDownWidget> createState() => _CategoriesDropDownState();
+  State<CategoryDropDownWidget> createState() => _CategoriesDropDownState();
 }
 
-class _CategoriesDropDownState extends State<CategoriesDropDownWidget> {
+class _CategoriesDropDownState extends State<CategoryDropDownWidget> {
   String? selectedId;
 
   @override

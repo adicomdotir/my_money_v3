@@ -6,8 +6,7 @@ import '../../core/utils/app_strings.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
 import '../../features/category/presentation/screens/add_edit_category_screen.dart';
 import '../../features/category/presentation/screens/category_list_screen.dart';
-import '../../features/expense/presentation/cubit/add_edit_expense_cubit.dart';
-import '../../features/expense/presentation/cubit/expense_list_cubit.dart';
+import '../../features/expense/presentation/cubit/expense_cubit.dart';
 import '../../features/expense/presentation/screens/add_edit_expense_screen.dart';
 import '../../features/expense/presentation/screens/expense_list_screen.dart';
 import '../../features/home/presentation/cubit/home_info_cubit.dart';
@@ -45,7 +44,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: ((context) {
             return BlocProvider(
-              create: ((context) => di.sl<AddEditExpenseCubit>()),
+              create: ((context) => di.sl<ExpenseCubit>()),
               child: const AddEditExpenseScreen(),
             );
           }),
@@ -65,7 +64,7 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: ((context) {
             return BlocProvider(
-              create: ((context) => di.sl<ExpenseListCubit>()),
+              create: ((context) => di.sl<ExpenseCubit>()),
               child: const ExpenseListScreen(),
             );
           }),

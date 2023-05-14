@@ -22,8 +22,7 @@ import 'features/expense/domain/repositories/expense_repository.dart';
 import 'features/expense/domain/usecases/add_edit_expense_use_case.dart';
 import 'features/expense/domain/usecases/delete_expense_use_case.dart';
 import 'features/expense/domain/usecases/expense_list_use_case.dart';
-import 'features/expense/presentation/cubit/add_edit_expense_cubit.dart';
-import 'features/expense/presentation/cubit/expense_list_cubit.dart';
+import 'features/expense/presentation/cubit/expense_cubit.dart';
 import 'features/home/data/datasources/home_info_local_data_source.dart';
 import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/home_info_repository.dart';
@@ -48,12 +47,6 @@ Future<void> init() async {
   sl.registerFactory<LocaleCubit>(
     () => LocaleCubit(getSavedLangUseCase: sl(), changeLangUseCase: sl()),
   );
-  sl.registerFactory<AddEditExpenseCubit>(
-    () => AddEditExpenseCubit(
-      addEditExpenseUseCase: sl(),
-      getCategoriesUseCase: sl(),
-    ),
-  );
   sl.registerFactory<CategoryCubit>(
     () => CategoryCubit(
       addCategoryUseCase: sl(),
@@ -61,10 +54,11 @@ Future<void> init() async {
       deleteCategoryUseCase: sl(),
     ),
   );
-  sl.registerFactory<ExpenseListCubit>(
-    () => ExpenseListCubit(
+  sl.registerFactory<ExpenseCubit>(
+    () => ExpenseCubit(
       expenseListUseCase: sl(),
       deleteExpenseUseCase: sl(),
+      addEditExpenseUseCase: sl(),
     ),
   );
   sl.registerFactory<CategoriesDropDownCubit>(

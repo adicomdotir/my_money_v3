@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
@@ -45,6 +46,8 @@ class DatabaseHelper {
   Future<List<dynamic>> getExpenses() async {
     Box<dynamic> categories = await Hive.openBox('categories');
     Box<dynamic> expenses = await Hive.openBox('expenses');
+    debugPrint(categories.toString());
+    debugPrint(expenses.toString());
     for (var element in expenses.values) {
       final map = categories.get(element['categoryId']);
       element['category'] = map;

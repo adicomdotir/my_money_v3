@@ -11,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../core/utils/numeric_text_formatter.dart';
-import '../cubit/add_edit_expense_cubit.dart';
+import '../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import '../cubit/expense_cubit.dart';
 
 class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
@@ -111,39 +112,9 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
           Row(
             children: [
               Expanded(
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context)!.translate('category')!,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 0.0,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<Category>(
-                      value: selectedCategory,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      onChanged: (Category? newValue) {
-                        setState(() {
-                          selectedCategory = newValue;
-                        });
-                      },
-                      items: widget.categories.map<DropdownMenuItem<Category>>(
-                        (Category value) {
-                          return DropdownMenuItem<Category>(
-                            value: value,
-                            child: Text(value.title),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
+                child: CategoryDropDownWidget(
+                  onSelected: (newValue) {},
+                  value: '',
                 ),
               ),
               const SizedBox(
@@ -182,7 +153,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   categoryId: selectedCategory?.id ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
-                context.read<AddEditExpenseCubit>().addExpense(expense);
+                context.read<ExpenseCubit>().addExpense(expense);
               } else {
                 final expense = Expense(
                   id: widget.expense!.id,
@@ -191,7 +162,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   categoryId: selectedCategory?.id ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
-                context.read<AddEditExpenseCubit>().editExpense(expense);
+                context.read<ExpenseCubit>().editExpense(expense);
               }
             },
             child: widget.expense == null

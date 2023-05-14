@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../core/domain/entities/expense.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../cubit/add_edit_expense_cubit.dart';
+import '../cubit/expense_cubit.dart';
 import '../widgets/add_edit_expense_content.dart';
 
 class AddEditExpenseScreen extends StatefulWidget {
@@ -18,24 +18,20 @@ class AddEditExpenseScreen extends StatefulWidget {
 class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
   Expense? expense;
 
-  _getCategories() =>
-      BlocProvider.of<AddEditExpenseCubit>(context).getCategories();
-
   @override
   void initState() {
-    _getCategories();
     super.initState();
   }
 
   Widget _buildBodyContent() {
     // _getCategories();
-    return BlocBuilder<AddEditExpenseCubit, AddEditExpenseState>(
+    return BlocBuilder<ExpenseCubit, ExpenseState>(
       builder: ((context, state) {
-        if (state is AddEditExpenseIsLoading) {
+        if (state is ExpenseIsLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is AddEditExpenseError) {
+        } else if (state is ExpenseError) {
           return error_widget.ErrorWidget(
             onPress: () {},
           );
@@ -63,14 +59,6 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
                 ),
               ),
             ],
-          );
-        } else if (state is AddEditExpenseSuccess) {
-          Navigator.pop(context);
-          return Container();
-        } else if (state is AddEditExpenseLoadCategories) {
-          return AddEditExpenseContent(
-            categories: state.categories,
-            expense: expense,
           );
         } else {
           return const AddEditExpenseContent(

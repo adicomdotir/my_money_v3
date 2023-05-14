@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/locale/app_localizations.dart';
-import '../cubit/expense_list_cubit.dart';
+import '../cubit/expense_cubit.dart';
 import '../widgets/expense_list_content.dart';
 
 class ExpenseListScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class ExpenseListScreen extends StatefulWidget {
 }
 
 class _ExpenseListScreenState extends State<ExpenseListScreen> {
-  _getExpenses() => BlocProvider.of<ExpenseListCubit>(context).getExpenses();
+  _getExpenses() => BlocProvider.of<ExpenseCubit>(context).getExpenses();
 
   @override
   void initState() {
@@ -23,17 +23,17 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   }
 
   Widget _buildBodyContent() {
-    return BlocBuilder<ExpenseListCubit, ExpenseListState>(
+    return BlocBuilder<ExpenseCubit, ExpenseState>(
       builder: ((context, state) {
-        if (state is ExpenseListIsLoading) {
+        if (state is ExpenseIsLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is ExpenseListError) {
+        } else if (state is ExpenseError) {
           return error_widget.ErrorWidget(
             onPress: () {},
           );
-        } else if (state is ExpenseListLoaded) {
+        } else if (state is ExpenseLoaded) {
           return Column(
             children: [
               ExpenseListContent(
@@ -41,7 +41,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               ),
             ],
           );
-        } else if (state is ExpenseListDeleteSuccess) {
+        } else if (state is ExpenseDeleteSuccess) {
           _getExpenses();
           return Container();
         } else {

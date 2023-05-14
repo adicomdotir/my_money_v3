@@ -7,7 +7,7 @@ import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
 import '../../../../core/domain/entities/expense.dart';
-import '../cubit/expense_list_cubit.dart';
+import '../cubit/expense_cubit.dart';
 
 class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
@@ -107,7 +107,7 @@ class ExpenseCard extends StatelessWidget {
                           onPressed: () async {
                             await showDeleteDialog(context).then((value) {
                               if (value != null && value) {
-                                BlocProvider.of<ExpenseListCubit>(context)
+                                BlocProvider.of<ExpenseCubit>(context)
                                     .deleteExpense(expense.id);
                               }
                             });

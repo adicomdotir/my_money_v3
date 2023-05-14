@@ -57,7 +57,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           const SizedBox(
             height: 16,
           ),
-          CategoriesDropDownWidget(
+          CategoryDropDownWidget(
             value: widget.category?.parentId ?? '',
             onSelected: (selectedValue) {
               parentId = selectedValue;
