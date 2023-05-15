@@ -3,16 +3,16 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/domain/usecases/usecase.dart';
-import '../repositories/category_list_repository.dart';
+import '../repositories/category_repository.dart';
 
 class DeleteCategoryUseCase implements UseCase<void, DeleteCategoryParams> {
-  final CategoryListRepository categoryListRepository;
+  final CategoryRepository categoryRepository;
 
-  DeleteCategoryUseCase({required this.categoryListRepository});
+  DeleteCategoryUseCase({required this.categoryRepository});
 
   @override
   Future<Either<Failure, void>> call(DeleteCategoryParams params) =>
-      categoryListRepository.deleteCategory(params.id);
+      categoryRepository.deleteCategory(params.id);
 }
 
 class DeleteCategoryParams extends Equatable {

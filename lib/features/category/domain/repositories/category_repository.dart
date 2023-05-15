@@ -6,4 +6,5 @@ import '../../../../core/error/failures.dart';
 abstract class CategoryRepository {
   Future<Either<Failure, String>> addEditCategory(CategoryModel categoryModel);
   Future<Either<Failure, List<Category>>> getCategories();
+  Future<Either<Failure, void>> deleteCategory(String id);
 }

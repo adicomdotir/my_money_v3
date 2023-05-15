@@ -27,25 +27,9 @@ class CategoryRepositoryImpl implements CategoryRepository {
     return Right(result);
   }
 
-  // @override
-  // Future<Either<Failure, Expense>> getExpense() async {
-  //   // if (await networkInfo.isConnected) {
-  //   try {
-  //     final remoteRandomExpense = await expenseRemoteDataSource.getExpense();
-  //     expenseLocalDataSource.cacheExpense(remoteRandomExpense);
-  //     return Right(remoteRandomExpense);
-  //   } on ServerException {
-  //     return Left(ServerFailure());
-  //   }
-  // }
-  //   else {
-  //     try {
-  //       final cacheRandomExpense =
-  //           await randomExpenseLocalDataSource.getLastRandomExpense();
-  //       return Right(cacheRandomExpense);
-  //     } on CacheException {
-  //       return Left(CacheFailure());
-  //     }
-  //   }
-  // }
+  @override
+  Future<Either<Failure, void>> deleteCategory(String id) async {
+    final result = await categoryLocalDataSource.deleteCategory(id);
+    return Right(result);
+  }
 }

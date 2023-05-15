@@ -4,11 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 
-import 'features/category/data/datasources/category_list_local_data_source.dart';
 import 'features/category/data/datasources/category_local_data_source.dart';
-import 'features/category/data/repositories/category_list_repository_impl.dart';
 import 'features/category/data/repositories/category_repository_impl.dart';
-import 'features/category/domain/repositories/category_list_repository.dart';
 import 'features/category/domain/repositories/category_repository.dart';
 import 'features/category/domain/usecases/add_category_use_case.dart';
 import 'features/category/domain/usecases/category_list_use_case.dart';
@@ -93,10 +90,10 @@ Future<void> init() async {
     () => DeleteExpenseUseCase(expenseRepository: sl()),
   );
   sl.registerLazySingleton<CategoryListUseCase>(
-    () => CategoryListUseCase(categoryListRepository: sl()),
+    () => CategoryListUseCase(categoryRepository: sl()),
   );
   sl.registerLazySingleton<DeleteCategoryUseCase>(
-    () => DeleteCategoryUseCase(categoryListRepository: sl()),
+    () => DeleteCategoryUseCase(categoryRepository: sl()),
   );
 
   // Repository
@@ -117,9 +114,6 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
   );
-  sl.registerLazySingleton<CategoryListRepository>(
-    () => CategoryListRepositoryImpl(categoryListLocalDataSource: sl()),
-  );
 
   // Data Sources
   sl.registerLazySingleton<HomeInfoLocalDataSource>(
@@ -136,9 +130,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<CategoryListLocalDataSource>(
-    () => CategoryListLocalDataSourceImpl(databaseHelper: sl()),
   );
 
   //! External
