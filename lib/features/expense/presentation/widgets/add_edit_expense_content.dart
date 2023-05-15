@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/domain/entities/expense.dart';
-import 'package:my_money_v3/core/utils/date_format.dart';
-import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/core/domain/entities/category.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
+import '../../../../config/locale/app_localizations.dart';
+import '../../../../config/routes/app_routes.dart';
+import '../../../../core/domain/entities/category.dart';
+import '../../../../core/domain/entities/expense.dart';
+import '../../../../core/utils/date_format.dart';
+import '../../../../core/utils/id_generator.dart';
 import '../../../../core/utils/numeric_text_formatter.dart';
+import '../../../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import '../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
 import '../cubit/expense_cubit.dart';
 
@@ -126,7 +126,12 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamed(Routes.addEditCategoryRoute);
+                  Navigator.of(context)
+                      .pushNamed(Routes.addEditCategoryRoute)
+                      .then((value) {
+                    BlocProvider.of<CategoriesDropDownCubit>(context)
+                        .getCategories();
+                  });
                 },
                 child: Container(
                   width: 48,

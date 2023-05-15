@@ -12,6 +12,7 @@ import '../../features/expense/presentation/screens/expense_list_screen.dart';
 import '../../features/home/presentation/cubit/home_info_cubit.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -43,8 +44,15 @@ class AppRoutes {
       case Routes.addEditExpanseRoute:
         return MaterialPageRoute(
           builder: ((context) {
-            return BlocProvider(
-              create: ((context) => di.sl<ExpenseCubit>()),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: ((context) => di.sl<ExpenseCubit>()),
+                ),
+                BlocProvider(
+                  create: ((context) => di.sl<CategoriesDropDownCubit>()),
+                ),
+              ],
               child: const AddEditExpenseScreen(),
             );
           }),
@@ -53,8 +61,15 @@ class AppRoutes {
       case Routes.addEditCategoryRoute:
         return MaterialPageRoute(
           builder: ((context) {
-            return BlocProvider(
-              create: ((context) => di.sl<CategoryCubit>()),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: ((context) => di.sl<CategoryCubit>()),
+                ),
+                BlocProvider(
+                  create: ((context) => di.sl<CategoriesDropDownCubit>()),
+                ),
+              ],
               child: const AddEditCategoryScreen(),
             );
           }),
