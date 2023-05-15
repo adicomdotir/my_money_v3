@@ -76,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.expenseListRoute);
+                  Navigator.pushNamed(context, Routes.expenseListRoute)
+                      .then((value) => _getHomeInfo());
                 },
                 child: ListTile(
                   trailing: const Icon(Icons.arrow_forward_outlined),
@@ -91,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, Routes.categoryListRoute);
+                  Navigator.pushNamed(context, Routes.categoryListRoute)
+                      .then((value) => _getHomeInfo());
                 },
                 child: ListTile(
                   trailing: const Icon(Icons.arrow_forward_outlined),
@@ -110,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
         body: _buildBodyContent(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushNamed(context, Routes.addEditExpanseRoute);
+            Navigator.pushNamed(context, Routes.addEditExpanseRoute)
+                .then((value) => _getHomeInfo());
           },
           label: Text(AppLocalizations.of(context)!.translate('add_expense')!),
           icon: const Icon(Icons.add),
