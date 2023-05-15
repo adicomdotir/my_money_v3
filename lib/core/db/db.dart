@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
@@ -46,15 +45,18 @@ class DatabaseHelper {
   Future<List<dynamic>> getExpenses() async {
     Box<dynamic> categories = await Hive.openBox('categories');
     Box<dynamic> expenses = await Hive.openBox('expenses');
-    debugPrint(categories.toString());
-    debugPrint(expenses.toString());
     for (var element in expenses.values) {
       final map = categories.get(element['categoryId']);
       element['category'] = map;
+      element['categoryId'] = map['id'];
     }
     final result = expenses.values.toList();
     result.sort((a, b) {
-      return b['date'] - a['date'];
+      int comp = b['date'] - a['date'];
+      if (comp == 0) {
+        return int.parse(b['id']) - int.parse(a['id']);
+      }
+      return comp;
     });
     return result;
   }

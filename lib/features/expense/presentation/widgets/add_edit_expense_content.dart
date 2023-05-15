@@ -31,7 +31,7 @@ class AddEditExpenseContent extends StatefulWidget {
 class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _priceCtrl = TextEditingController();
-  Category? selectedCategory;
+  String? selectedCategoryId;
   Jalali? selectedDate;
 
   @override
@@ -41,7 +41,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
     if (widget.expense != null) {
       _titleCtrl.text = widget.expense!.title;
       _priceCtrl.text = widget.expense!.price.toString();
-      selectedCategory = widget.expense!.category;
+      selectedCategoryId = widget.expense!.categoryId;
     }
   }
 
@@ -113,7 +113,11 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
             children: [
               Expanded(
                 child: CategoryDropDownWidget(
-                  onSelected: (newValue) {},
+                  onSelected: (newValue) {
+                    setState(() {
+                      selectedCategoryId = newValue;
+                    });
+                  },
                   value: '',
                 ),
               ),
@@ -150,7 +154,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   id: idGenerator(),
                   title: _titleCtrl.text,
                   date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                  categoryId: selectedCategory?.id ?? '',
+                  categoryId: selectedCategoryId ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
                 context.read<ExpenseCubit>().addExpense(expense);
@@ -159,7 +163,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   id: widget.expense!.id,
                   title: _titleCtrl.text,
                   date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                  categoryId: selectedCategory?.id ?? '',
+                  categoryId: selectedCategoryId ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
                 context.read<ExpenseCubit>().editExpense(expense);

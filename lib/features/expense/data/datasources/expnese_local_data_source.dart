@@ -26,7 +26,9 @@ class ExpenseLocalDataSourceImpl implements ExpenseLocalDataSource {
   Future<List<ExpenseModel>> getExpenses() async {
     final result = await databaseHelper.getExpenses();
     return result.map<ExpenseModel>((e) {
-      return ExpenseModel.fromJson(jsonDecode(jsonEncode(e)));
+      return ExpenseModel.fromJson(
+        jsonDecode(jsonEncode(e)) as Map<String, dynamic>,
+      );
     }).toList();
   }
 

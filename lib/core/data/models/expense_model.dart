@@ -18,14 +18,16 @@ class ExpenseModel extends Expense {
           category: categoryModel,
         );
 
-  factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
-        id: json['id'],
-        title: json['title'],
-        categoryId: json['categoryId'],
-        date: json['date'],
-        price: json['price'],
-        categoryModel: CategoryModel.fromJson(json['category']),
-      );
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) {
+    return ExpenseModel(
+      id: json['id'],
+      title: json['title'],
+      categoryId: json['categoryId'],
+      date: json['date'],
+      price: json['price'],
+      categoryModel: CategoryModel.fromJson(json['category']),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,
