@@ -5,7 +5,7 @@ import 'package:my_money_v3/core/db/db.dart';
 
 abstract class ExpenseLocalDataSource {
   Future<void> addExpense(ExpenseModel expenseModel);
-  Future<List<ExpenseModel>> getExpenses([int? jalali]);
+  Future<List<ExpenseModel>> getExpenses([int? jalali, int? toDate]);
   Future<void> deleteExpense(String id);
 }
 
@@ -23,8 +23,8 @@ class ExpenseLocalDataSourceImpl implements ExpenseLocalDataSource {
   }
 
   @override
-  Future<List<ExpenseModel>> getExpenses([int? jalali]) async {
-    final result = await databaseHelper.getExpenses(jalali);
+  Future<List<ExpenseModel>> getExpenses([int? fromDate, int? toDate]) async {
+    final result = await databaseHelper.getExpenses(fromDate, toDate);
     return result.map<ExpenseModel>((e) {
       return ExpenseModel.fromJson(
         jsonDecode(jsonEncode(e)) as Map<String, dynamic>,

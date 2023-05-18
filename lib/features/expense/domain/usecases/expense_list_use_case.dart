@@ -13,14 +13,15 @@ class ExpenseListUseCase implements UseCase<List<Expense>, GetExpensesParams> {
 
   @override
   Future<Either<Failure, List<Expense>>> call(GetExpensesParams params) =>
-      expenseRepository.getExpenses(params.jalali);
+      expenseRepository.getExpenses(params.fromDate, params.toDate);
 }
 
 class GetExpensesParams extends Equatable {
-  final int? jalali;
+  final int? fromDate;
+  final int? toDate;
 
-  const GetExpensesParams([this.jalali]);
+  const GetExpensesParams([this.fromDate, this.toDate]);
 
   @override
-  List<Object?> get props => [jalali];
+  List<Object?> get props => [fromDate, toDate];
 }

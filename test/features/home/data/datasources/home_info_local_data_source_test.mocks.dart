@@ -85,10 +85,17 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
   @override
-  _i3.Future<List<dynamic>> getExpenses() => (super.noSuchMethod(
+  _i3.Future<List<dynamic>> getExpenses([
+    int? fromDate,
+    int? toDate,
+  ]) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getExpenses,
-          [],
+          [
+            fromDate,
+            toDate,
+          ],
         ),
         returnValue: _i3.Future<List<dynamic>>.value(<dynamic>[]),
       ) as _i3.Future<List<dynamic>>);

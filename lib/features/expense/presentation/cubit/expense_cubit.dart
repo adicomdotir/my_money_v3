@@ -22,10 +22,10 @@ class ExpenseCubit extends Cubit<ExpenseState> {
     required this.addEditExpenseUseCase,
   }) : super(ExpenseInitial());
 
-  Future<void> getExpenses([int? jalali]) async {
+  Future<void> getExpenses([int? fromDate, int? toDate]) async {
     emit(ExpenseIsLoading());
     Either<Failure, List<Expense>> response =
-        await expenseListUseCase(GetExpensesParams(jalali));
+        await expenseListUseCase(GetExpensesParams(fromDate, toDate));
     emit(
       response.fold(
         (failure) => ExpenseError(msg: _mapFailureToMsg(failure)),

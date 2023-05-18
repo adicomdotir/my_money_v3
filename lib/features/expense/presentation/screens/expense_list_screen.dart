@@ -20,8 +20,8 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   int btnSelectIdx = 3;
   final Jalali _jalali = Jalali.now();
   ScrollController? _scrollController;
-  _getExpenses([int? jalali]) =>
-      BlocProvider.of<ExpenseCubit>(context).getExpenses(jalali);
+  _getExpenses([int? fromDate, int? toDate]) =>
+      BlocProvider.of<ExpenseCubit>(context).getExpenses(fromDate, toDate);
 
   @override
   void initState() {
@@ -67,12 +67,17 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           setState(() {
                             btnSelectIdx = 0;
                           });
-                          int jalali = Jalali(
+                          int fromDate = Jalali(
                             _jalali.year,
                             _jalali.month,
                             _jalali.day,
                           ).toDateTime().millisecondsSinceEpoch;
-                          _getExpenses(jalali);
+                          int toDate = Jalali(
+                            _jalali.year,
+                            _jalali.month,
+                            _jalali.day + 1,
+                          ).toDateTime().millisecondsSinceEpoch;
+                          _getExpenses(fromDate, toDate);
                         },
                       ),
                       topBtn(
@@ -84,6 +89,23 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           setState(() {
                             btnSelectIdx = 1;
                           });
+                          int fromDate = Jalali(
+                            _jalali.year,
+                            _jalali.month,
+                            1,
+                          )
+                              .toDateTime()
+                              .subtract(Duration(days: _jalali.weekDay - 1))
+                              .millisecondsSinceEpoch;
+                          int toDate = Jalali(
+                            _jalali.year,
+                            _jalali.month,
+                            _jalali.monthLength,
+                          )
+                              .toDateTime()
+                              .add(Duration(days: 7 - _jalali.weekDay + 1))
+                              .millisecondsSinceEpoch;
+                          _getExpenses(fromDate, toDate);
                         },
                       ),
                       topBtn(
@@ -95,6 +117,17 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           setState(() {
                             btnSelectIdx = 2;
                           });
+                          int fromDate = Jalali(
+                            _jalali.year,
+                            _jalali.month,
+                            1,
+                          ).toDateTime().millisecondsSinceEpoch;
+                          int toDate = Jalali(
+                            _jalali.year,
+                            _jalali.month,
+                            _jalali.monthLength,
+                          ).toDateTime().millisecondsSinceEpoch;
+                          _getExpenses(fromDate, toDate);
                         },
                       ),
                       topBtn(
@@ -188,11 +221,14 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               setState(() {
                 selectedIdx = index;
               });
-
-              int jalali = Jalali(_jalali.year, _jalali.month, selectedIdx + 1)
+              int fromDate =
+                  Jalali(_jalali.year, _jalali.month, selectedIdx + 1)
+                      .toDateTime()
+                      .millisecondsSinceEpoch;
+              int toDate = Jalali(_jalali.year, _jalali.month, selectedIdx + 2)
                   .toDateTime()
                   .millisecondsSinceEpoch;
-              _getExpenses(jalali);
+              _getExpenses(fromDate, toDate);
             },
             child: CircleAvatar(
               backgroundColor:

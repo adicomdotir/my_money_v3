@@ -42,11 +42,13 @@ class DatabaseHelper {
     return await categories.delete(id);
   }
 
-  Future<List<dynamic>> getExpenses([int? jalali]) async {
+  Future<List<dynamic>> getExpenses([int? fromDate, int? toDate]) async {
     Box<dynamic> categories = await Hive.openBox('categories');
     Box<dynamic> expenses = await Hive.openBox('expenses');
-    Iterable<dynamic> filteredExpenses = jalali != null
-        ? expenses.values.where((element) => element['date'] == jalali)
+    Iterable<dynamic> filteredExpenses = fromDate != null
+        ? expenses.values.where(
+            (elm) => elm['date'] >= fromDate && elm['date'] < toDate,
+          )
         : expenses.values;
     for (var element in filteredExpenses) {
       final map = categories.get(element['categoryId']);
