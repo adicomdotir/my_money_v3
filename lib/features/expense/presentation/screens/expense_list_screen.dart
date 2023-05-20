@@ -32,7 +32,15 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   }
 
   Widget _buildBodyContent() {
-    return BlocBuilder<ExpenseCubit, ExpenseState>(
+    return BlocConsumer<ExpenseCubit, ExpenseState>(
+      listener: (context, state) {
+        if (state is ExpenseDeleteSuccess) {
+          setState(() {
+            btnSelectIdx = 3;
+          });
+          _getExpenses();
+        }
+      },
       builder: ((context, state) {
         if (state is ExpenseIsLoading) {
           return const Center(
@@ -81,7 +89,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                         },
                       ),
                       topBtn(
-                        title: 'هفته اخیر',
+                        title: 'این هفته',
                         selected: btnSelectIdx == 1,
                         isLeft: false,
                         isRight: false,
@@ -92,7 +100,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           int fromDate = Jalali(
                             _jalali.year,
                             _jalali.month,
-                            1,
+                            _jalali.day,
                           )
                               .toDateTime()
                               .subtract(Duration(days: _jalali.weekDay - 1))
@@ -100,7 +108,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           int toDate = Jalali(
                             _jalali.year,
                             _jalali.month,
-                            _jalali.monthLength,
+                            _jalali.day,
                           )
                               .toDateTime()
                               .add(Duration(days: 7 - _jalali.weekDay + 1))
@@ -152,9 +160,6 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               ),
             ],
           );
-        } else if (state is ExpenseDeleteSuccess) {
-          // _getExpenses(Jalali(_jalali.year, _jalali.month, _jalali.day));
-          return Container();
         } else {
           return const ExpenseListContent(
             expenses: [],
