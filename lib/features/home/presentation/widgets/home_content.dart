@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import '../../../../config/routes/app_routes.dart';
+import '../cubit/home_info_cubit.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({
@@ -80,12 +84,25 @@ class HomeContent extends StatelessWidget {
       height: height * .7,
       padding: const EdgeInsets.all(12),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'هزینه های این ماه با دسته بندی',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'هزینه های این ماه با دسته بندی',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.expenseListRoute).then(
+                    (value) =>
+                        BlocProvider.of<HomeInfoCubit>(context).getHomeInfo(),
+                  );
+                },
+                child: const Text('مشاهده همه'),
+              )
+            ],
           ),
           const SizedBox(
             height: 16,
