@@ -145,6 +145,8 @@ class DatabaseHelper {
           .reduce((sum, price) => sum + price);
     }
 
+    getReport();
+
     return {
       'expenseByCategory': list,
       'todayPrice': todayPrice,
@@ -152,5 +154,46 @@ class DatabaseHelper {
       'thirtyDaysPrice': thirtyDaysPrice,
       'ninetyDaysPrice': threeMonthPrice
     };
+  }
+
+  Future<List<dynamic>> getReport() async {
+    Box<dynamic> categories = await Hive.openBox('categories');
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+
+    var sortedExpenses = expenses.values.toList();
+    sortedExpenses.sort((a, b) {
+      int comp = b['date'] - a['date'];
+      return comp;
+    });
+
+    Map<String, dynamic> map = {};
+    for (var expense in sortedExpenses) {
+      final jalali = Jalali.fromDateTime(
+        DateTime.fromMillisecondsSinceEpoch(expense['date']),
+      );
+      final key = '${jalali.year}/${jalali.month}';
+      if (map.containsKey(key)) {
+        final get = map[key];
+        int count = get['price'];
+        get['price'] = count + expense['price'];
+        final catExpenses = (get['catExpenseList'] as Map<String, dynamic>);
+        if (catExpenses.containsKey(expense['categoryId'])) {
+          catExpenses[expense['categoryId'].toString()] =
+              catExpenses[expense['categoryId'].toString()] + expense['price'];
+        } else {
+          catExpenses[expense['categoryId'].toString()] = expense['price'];
+        }
+      } else {
+        map[key] = {
+          'price': expense['price'],
+          'catExpenseList': {
+            expense['categoryId'].toString(): expense['price'],
+          }
+        };
+      }
+    }
+    print(map);
+
+    return [];
   }
 }

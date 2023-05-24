@@ -1,4 +1,3 @@
-import 'package:my_money_v3/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,16 +10,20 @@ import '../../features/expense/presentation/screens/add_edit_expense_screen.dart
 import '../../features/expense/presentation/screens/expense_list_screen.dart';
 import '../../features/home/presentation/cubit/home_info_cubit.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/report/presentation/bloc/report_bloc.dart';
+import '../../features/report/presentation/screen/report_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
+import '../../injection_container.dart' as di;
 import '../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 
 class Routes {
   static const String initialRoute = '/';
-  static const String homeRoute = '/homeRoute';
-  static const String addEditExpanseRoute = '/addEditExpanseRoute';
-  static const String addEditCategoryRoute = '/addEditCategoryRoute';
-  static const String expenseListRoute = '/expenseListRoute';
-  static const String categoryListRoute = '/categoryListRoute';
+  static const String homeRoute = '/home_route';
+  static const String addEditExpanseRoute = '/add_edit_expanse_route';
+  static const String addEditCategoryRoute = '/add_edit_category_route';
+  static const String expenseListRoute = '/expense_list_route';
+  static const String categoryListRoute = '/category_list_route';
+  static const String reportRoute = '/report_route';
 }
 
 class AppRoutes {
@@ -90,6 +93,15 @@ class AppRoutes {
             return BlocProvider(
               create: ((context) => di.sl<CategoryCubit>()),
               child: const CategoryListScreen(),
+            );
+          }),
+        );
+      case Routes.reportRoute:
+        return MaterialPageRoute(
+          builder: ((context) {
+            return BlocProvider(
+              create: (context) => di.sl<ReportBloc>(),
+              child: const ReportScreen(),
             );
           }),
         );
