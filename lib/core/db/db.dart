@@ -156,7 +156,7 @@ class DatabaseHelper {
     };
   }
 
-  Future<List<dynamic>> getReport() async {
+  Future<List<Map<String, dynamic>>> getReport() async {
     Box<dynamic> categories = await Hive.openBox('categories');
     Box<dynamic> expenses = await Hive.openBox('expenses');
 
@@ -166,34 +166,55 @@ class DatabaseHelper {
       return comp;
     });
 
-    Map<String, dynamic> map = {};
+    final categoriesMap = {};
+    for (var category in categories.values) {
+      categoriesMap[category['id'].toString()] = category['title'];
+    }
+
+    List<Map<String, dynamic>> resultList = [];
     for (var expense in sortedExpenses) {
       final jalali = Jalali.fromDateTime(
         DateTime.fromMillisecondsSinceEpoch(expense['date']),
       );
       final key = '${jalali.year}/${jalali.month}';
-      if (map.containsKey(key)) {
-        final get = map[key];
-        int count = get['price'];
-        get['price'] = count + expense['price'];
-        final catExpenses = (get['catExpenseList'] as Map<String, dynamic>);
-        if (catExpenses.containsKey(expense['categoryId'])) {
-          catExpenses[expense['categoryId'].toString()] =
-              catExpenses[expense['categoryId'].toString()] + expense['price'];
-        } else {
-          catExpenses[expense['categoryId'].toString()] = expense['price'];
-        }
-      } else {
-        map[key] = {
-          'price': expense['price'],
-          'catExpenseList': {
-            expense['categoryId'].toString(): expense['price'],
+      bool keyExist = false;
+      for (var item in resultList) {
+        if (item['monthName'] == key) {
+          keyExist = true;
+          final get = item;
+          int count = get['sumPrice'];
+          get['sumPrice'] = count + expense['price'];
+          final catExpenses = (get['catExpenseList'] as List<dynamic>);
+          bool exist = false;
+          for (var cExp in catExpenses) {
+            if (cExp['id'] == expense['categoryId']) {
+              cExp['price'] = cExp['price'] + expense['price'];
+              exist = true;
+            }
           }
-        };
+          if (exist == false) {
+            catExpenses.add({
+              'id': expense['categoryId'],
+              'title': categoriesMap[expense['categoryId'].toString()],
+              'price': expense['price'],
+            });
+          }
+        }
+      }
+      if (keyExist == false) {
+        resultList.add({
+          'monthName': key,
+          'sumPrice': expense['price'],
+          'catExpenseList': [
+            {
+              'id': expense['categoryId'],
+              'title': categoriesMap[expense['categoryId'].toString()],
+              'price': expense['price'],
+            }
+          ]
+        });
       }
     }
-    print(map);
-
-    return [];
+    return resultList;
   }
 }

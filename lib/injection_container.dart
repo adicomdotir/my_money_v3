@@ -1,4 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
+import 'package:my_money_v3/features/report/data/repository/report_repository_impl.dart';
+import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
+import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
+import 'package:my_money_v3/features/report/presentation/bloc/report_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my_money_v3/core/db/db.dart';
@@ -63,6 +68,9 @@ Future<void> init() async {
       categoryListUseCase: sl(),
     ),
   );
+  sl.registerFactory<ReportBloc>(
+    () => ReportBloc(getReportUseCase: sl()),
+  );
 
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
@@ -95,6 +103,9 @@ Future<void> init() async {
   sl.registerLazySingleton<DeleteCategoryUseCase>(
     () => DeleteCategoryUseCase(categoryRepository: sl()),
   );
+  sl.registerLazySingleton<GetReportUseCase>(
+    () => GetReportUseCase(reportRepository: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<HomeInfoRepository>(
@@ -114,6 +125,9 @@ Future<void> init() async {
   sl.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
   );
+  sl.registerLazySingleton<ReportRepository>(
+    () => ReportRepositoryImpl(reportDataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<HomeInfoLocalDataSource>(
@@ -130,6 +144,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<ReportDataSource>(
+    () => ReportDataSourceImpl(databaseHelper: sl()),
   );
 
   //! External

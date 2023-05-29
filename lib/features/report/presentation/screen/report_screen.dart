@@ -10,6 +10,7 @@ class ReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ReportBloc>(context).add(GetReportEvent());
     return BlocBuilder<ReportBloc, ReportState>(
       builder: (context, state) {
         return Scaffold(

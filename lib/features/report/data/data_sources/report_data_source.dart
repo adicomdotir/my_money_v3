@@ -13,7 +13,12 @@ class ReportDataSourceImpl extends ReportDataSource {
 
   @override
   Future<List<ReportModel>> getReport() async {
-    databaseHelper.getReport();
-    return [];
+    final result = await databaseHelper.getReport();
+    final data = <ReportModel>[];
+    for (var element in result) {
+      final model = ReportModel.fromMap(element);
+      data.add(model);
+    }
+    return data;
   }
 }
