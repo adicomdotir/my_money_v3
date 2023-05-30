@@ -87,7 +87,7 @@ class ExpenseCard extends StatelessWidget {
                       children: [
                         Text(expense.title),
                         Text(
-                          '${priceFormat(expense.price)} ${AppLocalizations.of(context)!.translate('price_postfix')!}',
+                          '${priceFormat(expense.price)}}',
                         ),
                       ],
                     ),

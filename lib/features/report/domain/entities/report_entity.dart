@@ -1,23 +1,43 @@
-class ReportEnitty {
+import '../../data/model/report_model.dart';
+
+class ReportEntity {
   final String monthName;
   final int sumPrice;
   final List<CatExpense> catExpneseList;
-  ReportEnitty({
+  ReportEntity({
     required this.monthName,
     required this.sumPrice,
     required this.catExpneseList,
   });
 
-  ReportEnitty copyWith({
+  ReportEntity copyWith({
     String? monthName,
     int? sumPrice,
     List<CatExpense>? categories,
   }) {
-    return ReportEnitty(
+    return ReportEntity(
       monthName: monthName ?? this.monthName,
       sumPrice: sumPrice ?? this.sumPrice,
       catExpneseList: categories ?? catExpneseList,
     );
+  }
+
+  static List<ReportEntity> fromModel(List<ReportModel> reports) {
+    final reportEntityList = <ReportEntity>[];
+    for (var report in reports) {
+      final catExpenseList = <CatExpense>[];
+      for (var catExpense in report.catExpneseList) {
+        catExpenseList
+            .add(CatExpense(title: catExpense.title, price: catExpense.price));
+      }
+      final reportEntity = ReportEntity(
+        monthName: report.monthName,
+        sumPrice: report.sumPrice,
+        catExpneseList: catExpenseList,
+      );
+      reportEntityList.add(reportEntity);
+    }
+    return reportEntityList;
   }
 
   @override

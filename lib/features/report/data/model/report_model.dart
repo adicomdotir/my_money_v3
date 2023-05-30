@@ -26,7 +26,7 @@ class ReportModel {
     return <String, dynamic>{
       'monthName': monthName,
       'sumPrice': sumPrice,
-      'categories': catExpneseList.map((x) => x.toMap()).toList(),
+      'catExpenseList': catExpneseList.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -35,8 +35,9 @@ class ReportModel {
       monthName: map['monthName'] as String,
       sumPrice: map['sumPrice'].toInt() as int,
       catExpneseList: List<CatExpenseModel>.from(
-        (map['categories'] as List<int>).map<CatExpenseModel>(
-          (x) => CatExpenseModel.fromMap(x as Map<String, dynamic>),
+        (map['catExpenseList'] as List<Map<String, dynamic>>)
+            .map<CatExpenseModel>(
+          (x) => CatExpenseModel.fromMap(x),
         ),
       ),
     );

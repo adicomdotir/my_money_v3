@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
-import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 
 import '../bloc/report_bloc.dart';
 
@@ -13,55 +12,38 @@ class ReportScreen extends StatelessWidget {
     BlocProvider.of<ReportBloc>(context).add(GetReportEvent());
     return BlocBuilder<ReportBloc, ReportState>(
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(title: const Text('Report')),
-          body: ListView.builder(
-            itemCount: report.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(report[index].monthName),
-                    Text(priceFormat(report[index].sumPrice)),
-                    ...List.generate(
-                      report[index].catExpneseList.length,
-                      (idx) => Text(
-                        '${report[index].catExpneseList[idx].title} :: ${priceFormat(report[index].catExpneseList[idx].price)}',
+        if (state is ReportSuccesState) {
+          return Scaffold(
+            appBar: AppBar(title: const Text('Report')),
+            body: ListView.builder(
+              itemCount: state.reports.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(state.reports[index].monthName),
+                      Text(
+                        priceFormat(state.reports[index].sumPrice),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
+                      ...List.generate(
+                        state.reports[index].catExpneseList.length,
+                        (idx) => Text(
+                          '${state.reports[index].catExpneseList[idx].title} :: ${priceFormat(state.reports[index].catExpneseList[idx].price)}',
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        } else if (state is ReportErrorState) {
+          return Text(state.message);
+        } else {
+          return const Text('No Data');
+        }
       },
     );
   }
 }
-
-List<ReportEnitty> report = [
-  ReportEnitty(
-    monthName: 'monthName',
-    sumPrice: 30000,
-    catExpneseList: [
-      CatExpense(title: 'غذا', price: 10000),
-      CatExpense(title: 'title', price: 10000),
-      CatExpense(title: 'title', price: 10000),
-      CatExpense(title: 'title', price: 10000),
-      CatExpense(title: 'title', price: 10000),
-    ],
-  ),
-  ReportEnitty(
-    monthName: 'monthName2',
-    sumPrice: 310000,
-    catExpneseList: [
-      CatExpense(title: 'title1', price: 10000),
-      CatExpense(title: 'title1', price: 10000),
-      CatExpense(title: 'tit1le1', price: 10000),
-      CatExpense(title: 'tit1le', price: 10000),
-      CatExpense(title: 'tit1le', price: 10000),
-    ],
-  ),
-];

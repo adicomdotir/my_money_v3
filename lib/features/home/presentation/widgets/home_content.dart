@@ -73,7 +73,7 @@ class HomeContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title),
-          Text('${priceFormat(price)} تومان'),
+          Text(priceFormat(price)),
         ],
       ),
     );
@@ -138,7 +138,7 @@ class HomeContent extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '${priceFormat(item.price)} تومان',
+                            priceFormat(item.price),
                           ),
                         ],
                       ),

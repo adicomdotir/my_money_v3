@@ -15,5 +15,5 @@ String priceFormat(int price) {
       .split('')
       .reversed
       .join('');
-  return priceString;
+  return '$priceString تومان';
 }
