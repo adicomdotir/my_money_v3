@@ -32,13 +32,4 @@ class Constants {
       ),
     );
   }
-
-  // static void showToast(
-  //     {required String msg, Color? color, ToastGravity? gravity}) {
-  //   Fluttertoast.showToast(
-  //       toastLength: Toast.LENGTH_LONG,
-  //       msg: msg,
-  //       backgroundColor: color ?? AppColors.primary,
-  //       gravity: gravity ?? ToastGravity.BOTTOM);
-  // }
 }
