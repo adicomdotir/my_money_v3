@@ -24,9 +24,13 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
   }
 
   Widget _buildBodyContent() {
-    // _getCategories();
-    return BlocBuilder<ExpenseCubit, ExpenseState>(
-      builder: ((context, state) {
+    return BlocConsumer<ExpenseCubit, ExpenseState>(
+      listener: (context, state) {
+        if (state is ExpenseAddOrEditSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      builder: (context, state) {
         if (state is ExpenseIsLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -38,10 +42,6 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
         } else if (state is AddEditExpenseLoaded) {
           return Column(
             children: [
-              // AddEditExpenseContent(
-              //   expense: state.expense,
-              //   categories: [],
-              // ),
               InkWell(
                 onTap: () {},
                 child: Container(
@@ -61,11 +61,9 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             ],
           );
         } else {
-          return const AddEditExpenseContent(
-            categories: [],
-          );
+          return const AddEditExpenseContent();
         }
-      }),
+      },
     );
   }
 
