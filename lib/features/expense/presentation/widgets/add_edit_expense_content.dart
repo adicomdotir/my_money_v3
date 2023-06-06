@@ -5,7 +5,6 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../config/locale/app_localizations.dart';
 import '../../../../config/routes/app_routes.dart';
-import '../../../../core/domain/entities/category.dart';
 import '../../../../core/domain/entities/expense.dart';
 import '../../../../core/utils/date_format.dart';
 import '../../../../core/utils/id_generator.dart';
@@ -16,12 +15,10 @@ import '../cubit/expense_cubit.dart';
 
 class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
-  final List<Category> categories;
 
   const AddEditExpenseContent({
     Key? key,
     this.expense,
-    required this.categories,
   }) : super(key: key);
 
   @override
