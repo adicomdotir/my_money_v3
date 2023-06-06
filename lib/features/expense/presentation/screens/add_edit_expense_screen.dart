@@ -61,7 +61,9 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
             ],
           );
         } else {
-          return const AddEditExpenseContent();
+          return AddEditExpenseContent(
+            expense: expense,
+          );
         }
       },
     );

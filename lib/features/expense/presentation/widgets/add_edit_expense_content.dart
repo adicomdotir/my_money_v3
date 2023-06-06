@@ -115,7 +115,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                       selectedCategoryId = newValue;
                     });
                   },
-                  value: '',
+                  value: selectedCategoryId ?? '',
                 ),
               ),
               const SizedBox(
