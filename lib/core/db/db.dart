@@ -39,6 +39,12 @@ class DatabaseHelper {
 
   Future<void> deleteCategory(String id) async {
     Box<dynamic> categories = await Hive.openBox('categories');
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+    for (var element in expenses.values) {
+      if (element['categoryId'] == id) {
+        await expenses.delete(element['id']);
+      }
+    }
     return await categories.delete(id);
   }
 
@@ -152,7 +158,7 @@ class DatabaseHelper {
       'todayPrice': todayPrice,
       'monthPrice': monthPrice,
       'thirtyDaysPrice': thirtyDaysPrice,
-      'ninetyDaysPrice': threeMonthPrice
+      'ninetyDaysPrice': threeMonthPrice,
     };
   }
 
@@ -211,7 +217,7 @@ class DatabaseHelper {
               'title': categoriesMap[expense['categoryId'].toString()],
               'price': expense['price'],
             }
-          ]
+          ],
         });
       }
     }
