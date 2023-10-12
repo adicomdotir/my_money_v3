@@ -60,8 +60,16 @@ class ExpenseCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           Routes.addEditExpanseRoute,
-          arguments: {'expense': expense},
-        );
+          arguments: {
+            'expense': Expense(
+              id: expense.id,
+              title: expense.title,
+              price: expense.price,
+              date: expense.date,
+              categoryId: expense.categoryId,
+            )
+          },
+        ).then((value) => BlocProvider.of<ExpenseCubit>(context).getExpenses());
       },
       child: Card(
         elevation: 2,
