@@ -111,6 +111,17 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
           ),
           ElevatedButton(
             onPressed: () {
+              if (_validateCategory(_controller.text) == false) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'لطفا عنوان را وارد کنید',
+                      style: TextStyle(fontFamily: 'Vazir'),
+                    ),
+                  ),
+                );
+                return;
+              }
               if (widget.category == null) {
                 final tmpCategory = Category(
                   id: idGenerator(),
@@ -132,10 +143,14 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             child: widget.category == null
                 ? Text(AppLocalizations.of(context)!.translate('save')!)
                 : Text(AppLocalizations.of(context)!.translate('update')!),
-          )
+          ),
         ],
       ),
     );
+  }
+
+  bool _validateCategory(String text) {
+    return text.trim().isNotEmpty;
   }
 }
 
