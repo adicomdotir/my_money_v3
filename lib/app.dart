@@ -25,8 +25,16 @@ class MyMoneyApp extends StatelessWidget {
             title: AppStrings.appName,
             locale: state.locale,
             debugShowCheckedModeBanner: false,
-            theme: appTheme(),
-            themeMode: ThemeMode.system,
+            themeMode: ThemeMode.light,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: lightColorScheme,
+              fontFamily: 'Vazir',
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: darkColorScheme,
+            ),
             onGenerateRoute: AppRoutes.onGenerateRoute,
             supportedLocales: AppLocalizationsSetup.supportedLocales,
             localeResolutionCallback:
