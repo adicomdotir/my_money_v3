@@ -27,8 +27,15 @@ class ReportEntity {
     for (var report in reports) {
       final catExpenseList = <CatExpense>[];
       for (var catExpense in report.catExpneseList) {
-        catExpenseList
-            .add(CatExpense(title: catExpense.title, price: catExpense.price));
+        catExpenseList.add(
+          CatExpense(
+            title: catExpense.title,
+            price: catExpense.price,
+            transactionCount: catExpense.transactionCount,
+            percent: catExpense.percent,
+            color: catExpense.color,
+          ),
+        );
       }
       final reportEntity = ReportEntity(
         monthName: report.monthName,
@@ -48,21 +55,35 @@ class ReportEntity {
 class CatExpense {
   final String title;
   final int price;
+  final int transactionCount;
+  final double percent;
+  final String color;
+
   CatExpense({
     required this.title,
     required this.price,
+    required this.transactionCount,
+    required this.percent,
+    required this.color,
   });
 
   CatExpense copyWith({
     String? title,
     int? price,
+    int? transactionCount,
+    double? percent,
+    String? color,
   }) {
     return CatExpense(
       title: title ?? this.title,
       price: price ?? this.price,
+      transactionCount: transactionCount ?? this.transactionCount,
+      percent: percent ?? this.percent,
+      color: color ?? this.color,
     );
   }
 
   @override
-  String toString() => 'Categorie(title: $title, price: $price)';
+  String toString() =>
+      'Categorie(title: $title, price: $price, transactionCount: $transactionCount, percent: $percent, color: $color)';
 }

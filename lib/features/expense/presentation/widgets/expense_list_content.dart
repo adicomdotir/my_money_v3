@@ -67,7 +67,7 @@ class ExpenseCard extends StatelessWidget {
               price: expense.price,
               date: expense.date,
               categoryId: expense.categoryId,
-            )
+            ),
           },
         ).then((value) => BlocProvider.of<ExpenseCubit>(context).getExpenses());
       },
@@ -95,7 +95,7 @@ class ExpenseCard extends StatelessWidget {
                       children: [
                         Text(expense.title),
                         Text(
-                          '${priceFormat(expense.price)}}',
+                          priceFormat(expense.price),
                         ),
                       ],
                     ),
@@ -124,7 +124,7 @@ class ExpenseCard extends StatelessWidget {
                             Icons.delete,
                             color: Colors.red,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],

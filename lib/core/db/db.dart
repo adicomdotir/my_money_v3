@@ -152,7 +152,7 @@ class DatabaseHelper {
       'todayPrice': todayPrice,
       'monthPrice': monthPrice,
       'thirtyDaysPrice': thirtyDaysPrice,
-      'ninetyDaysPrice': threeMonthPrice
+      'ninetyDaysPrice': threeMonthPrice,
     };
   }
 
@@ -167,8 +167,10 @@ class DatabaseHelper {
     });
 
     final categoriesMap = {};
+    final categoriesColorMap = {};
     for (var category in categories.values) {
       categoriesMap[category['id'].toString()] = category['title'];
+      categoriesColorMap[category['id'].toString()] = category['color'];
     }
 
     List<Map<String, dynamic>> resultList = [];
@@ -189,6 +191,7 @@ class DatabaseHelper {
           for (var cExp in catExpenses) {
             if (cExp['id'] == expense['categoryId']) {
               cExp['price'] = cExp['price'] + expense['price'];
+              cExp['transactionCount'] = cExp['transactionCount'] + 1;
               exist = true;
             }
           }
@@ -196,6 +199,8 @@ class DatabaseHelper {
             catExpenses.add({
               'id': expense['categoryId'],
               'title': categoriesMap[expense['categoryId'].toString()],
+              'transactionCount': 1,
+              'color': categoriesColorMap[expense['categoryId'].toString()],
               'price': expense['price'],
             });
           }
@@ -209,12 +214,55 @@ class DatabaseHelper {
             {
               'id': expense['categoryId'],
               'title': categoriesMap[expense['categoryId'].toString()],
+              'transactionCount': 1,
+              'color': categoriesColorMap[expense['categoryId'].toString()],
               'price': expense['price'],
             }
-          ]
+          ],
         });
       }
     }
+
+    // For percent & sort
+    for (var item in resultList) {
+      final catExpenses = (item['catExpenseList'] as List<dynamic>);
+      for (var cExp in catExpenses) {
+        cExp['percent'] = cExp['price'] / item['sumPrice'] * 100;
+      }
+      for (int i = 0; i < catExpenses.length; i++) {
+        final iElement = catExpenses[i];
+        for (int j = 1; j < catExpenses.length; j++) {
+          final jElement = catExpenses[j];
+          if (iElement['percent'] < jElement['percent']) {
+            final tmp = {
+              'id': iElement['id'],
+              'title': iElement['title'],
+              'color': iElement['color'],
+              'price': iElement['price'],
+              'percent': iElement['percent'],
+              'transactionCount': iElement['transactionCount'],
+            };
+            catExpenses[i] = {
+              'id': jElement['id'],
+              'title': jElement['title'],
+              'color': jElement['color'],
+              'price': jElement['price'],
+              'percent': jElement['percent'],
+              'transactionCount': jElement['transactionCount'],
+            };
+            catExpenses[j] = {
+              'id': tmp['id'],
+              'title': tmp['title'],
+              'color': tmp['color'],
+              'price': tmp['price'],
+              'percent': tmp['percent'],
+              'transactionCount': tmp['transactionCount'],
+            };
+          }
+        }
+      }
+    }
+    print(resultList);
     return resultList;
   }
 }

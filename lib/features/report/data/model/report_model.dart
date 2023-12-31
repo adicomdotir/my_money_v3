@@ -56,18 +56,31 @@ class ReportModel {
 class CatExpenseModel {
   final String title;
   final int price;
+  final int transactionCount;
+  final double percent;
+  final String color;
+
   CatExpenseModel({
     required this.title,
     required this.price,
+    required this.transactionCount,
+    required this.percent,
+    required this.color,
   });
 
   CatExpenseModel copyWith({
     String? title,
     int? price,
+    int? transactionCount,
+    double? percent,
+    String? color,
   }) {
     return CatExpenseModel(
       title: title ?? this.title,
       price: price ?? this.price,
+      transactionCount: transactionCount ?? this.transactionCount,
+      percent: percent ?? this.percent,
+      color: color ?? this.color,
     );
   }
 
@@ -75,6 +88,9 @@ class CatExpenseModel {
     return <String, dynamic>{
       'title': title,
       'price': price,
+      'transactionCount': transactionCount,
+      'percent': percent,
+      'color': color,
     };
   }
 
@@ -82,6 +98,9 @@ class CatExpenseModel {
     return CatExpenseModel(
       title: map['title'] as String,
       price: map['price'].toInt() as int,
+      transactionCount: (map['transactionCount'] ?? 0).toInt() as int,
+      percent: (map['percent'] ?? 0).toDouble() as double,
+      color: (map['color'] ?? '') as String,
     );
   }
 

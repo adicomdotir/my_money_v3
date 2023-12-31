@@ -14,7 +14,7 @@ class ReportScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is ReportSuccesState) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Report')),
+            appBar: AppBar(title: const Text('گزارش')),
             body: ListView.builder(
               itemCount: state.reports.length,
               itemBuilder: (context, index) {
@@ -38,9 +38,12 @@ class ReportScreen extends StatelessWidget {
                               Container(
                                 width: 40,
                                 height: 40,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.amber,
+                                  color: _getColor(
+                                    state.reports[index].catExpneseList[idx]
+                                        .color,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -58,9 +61,9 @@ class ReportScreen extends StatelessWidget {
                                       color: Color(0xFF424242),
                                     ),
                                   ),
-                                  const Text(
-                                    '36 تراکنش',
-                                    style: TextStyle(
+                                  Text(
+                                    '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: Color(0xFF616161),
@@ -83,9 +86,9 @@ class ReportScreen extends StatelessWidget {
                                       color: Color(0xFFE53935),
                                     ),
                                   ),
-                                  const Text(
-                                    '32%',
-                                    style: TextStyle(
+                                  Text(
+                                    '${state.reports[index].catExpneseList[idx].percent} %',
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: Color(0xFF212121),
@@ -110,5 +113,17 @@ class ReportScreen extends StatelessWidget {
         }
       },
     );
+  }
+
+  _getColor(String color) {
+    if (color.isEmpty) {
+      return Colors.black;
+    } else {
+      color = color.toUpperCase().replaceAll('#', '');
+      if (color.length == 6) {
+        color = 'FF$color';
+      }
+      return Color(int.tryParse(color, radix: 16) ?? 0);
+    }
   }
 }
