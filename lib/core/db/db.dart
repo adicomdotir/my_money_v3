@@ -229,40 +229,12 @@ class DatabaseHelper {
       for (var cExp in catExpenses) {
         cExp['percent'] = cExp['price'] / item['sumPrice'] * 100;
       }
-      for (int i = 0; i < catExpenses.length; i++) {
-        final iElement = catExpenses[i];
-        for (int j = 1; j < catExpenses.length; j++) {
-          final jElement = catExpenses[j];
-          if (iElement['percent'] < jElement['percent']) {
-            final tmp = {
-              'id': iElement['id'],
-              'title': iElement['title'],
-              'color': iElement['color'],
-              'price': iElement['price'],
-              'percent': iElement['percent'],
-              'transactionCount': iElement['transactionCount'],
-            };
-            catExpenses[i] = {
-              'id': jElement['id'],
-              'title': jElement['title'],
-              'color': jElement['color'],
-              'price': jElement['price'],
-              'percent': jElement['percent'],
-              'transactionCount': jElement['transactionCount'],
-            };
-            catExpenses[j] = {
-              'id': tmp['id'],
-              'title': tmp['title'],
-              'color': tmp['color'],
-              'price': tmp['price'],
-              'percent': tmp['percent'],
-              'transactionCount': tmp['transactionCount'],
-            };
-          }
-        }
-      }
+      catExpenses.sort(
+        (a, b) {
+          return b['price'] - a['price'];
+        },
+      );
     }
-    print(resultList);
     return resultList;
   }
 }
