@@ -124,6 +124,7 @@ class HomeContent extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
+              padding: const EdgeInsets.only(bottom: 64),
               itemCount: homeInfoList.expenseByCategory.length,
               separatorBuilder: (context, index) => const SizedBox(
                 height: 16,
@@ -167,6 +168,7 @@ class HomeContent extends StatelessWidget {
               },
             ),
           ),
+          // const SizedBox(height: 48),
         ],
       ),
     );
