@@ -35,7 +35,10 @@ class ReportScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            priceFormat(state.reports[index].sumPrice),
+                            priceFormat(
+                              state.reports[index].sumPrice,
+                              context,
+                            ),
                           ),
                           ...List.generate(
                             state.reports[index].catExpneseList.length,
@@ -91,6 +94,7 @@ class ReportScreen extends StatelessWidget {
                                         priceFormat(
                                           state.reports[index]
                                               .catExpneseList[idx].price,
+                                          context,
                                         ),
                                         style: const TextStyle(
                                           fontSize: 14,

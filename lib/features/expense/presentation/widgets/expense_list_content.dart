@@ -95,7 +95,10 @@ class ExpenseCard extends StatelessWidget {
                       children: [
                         Text(expense.title),
                         Text(
-                          priceFormat(expense.price),
+                          priceFormat(
+                            expense.price,
+                            context,
+                          ),
                         ),
                       ],
                     ),

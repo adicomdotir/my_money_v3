@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
 import 'package:my_money_v3/features/report/data/repository/report_repository_impl.dart';
 import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
@@ -70,6 +71,9 @@ Future<void> init() async {
   );
   sl.registerFactory<ReportBloc>(
     () => ReportBloc(getReportUseCase: sl()),
+  );
+  sl.registerFactory<GlobalBloc>(
+    () => GlobalBloc(),
   );
 
   // Use cases

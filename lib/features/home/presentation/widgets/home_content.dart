@@ -24,14 +24,14 @@ class HomeContent extends StatelessWidget {
       width: double.maxFinite,
       child: Column(
         children: [
-          reportGeneral(height),
+          reportGeneral(height, context),
           reportByCategory(height, context),
         ],
       ),
     );
   }
 
-  Container reportGeneral(double height) {
+  Container reportGeneral(double height, BuildContext context) {
     final jalali = Jalali.now();
     return Container(
       padding: const EdgeInsets.all(12),
@@ -41,6 +41,7 @@ class HomeContent extends StatelessWidget {
           reportGeneralItem(
             'هزینه امروز (${jalali.formatShortMonthDay()})',
             homeInfoList.todayPrice,
+            context,
           ),
           const SizedBox(
             height: 12,
@@ -48,21 +49,30 @@ class HomeContent extends StatelessWidget {
           reportGeneralItem(
             'هزینه ماه (${jalali.formatter.mN})',
             homeInfoList.monthPrice,
+            context,
           ),
           const SizedBox(
             height: 12,
           ),
-          reportGeneralItem('هزینه ۳۰ روز گذشته', homeInfoList.thirtyDaysPrice),
+          reportGeneralItem(
+            'هزینه ۳۰ روز گذشته',
+            homeInfoList.thirtyDaysPrice,
+            context,
+          ),
           const SizedBox(
             height: 12,
           ),
-          reportGeneralItem('هزینه ۹۰ روز گذشته', homeInfoList.ninetyDaysPrice),
+          reportGeneralItem(
+            'هزینه ۹۰ روز گذشته',
+            homeInfoList.ninetyDaysPrice,
+            context,
+          ),
         ],
       ),
     );
   }
 
-  Container reportGeneralItem(String title, int price) {
+  Container reportGeneralItem(String title, int price, context) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -73,7 +83,12 @@ class HomeContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title),
-          Text(priceFormat(price)),
+          Text(
+            priceFormat(
+              price,
+              context,
+            ),
+          ),
         ],
       ),
     );
@@ -101,7 +116,7 @@ class HomeContent extends StatelessWidget {
                   );
                 },
                 child: const Text('مشاهده همه'),
-              )
+              ),
             ],
           ),
           const SizedBox(
@@ -138,7 +153,7 @@ class HomeContent extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            priceFormat(item.price),
+                            priceFormat(item.price, context),
                           ),
                         ],
                       ),

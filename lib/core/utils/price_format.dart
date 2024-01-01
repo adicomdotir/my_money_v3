@@ -1,4 +1,8 @@
-String priceFormat(int price) {
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
+
+String priceFormat(int price, BuildContext context) {
   int idx = 1;
   final priceString = price
       .toString()
@@ -15,5 +19,9 @@ String priceFormat(int price) {
       .split('')
       .reversed
       .join('');
-  return '$priceString تومان';
+  String unitText = BlocProvider.of<GlobalBloc>(context).state.unitValue == 0
+      ? 'تومان'
+      : 'ریال';
+  print(unitText);
+  return '$priceString $unitText';
 }

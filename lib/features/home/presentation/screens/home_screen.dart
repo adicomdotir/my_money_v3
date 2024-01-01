@@ -117,6 +117,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   subtitle: Text('گزارش'),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.settingsRoute)
+                      .then((value) => _getHomeInfo());
+                },
+                child: const ListTile(
+                  trailing: Icon(Icons.arrow_forward_outlined),
+                  title: Text('تنظیمات'),
+                  subtitle: Text('تنظیمات'),
+                ),
+              ),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 
 import '../../core/utils/app_strings.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
@@ -24,6 +25,7 @@ class Routes {
   static const String expenseListRoute = '/expense_list_route';
   static const String categoryListRoute = '/category_list_route';
   static const String reportRoute = '/report_route';
+  static const String settingsRoute = '/settings_route';
 }
 
 class AppRoutes {
@@ -102,6 +104,15 @@ class AppRoutes {
             return BlocProvider(
               create: (context) => di.sl<ReportBloc>(),
               child: const ReportScreen(),
+            );
+          }),
+        );
+      case Routes.settingsRoute:
+        return MaterialPageRoute(
+          builder: ((context) {
+            return BlocProvider(
+              create: (context) => di.sl<ReportBloc>(),
+              child: const SettingsScreen(),
             );
           }),
         );
