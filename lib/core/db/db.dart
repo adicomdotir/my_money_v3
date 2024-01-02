@@ -37,9 +37,13 @@ class DatabaseHelper {
     return await expenses.delete(id);
   }
 
-  Future<void> deleteCategory(String id) async {
+  Future<bool> deleteCategory(String id) async {
     Box<dynamic> categories = await Hive.openBox('categories');
-    return await categories.delete(id);
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+    bool exsit = expenses.values.any((element) => element['categoryId'] == id);
+    if (exsit) return false;
+    await categories.delete(id);
+    return true;
   }
 
   Future<List<dynamic>> getExpenses([int? fromDate, int? toDate]) async {

@@ -37,7 +37,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future<void> deleteCategory(String id) async {
     emit(CategoryIsLoading());
-    Either<Failure, void> response =
+    Either<Failure, bool> response =
         await deleteCategoryUseCase(DeleteCategoryParams(id));
     emit(
       response.fold(
@@ -77,6 +77,8 @@ class CategoryCubit extends Cubit<CategoryState> {
         return AppStrings.serverFailure;
       case CacheFailure:
         return AppStrings.cacheFailure;
+      case DatabaseFailure:
+        return (failure as DatabaseFailure).msg;
       default:
         return AppStrings.unexpectedError;
     }

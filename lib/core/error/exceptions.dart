@@ -45,3 +45,17 @@ class NoInternetConnectionException extends ServerException {
 }
 
 class CacheException implements Exception {}
+
+class DatabaseException extends Equatable implements Exception {
+  final String? message;
+
+  const DatabaseException([this.message]);
+
+  @override
+  List<Object?> get props => [message];
+
+  @override
+  String toString() {
+    return '$message';
+  }
+}

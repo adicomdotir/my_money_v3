@@ -50,8 +50,23 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
             child: CircularProgressIndicator(),
           );
         } else if (state is CategoryError) {
-          return error_widget.ErrorWidget(
-            onPress: () {},
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  state.msg,
+                  textAlign: TextAlign.center,
+                ),
+                IconButton(
+                  onPressed: () {
+                    BlocProvider.of<CategoryCubit>(context).getCategories();
+                  },
+                  icon: const Icon(Icons.refresh),
+                ),
+              ],
+            ),
           );
         } else if (state is CategoryLoaded) {
           return Column(

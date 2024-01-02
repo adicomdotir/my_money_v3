@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/core/data/models/category_model.dart';
 import 'package:my_money_v3/core/domain/entities/category.dart';
+import 'package:my_money_v3/core/error/exceptions.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../domain/repositories/category_repository.dart';
@@ -28,8 +29,12 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteCategory(String id) async {
-    final result = await categoryLocalDataSource.deleteCategory(id);
-    return Right(result);
+  Future<Either<Failure, bool>> deleteCategory(String id) async {
+    try {
+      final result = await categoryLocalDataSource.deleteCategory(id);
+      return Right(result);
+    } on DatabaseException catch (ex) {
+      return Left(DatabaseFailure(ex.message ?? ''));
+    }
   }
 }

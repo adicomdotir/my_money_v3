@@ -22,7 +22,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       var result = await expenseLocalDataSource.addExpense(expenseModel);
       return Right(result);
     } on Exception {
-      return Left(DatabaseFailure());
+      return Left(DatabaseFailure(''));
     }
   }
 

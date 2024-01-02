@@ -5,13 +5,13 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/domain/usecases/usecase.dart';
 import '../repositories/category_repository.dart';
 
-class DeleteCategoryUseCase implements UseCase<void, DeleteCategoryParams> {
+class DeleteCategoryUseCase implements UseCase<bool, DeleteCategoryParams> {
   final CategoryRepository categoryRepository;
 
   DeleteCategoryUseCase({required this.categoryRepository});
 
   @override
-  Future<Either<Failure, void>> call(DeleteCategoryParams params) =>
+  Future<Either<Failure, bool>> call(DeleteCategoryParams params) =>
       categoryRepository.deleteCategory(params.id);
 }
 
