@@ -16,7 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
-  _getHomeInfo() => BlocProvider.of<HomeInfoCubit>(context).getHomeInfo();
+  Future<void> _getHomeInfo() =>
+      BlocProvider.of<HomeInfoCubit>(context).getHomeInfo();
 
   @override
   void initState() {
@@ -72,60 +73,86 @@ class _HomeScreenState extends State<HomeScreen> {
         key: _key,
         appBar: appBar,
         drawer: Drawer(
-          child: ListView(
+          child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.expenseListRoute)
-                      .then((value) => _getHomeInfo());
-                },
-                child: ListTile(
-                  trailing: const Icon(Icons.arrow_forward_outlined),
-                  title: Text(
-                    AppLocalizations.of(context)!.translate('expenses')!,
-                  ),
-                  subtitle: Text(
-                    AppLocalizations.of(context)!
-                        .translate('expense_description')!,
+              Container(
+                height: 150,
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.categoryListRoute)
-                      .then((value) => _getHomeInfo());
-                },
-                child: ListTile(
-                  trailing: const Icon(Icons.arrow_forward_outlined),
-                  title: Text(
-                    AppLocalizations.of(context)!.translate('categories')!,
-                  ),
-                  subtitle: Text(
-                    AppLocalizations.of(context)!
-                        .translate('category_description')!,
+              Center(
+                child: Text(
+                  AppLocalizations.of(context)!.translate('app_name')!,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.reportRoute)
-                      .then((value) => _getHomeInfo());
-                },
-                child: const ListTile(
-                  trailing: Icon(Icons.arrow_forward_outlined),
-                  title: Text('گزارش'),
-                  subtitle: Text('گزارش'),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.settingsRoute)
-                      .then((value) => _getHomeInfo());
-                },
-                child: const ListTile(
-                  trailing: Icon(Icons.arrow_forward_outlined),
-                  title: Text('تنظیمات'),
-                  subtitle: Text('تنظیمات'),
+              Expanded(
+                child: ListView(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.expenseListRoute)
+                            .then((value) => _getHomeInfo());
+                      },
+                      child: ListTile(
+                        trailing: const Icon(Icons.arrow_forward_outlined),
+                        title: Text(
+                          AppLocalizations.of(context)!.translate('expenses')!,
+                        ),
+                        subtitle: Text(
+                          AppLocalizations.of(context)!
+                              .translate('expense_description')!,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.categoryListRoute)
+                            .then((value) => _getHomeInfo());
+                      },
+                      child: ListTile(
+                        trailing: const Icon(Icons.arrow_forward_outlined),
+                        title: Text(
+                          AppLocalizations.of(context)!
+                              .translate('categories')!,
+                        ),
+                        subtitle: Text(
+                          AppLocalizations.of(context)!
+                              .translate('category_description')!,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.reportRoute)
+                            .then((value) => _getHomeInfo());
+                      },
+                      child: const ListTile(
+                        trailing: Icon(Icons.arrow_forward_outlined),
+                        title: Text('گزارش'),
+                        subtitle: Text('گزارش'),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Routes.settingsRoute)
+                            .then((value) => _getHomeInfo());
+                      },
+                      child: const ListTile(
+                        trailing: Icon(Icons.arrow_forward_outlined),
+                        title: Text('تنظیمات'),
+                        subtitle: Text('تنظیمات'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
