@@ -34,33 +34,25 @@ class HomeContent extends StatelessWidget {
   Container reportGeneral(double height, BuildContext context) {
     final jalali = Jalali.now();
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       height: height * .3,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           reportGeneralItem(
             'هزینه امروز (${jalali.formatShortMonthDay()})',
             homeInfoList.todayPrice,
             context,
           ),
-          const SizedBox(
-            height: 12,
-          ),
           reportGeneralItem(
             'هزینه ماه (${jalali.formatter.mN})',
             homeInfoList.monthPrice,
             context,
           ),
-          const SizedBox(
-            height: 12,
-          ),
           reportGeneralItem(
             'هزینه ۳۰ روز گذشته',
             homeInfoList.thirtyDaysPrice,
             context,
-          ),
-          const SizedBox(
-            height: 12,
           ),
           reportGeneralItem(
             'هزینه ۹۰ روز گذشته',

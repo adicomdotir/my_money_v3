@@ -72,7 +72,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
-              NumericTextFormatter()
+              NumericTextFormatter(),
             ],
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -100,7 +100,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   selectedDate?.toDateTime().millisecondsSinceEpoch ??
                       DateTime.now().millisecondsSinceEpoch,
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(
@@ -151,6 +151,17 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
           ),
           ElevatedButton(
             onPressed: () {
+              if (_validateExpense() == false) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'لطفا عنوان و قیمت و دسته را وارد کنید',
+                      style: TextStyle(fontFamily: 'Vazir'),
+                    ),
+                  ),
+                );
+                return;
+              }
               if (widget.expense == null) {
                 final expense = Expense(
                   id: idGenerator(),
@@ -174,7 +185,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
             child: widget.expense == null
                 ? Text(AppLocalizations.of(context)!.translate('save')!)
                 : Text(AppLocalizations.of(context)!.translate('update')!),
-          )
+          ),
         ],
       ),
     );
@@ -192,5 +203,21 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
         selectedDate = selected;
       });
     }
+  }
+
+  bool _validateExpense() {
+    if (_titleCtrl.text.trim().isEmpty) {
+      return false;
+    }
+
+    if (_priceCtrl.text.trim().isEmpty) {
+      return false;
+    }
+
+    if (selectedCategoryId == null || selectedCategoryId!.trim().isEmpty) {
+      return false;
+    }
+
+    return true;
   }
 }
