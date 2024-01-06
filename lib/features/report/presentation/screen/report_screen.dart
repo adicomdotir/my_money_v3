@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../core/utils/price_format.dart';
@@ -28,7 +29,7 @@ class ReportScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '${_getMonthName(state.reports[index].monthName)}',
+                            _getMonthName(state.reports[index].monthName),
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -116,6 +117,16 @@ class ReportScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            width: double.infinity,
+                            height: 16,
+                            child: CustomPaint(
+                              painter: LinearPainter(
+                                state.reports[index].catExpneseList,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -133,22 +144,51 @@ class ReportScreen extends StatelessWidget {
     );
   }
 
-  _getColor(String color) {
-    if (color.isEmpty) {
-      return Colors.black;
-    } else {
-      color = color.toUpperCase().replaceAll('#', '');
-      if (color.length == 6) {
-        color = 'FF$color';
-      }
-      return Color(int.tryParse(color, radix: 16) ?? 0);
-    }
-  }
-
-  _getMonthName(String monthName) {
+  String _getMonthName(String monthName) {
     final dateArray = monthName.split('/');
     final year = dateArray.first;
     final month = int.tryParse(dateArray.last) ?? 1;
     return '${JalaliDate.months[month - 1]} $year';
+  }
+}
+
+class LinearPainter extends CustomPainter {
+  final List<CatExpense> catExpenseList;
+
+  LinearPainter(this.catExpenseList);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double lastWidth = 0;
+    for (var catExpense in catExpenseList) {
+      canvas.drawRect(
+        Rect.fromLTWH(
+          lastWidth,
+          0,
+          size.width * catExpense.percent / 100,
+          size.height,
+        ),
+        Paint()..color = _getColor(catExpense.color),
+      );
+      lastWidth += size.width * catExpense.percent / 100;
+    }
+  }
+
+  @override
+  bool shouldRepaint(LinearPainter oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(LinearPainter oldDelegate) => false;
+}
+
+Color _getColor(String color) {
+  if (color.isEmpty) {
+    return Colors.black;
+  } else {
+    color = color.toUpperCase().replaceAll('#', '');
+    if (color.length == 6) {
+      color = 'FF$color';
+    }
+    return Color(int.tryParse(color, radix: 16) ?? 0);
   }
 }
