@@ -191,7 +191,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
     );
   }
 
-  _selectDate(BuildContext context) async {
+  void _selectDate(BuildContext context) async {
     Jalali? selected = await showPersianDatePicker(
       context: context,
       initialDate: Jalali.fromDateTime(DateTime.now()),

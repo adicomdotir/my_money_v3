@@ -15,9 +15,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late Timer _timer;
 
-  _goNext() => Navigator.pushReplacementNamed(context, Routes.homeRoute);
+  Future<Object?> _goNext() =>
+      Navigator.pushReplacementNamed(context, Routes.homeRoute);
 
-  _startDelay() {
+  void _startDelay() {
     _timer = Timer(const Duration(milliseconds: 2000), () => _goNext());
   }
 

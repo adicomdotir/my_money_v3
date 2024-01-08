@@ -6,10 +6,6 @@ part 'global_state.dart';
 
 class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
   GlobalBloc() : super(const GlobalState(unitValue: 0)) {
-    on<GlobalEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<ModifyStateGlobalEvent>((event, emit) {
       emit(state.copyWith(unitValue: event.value));
     });

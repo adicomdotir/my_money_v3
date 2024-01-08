@@ -14,7 +14,8 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-  _getCategories() => BlocProvider.of<CategoryCubit>(context).getCategories();
+  Future<void> _getCategories() =>
+      BlocProvider.of<CategoryCubit>(context).getCategories();
 
   @override
   void initState() {

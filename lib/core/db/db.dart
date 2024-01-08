@@ -41,7 +41,9 @@ class DatabaseHelper {
     Box<dynamic> categories = await Hive.openBox('categories');
     Box<dynamic> expenses = await Hive.openBox('expenses');
     bool exsit = expenses.values.any((element) => element['categoryId'] == id);
-    if (exsit) return false;
+    if (exsit) {
+      return false;
+    }
     await categories.delete(id);
     return true;
   }

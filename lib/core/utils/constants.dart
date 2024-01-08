@@ -27,7 +27,7 @@ class Constants {
               ),
             ),
             child: const Text('Ok'),
-          )
+          ),
         ],
       ),
     );

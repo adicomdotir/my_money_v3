@@ -22,6 +22,5 @@ String priceFormat(int price, BuildContext context) {
   String unitText = BlocProvider.of<GlobalBloc>(context).state.unitValue == 0
       ? 'تومان'
       : 'ریال';
-  print(unitText);
   return '$priceString $unitText';
 }
