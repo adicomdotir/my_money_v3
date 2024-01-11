@@ -2,16 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class DatabaseHelper {
-  // late Box<dynamic> _categories;
-  // late Box<dynamic> _expenses;
-
   DatabaseHelper();
-
-  // Future<void> init() async {
-  //   _categories = await Hive.openBox('categories');
-  //   _expenses = await Hive.openBox('expenses');
-  //   print('init complete');
-  // }
 
   Future<String> addCategory(
     Map<String, dynamic> categoryJson,
@@ -33,8 +24,13 @@ class DatabaseHelper {
   }
 
   Future<void> deleteExpanse(String id) async {
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    return await expenses.delete(id);
+    Box<dynamic>? expenses;
+    try {
+      expenses = await Hive.openBox('expenses');
+      return await expenses.delete(id);
+    } finally {
+      expenses?.close();
+    }
   }
 
   Future<bool> deleteCategory(String id) async {
@@ -151,7 +147,7 @@ class DatabaseHelper {
           .reduce((sum, price) => sum + price);
     }
 
-    getReport();
+    // getReport();
 
     return {
       'expenseByCategory': list,

@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:my_money_v3/core/bloc/global_bloc.dart';
+import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
+import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
 import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
 import 'package:my_money_v3/features/report/data/repository/report_repository_impl.dart';
 import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
@@ -25,7 +27,6 @@ import 'features/expense/domain/repositories/expense_repository.dart';
 import 'features/expense/domain/usecases/add_edit_expense_use_case.dart';
 import 'features/expense/domain/usecases/delete_expense_use_case.dart';
 import 'features/expense/domain/usecases/expense_list_use_case.dart';
-import 'features/expense/presentation/cubit/expense_cubit.dart';
 import 'features/home/data/datasources/home_info_local_data_source.dart';
 import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/home_info_repository.dart';
@@ -61,7 +62,6 @@ Future<void> init() async {
     () => ExpenseCubit(
       expenseListUseCase: sl(),
       deleteExpenseUseCase: sl(),
-      addEditExpenseUseCase: sl(),
     ),
   );
   sl.registerFactory<CategoriesDropDownCubit>(
@@ -74,6 +74,9 @@ Future<void> init() async {
   );
   sl.registerFactory<GlobalBloc>(
     () => GlobalBloc(),
+  );
+  sl.registerFactory<AddEditExpenseCubit>(
+    () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
   );
 
   // Use cases

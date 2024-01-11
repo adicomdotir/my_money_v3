@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
+import 'package:my_money_v3/features/expense/presentation/add_edit_expense/screens/add_edit_expense_screen.dart';
+import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
+import 'package:my_money_v3/features/expense/presentation/expense_list/screens/expense_list_screen.dart';
 import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 
 import '../../core/utils/app_strings.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
 import '../../features/category/presentation/screens/add_edit_category_screen.dart';
 import '../../features/category/presentation/screens/category_list_screen.dart';
-import '../../features/expense/presentation/cubit/expense_cubit.dart';
-import '../../features/expense/presentation/screens/add_edit_expense_screen.dart';
-import '../../features/expense/presentation/screens/expense_list_screen.dart';
 import '../../features/home/presentation/cubit/home_info_cubit.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/report/presentation/bloc/report_bloc.dart';
@@ -52,7 +53,7 @@ class AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: ((context) => di.sl<ExpenseCubit>()),
+                  create: ((context) => di.sl<AddEditExpenseCubit>()),
                 ),
                 BlocProvider(
                   create: ((context) => di.sl<CategoriesDropDownCubit>()),

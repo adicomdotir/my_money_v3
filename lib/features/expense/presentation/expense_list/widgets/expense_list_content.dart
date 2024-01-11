@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
 
-import '../../../../core/domain/entities/expense.dart';
 import '../cubit/expense_cubit.dart';
 
 class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
+  final void Function() onBack;
 
   const ExpenseListContent({
     Key? key,
     required this.expenses,
+    required this.onBack,
   }) : super(key: key);
 
   @override
@@ -40,7 +42,10 @@ class _ExpenseListContentState extends State<ExpenseListContent> {
         child: ListView.builder(
           itemCount: widget.expenses.length,
           itemBuilder: (context, index) {
-            return ExpenseCard(expense: widget.expenses[index]);
+            return ExpenseCard(
+              expense: widget.expenses[index],
+              onBack: widget.onBack,
+            );
           },
         ),
       ),
@@ -50,8 +55,13 @@ class _ExpenseListContentState extends State<ExpenseListContent> {
 
 class ExpenseCard extends StatelessWidget {
   final Expense expense;
+  final void Function() onBack;
 
-  const ExpenseCard({super.key, required this.expense});
+  const ExpenseCard({
+    super.key,
+    required this.expense,
+    required this.onBack,
+  });
 
   @override
   Widget build(BuildContext context) {

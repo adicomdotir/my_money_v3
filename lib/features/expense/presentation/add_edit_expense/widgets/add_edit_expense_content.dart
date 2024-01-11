@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/config/locale/app_localizations.dart';
+import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/domain/entities/expense.dart';
+import 'package:my_money_v3/core/utils/date_format.dart';
+import 'package:my_money_v3/core/utils/id_generator.dart';
+import 'package:my_money_v3/core/utils/numeric_text_formatter.dart';
+import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
+import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
-import '../../../../config/locale/app_localizations.dart';
-import '../../../../config/routes/app_routes.dart';
-import '../../../../core/domain/entities/expense.dart';
-import '../../../../core/utils/date_format.dart';
-import '../../../../core/utils/id_generator.dart';
-import '../../../../core/utils/numeric_text_formatter.dart';
-import '../../../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
-import '../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
-import '../cubit/expense_cubit.dart';
+import '../cubit/add_edit_expense_cubit.dart';
 
 class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
@@ -39,6 +39,9 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
       _titleCtrl.text = widget.expense!.title;
       _priceCtrl.text = widget.expense!.price.toString();
       selectedCategoryId = widget.expense!.categoryId;
+      selectedDate = Jalali.fromDateTime(
+        DateTime.fromMillisecondsSinceEpoch(widget.expense!.date),
+      );
     }
   }
 
@@ -170,7 +173,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   categoryId: selectedCategoryId ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
-                context.read<ExpenseCubit>().addExpense(expense);
+                context.read<AddEditExpenseCubit>().addExpense(expense);
               } else {
                 final expense = Expense(
                   id: widget.expense!.id,
@@ -179,7 +182,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   categoryId: selectedCategoryId ?? '',
                   price: int.parse(_priceCtrl.text.replaceAll(',', '')),
                 );
-                context.read<ExpenseCubit>().editExpense(expense);
+                context.read<AddEditExpenseCubit>().editExpense(expense);
               }
             },
             child: widget.expense == null
