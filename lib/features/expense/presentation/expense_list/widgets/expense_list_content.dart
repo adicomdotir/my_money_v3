@@ -11,12 +11,10 @@ import '../cubit/expense_cubit.dart';
 
 class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
-  final void Function() onBack;
 
   const ExpenseListContent({
     Key? key,
     required this.expenses,
-    required this.onBack,
   }) : super(key: key);
 
   @override
@@ -44,7 +42,6 @@ class _ExpenseListContentState extends State<ExpenseListContent> {
           itemBuilder: (context, index) {
             return ExpenseCard(
               expense: widget.expenses[index],
-              onBack: widget.onBack,
             );
           },
         ),
@@ -55,12 +52,10 @@ class _ExpenseListContentState extends State<ExpenseListContent> {
 
 class ExpenseCard extends StatelessWidget {
   final Expense expense;
-  final void Function() onBack;
 
   const ExpenseCard({
     super.key,
     required this.expense,
-    required this.onBack,
   });
 
   @override

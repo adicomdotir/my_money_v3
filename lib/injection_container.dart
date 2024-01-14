@@ -20,7 +20,6 @@ import 'features/category/domain/usecases/category_list_use_case.dart';
 import 'features/category/domain/usecases/delete_category_use_case.dart';
 import 'features/category/domain/usecases/get_categories_use_case.dart';
 import 'features/category/presentation/cubit/category_cubit.dart';
-import 'features/expense/data/datasources/expense_remote_data_source.dart';
 import 'features/expense/data/datasources/expnese_local_data_source.dart';
 import 'features/expense/data/repositories/expense_repository_impl.dart';
 import 'features/expense/domain/repositories/expense_repository.dart';
@@ -125,7 +124,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseRepository>(
     () => ExpenseRepositoryImpl(
-      expenseRemoteDataSource: sl(),
       expenseLocalDataSource: sl(),
     ),
   );
@@ -145,9 +143,6 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ExpenseLocalDataSource>(
     () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<ExpenseRemoteDataSource>(
-    () => ExpenseRemoteDataSourceImpl(),
   );
   sl.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(databaseHelper: sl()),

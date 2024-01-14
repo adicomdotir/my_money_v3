@@ -17,28 +17,14 @@ class ExpenseListScreen extends StatefulWidget {
 }
 
 class _ExpenseListScreenState extends State<ExpenseListScreen> {
-  Future<void> _getExpenses() =>
-      BlocProvider.of<ExpenseCubit>(context).getExpenses();
-
   @override
   void initState() {
-    // var startDate = Jalali.now();
-    // startDate = Jalali(startDate.year, startDate.month, startDate.day);
-    // final endDate = startDate.addDays(1);
-    // _getExpenses(
-    //   startDate.toDateTime().millisecondsSinceEpoch,
-    //   endDate.toDateTime().millisecondsSinceEpoch,
-    // );
     super.initState();
   }
 
   Widget _buildBodyContent() {
     return BlocConsumer<ExpenseCubit, ExpenseState>(
-      listener: (context, state) {
-        // if (state.error == null) {
-        //   _getExpenses();
-        // }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state.loading != null && state.loading == true) {
           return const Center(
@@ -54,9 +40,6 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
               const CalenderFilterWidget(),
               ExpenseListContent(
                 expenses: state.expenses ?? [],
-                onBack: () {
-                  // call
-                },
               ),
             ],
           );
