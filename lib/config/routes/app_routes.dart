@@ -4,6 +4,7 @@ import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/screens/add_edit_expense_screen.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/screens/expense_list_screen.dart';
+import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 
 import '../../core/utils/app_strings.dart';
@@ -110,12 +111,12 @@ class AppRoutes {
         );
       case Routes.settingsRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return BlocProvider(
-              create: (context) => di.sl<ReportBloc>(),
+              create: (context) => di.sl<SettingsBloc>(),
               child: const SettingsScreen(),
             );
-          }),
+          },
         );
       default:
         return undefinedRoute();

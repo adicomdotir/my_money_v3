@@ -6,6 +6,11 @@ import 'package:my_money_v3/features/report/data/repository/report_repository_im
 import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
 import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
 import 'package:my_money_v3/features/report/presentation/bloc/report_bloc.dart';
+import 'package:my_money_v3/features/settings/data/datasource/settings_data_source.dart';
+import 'package:my_money_v3/features/settings/data/repository/settings_repository_impl.dart';
+import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/change_money_unit.dart';
+import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +79,9 @@ Future<void> init() async {
   sl.registerFactory<AddEditExpenseCubit>(
     () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
   );
+  sl.registerFactory<SettingsBloc>(
+    () => SettingsBloc(changeMoneyUnit: sl()),
+  );
 
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
@@ -112,6 +120,9 @@ Future<void> init() async {
   sl.registerLazySingleton<GetSavedSettingsUseCase>(
     () => GetSavedSettingsUseCase(langRepository: sl()),
   );
+  sl.registerLazySingleton<ChangeMoneyUnit>(
+    () => ChangeMoneyUnit(settingsRepository: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<HomeInfoRepository>(
@@ -133,6 +144,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ReportRepository>(
     () => ReportRepositoryImpl(reportDataSource: sl()),
   );
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(settingsDataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<HomeInfoLocalDataSource>(
@@ -149,6 +163,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ReportDataSource>(
     () => ReportDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(sharedPreferences: sl()),
   );
 
   //! External

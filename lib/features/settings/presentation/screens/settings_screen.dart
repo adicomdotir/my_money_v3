@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -29,41 +30,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             BlocBuilder<GlobalBloc, GlobalState>(
               builder: (context, state) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('تومان'),
-                          Radio(
-                            value: 0,
-                            groupValue: state.settings.unit,
-                            onChanged: (value) {
-                              BlocProvider.of<GlobalBloc>(context)
-                                  .add(ModifyUnitGlobalEvent(value ?? 0));
-                            },
-                          ),
-                        ],
+                return BlocListener<SettingsBloc, SettingsState>(
+                  listener: (context, state) {
+                    if (state is SettingsSuccess) {
+                      print('object');
+                      BlocProvider.of<GlobalBloc>(context)
+                          .add(GetSettingsGlobalEvent());
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('تومان'),
+                            Radio(
+                              value: 0,
+                              groupValue: state.settings.unit,
+                              onChanged: (value) {
+                                BlocProvider.of<SettingsBloc>(context).add(
+                                  ChangeMoneyUnitEvent(
+                                    settings:
+                                        state.settings.copyWith(unit: value),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('ریال'),
-                          Radio(
-                            value: 1,
-                            groupValue: state.settings.unit,
-                            onChanged: (value) {
-                              BlocProvider.of<GlobalBloc>(context)
-                                  .add(ModifyUnitGlobalEvent(value ?? 0));
-                            },
-                          ),
-                        ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('ریال'),
+                            Radio(
+                              value: 1,
+                              groupValue: state.settings.unit,
+                              onChanged: (value) {
+                                BlocProvider.of<SettingsBloc>(context).add(
+                                  ChangeMoneyUnitEvent(
+                                    settings:
+                                        state.settings.copyWith(unit: value),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),
