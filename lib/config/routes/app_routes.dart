@@ -40,12 +40,12 @@ class AppRoutes {
         );
       case Routes.homeRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return BlocProvider(
-              create: ((context) => di.sl<HomeInfoCubit>()),
+              create: (context) => di.sl<HomeInfoCubit>(),
               child: const HomeScreen(),
             );
-          }),
+          },
         );
       case Routes.addEditExpanseRoute:
         return MaterialPageRoute(

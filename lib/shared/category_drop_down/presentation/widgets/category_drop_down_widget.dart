@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/locale/app_localizations.dart';
-import '../../../../core/domain/entities/category.dart';
+import '../../../domain/entities/category.dart';
 import '../cubit/categories_drop_down_cubit.dart';
 
 class CategoryDropDownWidget extends StatefulWidget {

@@ -7,11 +7,13 @@ class GlobalEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ModifyStateGlobalEvent extends GlobalEvent {
+class ModifyUnitGlobalEvent extends GlobalEvent {
   final int value;
 
-  const ModifyStateGlobalEvent(this.value);
+  const ModifyUnitGlobalEvent(this.value);
 
   @override
   List<Object> get props => [value];
 }
+
+class GetSettingsGlobalEvent extends GlobalEvent {}

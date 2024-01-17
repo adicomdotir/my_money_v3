@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:my_money_v3/core/data/models/expense_model.dart';
+import 'package:my_money_v3/shared/data/models/expense_model.dart';
 import 'package:my_money_v3/core/db/db.dart';
 
 abstract class ExpenseLocalDataSource {

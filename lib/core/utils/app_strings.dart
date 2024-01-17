@@ -12,4 +12,5 @@ class AppStrings {
   static const String englishCode = 'en';
   static const String farsiCode = 'fa';
   static const String locale = 'locale';
+  static const String settings = 'settings';
 }

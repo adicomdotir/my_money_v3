@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
 import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
@@ -7,6 +6,8 @@ import 'package:my_money_v3/features/report/data/repository/report_repository_im
 import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
 import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
 import 'package:my_money_v3/features/report/presentation/bloc/report_bloc.dart';
+import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my_money_v3/core/db/db.dart';
@@ -36,7 +37,6 @@ import 'features/splash/data/repositories/lang_repository_impl.dart';
 import 'features/splash/domain/repositories/lang_repository.dart';
 import 'features/splash/domain/usecases/change_lang.dart';
 import 'features/splash/domain/usecases/get_saved_lang.dart';
-import 'features/splash/presentation/cubit/locale_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -46,9 +46,6 @@ Future<void> init() async {
   // Blocs
   sl.registerFactory<HomeInfoCubit>(
     () => HomeInfoCubit(getHomeInfoUseCase: sl()),
-  );
-  sl.registerFactory<LocaleCubit>(
-    () => LocaleCubit(getSavedLangUseCase: sl(), changeLangUseCase: sl()),
   );
   sl.registerFactory<CategoryCubit>(
     () => CategoryCubit(
@@ -72,7 +69,7 @@ Future<void> init() async {
     () => ReportBloc(getReportUseCase: sl()),
   );
   sl.registerFactory<GlobalBloc>(
-    () => GlobalBloc(),
+    () => GlobalBloc(getSavedSettingsUseCase: sl()),
   );
   sl.registerFactory<AddEditExpenseCubit>(
     () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
@@ -111,6 +108,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<GetReportUseCase>(
     () => GetReportUseCase(reportRepository: sl()),
+  );
+  sl.registerLazySingleton<GetSavedSettingsUseCase>(
+    () => GetSavedSettingsUseCase(langRepository: sl()),
   );
 
   // Repository

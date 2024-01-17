@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:my_money_v3/features/expense/domain/repositories/expense_repository.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 
 class DeleteExpenseUseCase implements UseCase<void, DeleteExpenseParams> {
   final ExpenseRepository expenseRepository;

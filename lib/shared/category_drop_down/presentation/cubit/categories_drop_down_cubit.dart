@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/domain/entities/category.dart';
-import '../../../../core/domain/usecases/usecase.dart';
+import '../../../domain/entities/category.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../features/category/domain/usecases/category_list_use_case.dart';

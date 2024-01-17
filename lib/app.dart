@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'config/locale/app_localizations_setup.dart';
 import 'config/routes/app_routes.dart';
 import 'config/themes/app_theme.dart';
 import 'core/utils/app_strings.dart';
-import 'features/splash/presentation/cubit/locale_cubit.dart';
 import 'injection_container.dart' as di;
 
 class MyMoneyApp extends StatelessWidget {
@@ -15,17 +14,19 @@ class MyMoneyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => di.sl<LocaleCubit>()),
-        BlocProvider(create: (context) => di.sl<GlobalBloc>()),
+        BlocProvider(
+          create: (context) =>
+              di.sl<GlobalBloc>()..add(GetSettingsGlobalEvent()),
+        ),
       ],
-      child: BlocBuilder<LocaleCubit, LocaleState>(
+      child: BlocBuilder<GlobalBloc, GlobalState>(
         buildWhen: (previousState, currentState) {
           return previousState != currentState;
         },
         builder: (context, state) {
           return MaterialApp(
             title: AppStrings.appName,
-            locale: state.locale,
+            locale: state.settings.locale,
             debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.light,
             theme: ThemeData(

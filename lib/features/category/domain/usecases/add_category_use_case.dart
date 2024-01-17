@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_money_v3/core/data/models/category_model.dart';
+import 'package:my_money_v3/shared/data/models/category_model.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
-import '../../../../core/domain/entities/category.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../../shared/domain/entities/category.dart';
 import '../repositories/category_repository.dart';
 
 class AddCategoryUseCase implements UseCase<String, CategoryParams> {

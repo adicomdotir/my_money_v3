@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_money_v3/core/data/models/expense_model.dart';
+import 'package:my_money_v3/shared/data/models/expense_model.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/expense/data/datasources/expnese_local_data_source.dart';
 

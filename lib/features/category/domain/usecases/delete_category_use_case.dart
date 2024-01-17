@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../repositories/category_repository.dart';
 
 class DeleteCategoryUseCase implements UseCase<bool, DeleteCategoryParams> {

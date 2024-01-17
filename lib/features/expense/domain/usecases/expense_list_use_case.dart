@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:my_money_v3/features/expense/domain/repositories/expense_repository.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
-import '../../../../core/domain/entities/expense.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../../shared/domain/entities/expense.dart';
 
 class ExpenseListUseCase implements UseCase<List<Expense>, GetExpensesParams> {
   final ExpenseRepository expenseRepository;

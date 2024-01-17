@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../repositories/home_info_repository.dart';
 
 class GetHomeInfo implements UseCase<HomeInfoEntity, NoParams> {

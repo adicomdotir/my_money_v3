@@ -1,4 +1,4 @@
-import 'package:my_money_v3/core/domain/entities/category.dart';
+import 'package:my_money_v3/shared/domain/entities/category.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

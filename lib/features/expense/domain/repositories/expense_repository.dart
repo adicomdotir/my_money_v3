@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/data/models/expense_model.dart';
-import '../../../../core/domain/entities/expense.dart';
+import '../../../../shared/data/models/expense_model.dart';
+import '../../../../shared/domain/entities/expense.dart';
 import '../../../../core/error/failures.dart';
 
 abstract class ExpenseRepository {

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/domain/entities/category.dart';
+import '../../../../shared/domain/entities/category.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/domain/usecases/usecase.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../repositories/category_repository.dart';
 
 class CategoryListUseCase implements UseCase<List<Category>, NoParams> {

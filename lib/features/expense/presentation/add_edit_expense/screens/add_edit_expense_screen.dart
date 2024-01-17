@@ -1,5 +1,5 @@
 import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/core/domain/entities/expense.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

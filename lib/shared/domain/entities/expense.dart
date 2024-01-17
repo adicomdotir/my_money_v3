@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:my_money_v3/core/domain/entities/category.dart';
+import 'package:my_money_v3/shared/domain/entities/category.dart';
 
 class Expense extends Equatable {
   final String id;

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_money_v3/core/domain/usecases/usecase.dart';
+import 'package:my_money_v3/core/usecase/usecase.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
 

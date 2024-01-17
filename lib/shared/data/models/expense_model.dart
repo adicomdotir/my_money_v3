@@ -1,5 +1,5 @@
-import 'package:my_money_v3/core/data/models/category_model.dart';
-import 'package:my_money_v3/core/domain/entities/expense.dart';
+import 'package:my_money_v3/shared/data/models/category_model.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
 class ExpenseModel extends Expense {
   const ExpenseModel({

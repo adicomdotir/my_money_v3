@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:my_money_v3/core/data/models/expense_model.dart';
+import 'package:my_money_v3/shared/data/models/expense_model.dart';
 
-import '../../../../core/domain/entities/expense.dart';
+import '../../../../shared/domain/entities/expense.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/repositories/expense_repository.dart';
 import '../datasources/expnese_local_data_source.dart';

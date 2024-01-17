@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/core/error/exceptions.dart';
 
-import '../../../../core/data/models/category_model.dart';
+import '../../../../shared/data/models/category_model.dart';
 
 abstract class CategoryLocalDataSource {
   Future<String> addEditCategory(CategoryModel categoryModel);
