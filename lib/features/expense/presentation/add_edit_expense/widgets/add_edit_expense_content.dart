@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/utils/price_format.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
@@ -70,19 +72,31 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
           const SizedBox(
             height: 16,
           ),
-          TextField(
-            controller: _priceCtrl,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              NumericTextFormatter(),
-            ],
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+          Row(
+            children: [
+              Expanded(
+                flex: 17,
+                child: TextField(
+                  controller: _priceCtrl,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    NumericTextFormatter(),
+                  ],
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    labelText:
+                        AppLocalizations.of(context)!.translate('price')!,
+                  ),
+                ),
               ),
-              labelText: AppLocalizations.of(context)!.translate('price')!,
-            ),
+              Expanded(
+                flex: 3,
+                child: Center(child: Text(priceSign(context))),
+              ),
+            ],
           ),
           const SizedBox(
             height: 16,
@@ -166,21 +180,31 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                 return;
               }
               if (widget.expense == null) {
+                int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
+                if (BlocProvider.of<GlobalBloc>(context).state.settings.unit ==
+                    1) {
+                  newPrice = newPrice ~/ 10;
+                }
                 final expense = Expense(
                   id: idGenerator(),
                   title: _titleCtrl.text,
                   date: selectedDate!.toDateTime().millisecondsSinceEpoch,
                   categoryId: selectedCategoryId ?? '',
-                  price: int.parse(_priceCtrl.text.replaceAll(',', '')),
+                  price: newPrice,
                 );
                 context.read<AddEditExpenseCubit>().addExpense(expense);
               } else {
+                int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
+                if (BlocProvider.of<GlobalBloc>(context).state.settings.unit ==
+                    1) {
+                  newPrice = (newPrice / 10) as int;
+                }
                 final expense = Expense(
                   id: widget.expense!.id,
                   title: _titleCtrl.text,
                   date: selectedDate!.toDateTime().millisecondsSinceEpoch,
                   categoryId: selectedCategoryId ?? '',
-                  price: int.parse(_priceCtrl.text.replaceAll(',', '')),
+                  price: newPrice,
                 );
                 context.read<AddEditExpenseCubit>().editExpense(expense);
               }
