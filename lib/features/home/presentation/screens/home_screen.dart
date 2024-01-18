@@ -75,6 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: Drawer(
           child: Column(
             children: [
+              SizedBox(
+                height: MediaQuery.of(context).viewPadding.top,
+              ),
               Container(
                 height: 150,
                 padding: const EdgeInsets.all(16),
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .then((value) => _getHomeInfo());
                       },
                       child: ListTile(
-                        trailing: const Icon(Icons.arrow_forward_outlined),
+                        trailing: const Icon(Icons.arrow_forward_ios),
                         title: Text(
                           AppLocalizations.of(context)!.translate('expenses')!,
                         ),
@@ -119,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .then((value) => _getHomeInfo());
                       },
                       child: ListTile(
-                        trailing: const Icon(Icons.arrow_forward_outlined),
+                        trailing: const Icon(Icons.arrow_forward_ios),
                         title: Text(
                           AppLocalizations.of(context)!
                               .translate('categories')!,
@@ -136,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .then((value) => _getHomeInfo());
                       },
                       child: const ListTile(
-                        trailing: Icon(Icons.arrow_forward_outlined),
+                        trailing: Icon(Icons.arrow_forward_ios),
                         title: Text('گزارش'),
                         subtitle: Text('گزارش'),
                       ),
@@ -147,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .then((value) => _getHomeInfo());
                       },
                       child: const ListTile(
-                        trailing: Icon(Icons.arrow_forward_outlined),
+                        trailing: Icon(Icons.arrow_forward_ios),
                         title: Text('تنظیمات'),
                         subtitle: Text('تنظیمات'),
                       ),
