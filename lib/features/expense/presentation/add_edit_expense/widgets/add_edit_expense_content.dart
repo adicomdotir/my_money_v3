@@ -58,162 +58,170 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleCtrl,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleCtrl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                labelText: AppLocalizations.of(context)!.translate('title')!,
               ),
-              labelText: AppLocalizations.of(context)!.translate('title')!,
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 17,
-                child: TextField(
-                  controller: _priceCtrl,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    NumericTextFormatter(),
-                  ],
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 17,
+                  child: TextField(
+                    controller: _priceCtrl,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      NumericTextFormatter(),
+                    ],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      labelText:
+                          AppLocalizations.of(context)!.translate('price')!,
                     ),
-                    labelText:
-                        AppLocalizations.of(context)!.translate('price')!,
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Center(child: Text(priceSign(context))),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  _selectDate(context);
-                },
-                child: Text(
-                  AppLocalizations.of(context)!.translate('select_date')!,
+                Expanded(
+                  flex: 3,
+                  child: Center(child: Text(priceSign(context))),
                 ),
-              ),
-              Text(
-                dateFormat(
-                  selectedDate?.toDateTime().millisecondsSinceEpoch ??
-                      DateTime.now().millisecondsSinceEpoch,
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _selectDate(context);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.translate('select_date')!,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: CategoryDropDownWidget(
-                  onSelected: (newValue) {
-                    setState(() {
-                      selectedCategoryId = newValue;
+                Text(
+                  dateFormat(
+                    selectedDate?.toDateTime().millisecondsSinceEpoch ??
+                        DateTime.now().millisecondsSinceEpoch,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: CategoryDropDownWidget(
+                    onSelected: (newValue) {
+                      setState(() {
+                        selectedCategoryId = newValue;
+                      });
+                    },
+                    value: selectedCategoryId ?? '',
+                  ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(Routes.addEditCategoryRoute)
+                        .then((value) {
+                      BlocProvider.of<CategoriesDropDownCubit>(context)
+                          .getCategories();
                     });
                   },
-                  value: selectedCategoryId ?? '',
-                ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed(Routes.addEditCategoryRoute)
-                      .then((value) {
-                    BlocProvider.of<CategoriesDropDownCubit>(context)
-                        .getCategories();
-                  });
-                },
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 32,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (_validateExpense() == false) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'لطفا عنوان و قیمت و دسته را وارد کنید',
-                      style: TextStyle(fontFamily: 'Vazir'),
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 32,
                     ),
                   ),
-                );
-                return;
-              }
-              if (widget.expense == null) {
-                int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
-                if (BlocProvider.of<GlobalBloc>(context).state.settings.unit ==
-                    1) {
-                  newPrice = newPrice ~/ 10;
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_validateExpense() == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'لطفا عنوان و قیمت و دسته را وارد کنید',
+                        style: TextStyle(fontFamily: 'Vazir'),
+                      ),
+                    ),
+                  );
+                  return;
                 }
-                final expense = Expense(
-                  id: idGenerator(),
-                  title: _titleCtrl.text,
-                  date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                  categoryId: selectedCategoryId ?? '',
-                  price: newPrice,
-                );
-                context.read<AddEditExpenseCubit>().addExpense(expense);
-              } else {
-                int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
-                if (BlocProvider.of<GlobalBloc>(context).state.settings.unit ==
-                    1) {
-                  newPrice = (newPrice / 10) as int;
+                if (widget.expense == null) {
+                  int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
+                  if (BlocProvider.of<GlobalBloc>(context)
+                          .state
+                          .settings
+                          .unit ==
+                      1) {
+                    newPrice = newPrice ~/ 10;
+                  }
+                  final expense = Expense(
+                    id: idGenerator(),
+                    title: _titleCtrl.text,
+                    date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                    categoryId: selectedCategoryId ?? '',
+                    price: newPrice,
+                  );
+                  context.read<AddEditExpenseCubit>().addExpense(expense);
+                } else {
+                  int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
+                  if (BlocProvider.of<GlobalBloc>(context)
+                          .state
+                          .settings
+                          .unit ==
+                      1) {
+                    newPrice = (newPrice / 10) as int;
+                  }
+                  final expense = Expense(
+                    id: widget.expense!.id,
+                    title: _titleCtrl.text,
+                    date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                    categoryId: selectedCategoryId ?? '',
+                    price: newPrice,
+                  );
+                  context.read<AddEditExpenseCubit>().editExpense(expense);
                 }
-                final expense = Expense(
-                  id: widget.expense!.id,
-                  title: _titleCtrl.text,
-                  date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                  categoryId: selectedCategoryId ?? '',
-                  price: newPrice,
-                );
-                context.read<AddEditExpenseCubit>().editExpense(expense);
-              }
-            },
-            child: widget.expense == null
-                ? Text(AppLocalizations.of(context)!.translate('save')!)
-                : Text(AppLocalizations.of(context)!.translate('update')!),
-          ),
-        ],
+              },
+              child: widget.expense == null
+                  ? Text(AppLocalizations.of(context)!.translate('save')!)
+                  : Text(AppLocalizations.of(context)!.translate('update')!),
+            ),
+          ],
+        ),
       ),
     );
   }
