@@ -43,108 +43,111 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                labelText: AppLocalizations.of(context)!.translate('title')!,
               ),
-              labelText: AppLocalizations.of(context)!.translate('title')!,
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          CategoryDropDownWidget(
-            value: widget.category?.parentId ?? '',
-            onSelected: (selectedValue) {
-              parentId = selectedValue;
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: colorStr.isEmpty ? Colors.white : HexColor(colorStr),
-                  ),
-                  height: 48,
-                  child: colorStr.isEmpty == false
-                      ? Center(
-                          child: Text(
-                            colorStr,
-                            style: TextStyle(
-                              color: generateOppositeColor(colorStr),
-                              fontFamily: 'Roboto',
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ),
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              TextButton(
-                onPressed: () async {
-                  final result = await colorDialog(context);
-                  if (result != null) {
-                    setState(() {
-                      colorStr = result;
-                    });
-                  }
-                },
-                child: const Text(
-                  'Select Color',
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (_validateCategory(_controller.text) == false) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'لطفا عنوان را وارد کنید',
-                      style: TextStyle(fontFamily: 'Vazir'),
+            const SizedBox(
+              height: 16,
+            ),
+            CategoryDropDownWidget(
+              value: widget.category?.parentId ?? '',
+              onSelected: (selectedValue) {
+                parentId = selectedValue;
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color:
+                          colorStr.isEmpty ? Colors.white : HexColor(colorStr),
                     ),
+                    height: 48,
+                    child: colorStr.isEmpty == false
+                        ? Center(
+                            child: Text(
+                              colorStr,
+                              style: TextStyle(
+                                color: generateOppositeColor(colorStr),
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
                   ),
-                );
-                return;
-              }
-              if (widget.category == null) {
-                final tmpCategory = Category(
-                  id: idGenerator(),
-                  parentId: parentId ?? '',
-                  title: _controller.text,
-                  color: colorStr,
-                );
-                context.read<CategoryCubit>().addCategory(tmpCategory);
-              } else {
-                final tmpCategory = Category(
-                  id: widget.category!.id,
-                  parentId: parentId ?? '',
-                  title: _controller.text,
-                  color: colorStr,
-                );
-                context.read<CategoryCubit>().editCategory(tmpCategory);
-              }
-            },
-            child: widget.category == null
-                ? Text(AppLocalizations.of(context)!.translate('save')!)
-                : Text(AppLocalizations.of(context)!.translate('update')!),
-          ),
-        ],
+                ),
+                const SizedBox(
+                  width: 24,
+                ),
+                TextButton(
+                  onPressed: () async {
+                    final result = await colorDialog(context);
+                    if (result != null) {
+                      setState(() {
+                        colorStr = result;
+                      });
+                    }
+                  },
+                  child: const Text(
+                    'Select Color',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_validateCategory(_controller.text) == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'لطفا عنوان را وارد کنید',
+                        style: TextStyle(fontFamily: 'Vazir'),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                if (widget.category == null) {
+                  final tmpCategory = Category(
+                    id: idGenerator(),
+                    parentId: parentId ?? '',
+                    title: _controller.text,
+                    color: colorStr,
+                  );
+                  context.read<CategoryCubit>().addCategory(tmpCategory);
+                } else {
+                  final tmpCategory = Category(
+                    id: widget.category!.id,
+                    parentId: parentId ?? '',
+                    title: _controller.text,
+                    color: colorStr,
+                  );
+                  context.read<CategoryCubit>().editCategory(tmpCategory);
+                }
+              },
+              child: widget.category == null
+                  ? Text(AppLocalizations.of(context)!.translate('save')!)
+                  : Text(AppLocalizations.of(context)!.translate('update')!),
+            ),
+          ],
+        ),
       ),
     );
   }
