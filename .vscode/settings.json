@@ -7,5 +7,6 @@
         "spinkit",
         "بروزرسانی",
         "ویرایش"
-    ]
+    ],
+    "dart.flutterSdkPath": "~/MyApp/flutter"
 }

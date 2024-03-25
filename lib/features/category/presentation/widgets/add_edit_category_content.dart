@@ -103,7 +103,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     }
                   },
                   child: const Text(
-                    'Select Color',
+                    'انتخاب رنگ',
                   ),
                 ),
               ],
