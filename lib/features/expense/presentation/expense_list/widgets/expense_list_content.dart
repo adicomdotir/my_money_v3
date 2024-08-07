@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/price_format.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
 import '../cubit/expense_cubit.dart';
 
@@ -102,7 +103,7 @@ class ExpenseCard extends StatelessWidget {
                         Text(
                           priceFormat(
                             expense.price,
-                            context,
+                            context.read<GlobalBloc>().state.settings.unit,
                           ),
                         ),
                       ],

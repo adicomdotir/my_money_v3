@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/utils/price_format.dart';
-import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/core/utils/numeric_text_formatter.dart';
+import 'package:my_money_v3/core/utils/price_format.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../cubit/add_edit_expense_cubit.dart';
@@ -95,7 +95,13 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: Center(child: Text(priceSign(context))),
+                  child: Center(
+                    child: Text(
+                      priceSignString(
+                        context.read<GlobalBloc>().state.settings.unit,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
