@@ -17,8 +17,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     ChangeMoneyUnitEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    print('888888888888888888');
-    print(event.settings.locale);
     final result = await changeMoneyUnit.call(event.settings);
     result.fold(
       (error) => null,

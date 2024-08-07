@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 class SettingsModel {
   final int unit;
   final String locale;

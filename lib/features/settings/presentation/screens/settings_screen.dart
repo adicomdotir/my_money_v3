@@ -33,7 +33,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 return BlocListener<SettingsBloc, SettingsState>(
                   listener: (context, state) {
                     if (state is SettingsSuccess) {
-                      print('object');
                       BlocProvider.of<GlobalBloc>(context)
                           .add(GetSettingsGlobalEvent());
                     }

@@ -37,7 +37,6 @@ class LangRepositoryImpl implements LangRepository {
   Future<Either<Failure, Settings>> getSavedSettings() async {
     try {
       final settings = await langLocalDataSource.getSavedSettings();
-      print(settings.toJson());
       return Right(
         Settings(unit: settings.unit, locale: Locale(settings.locale)),
       );
