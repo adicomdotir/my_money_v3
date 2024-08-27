@@ -8,3 +8,8 @@ abstract class ReportEvent extends Equatable {
 }
 
 class GetReportEvent extends ReportEvent {}
+
+class SwitchTypeCard extends ReportEvent {
+  final bool type;
+  const SwitchTypeCard(this.type);
+}

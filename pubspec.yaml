@@ -23,6 +23,7 @@ dependencies:
   persian_datetime_picker: ^2.5.0
   uuid: ^3.0.7
   mockito: ^5.4.0
+  pie_chart: ^5.4.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

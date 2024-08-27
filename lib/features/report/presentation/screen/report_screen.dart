@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../core/utils/price_format.dart';
 import '../bloc/report_bloc.dart';
@@ -29,109 +30,33 @@ class ReportScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            _getMonthName(state.reports[index].monthName),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            priceFormat(
-                              state.reports[index].sumPrice,
-                              context.read<GlobalBloc>().state.settings.unit,
-                            ),
-                          ),
-                          ...List.generate(
-                            state.reports[index].catExpneseList.length,
-                            (idx) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8.0,
-                                horizontal: 0,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: _getColor(
-                                        state.reports[index].catExpneseList[idx]
-                                            .color,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        state.reports[index].catExpneseList[idx]
-                                            .title,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF424242),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF616161),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        priceFormat(
-                                          state.reports[index]
-                                              .catExpneseList[idx].price,
-                                          context
-                                              .read<GlobalBloc>()
-                                              .state
-                                              .settings
-                                              .unit,
-                                        ),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFFE53935),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${(state.reports[index].catExpneseList[idx].percent).toStringAsFixed(1)} %',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF212121),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                          headerCard(state, index, context),
+                          if (!state.showPieChart)
+                            ...detailCategoryExpenseList(state, index, context),
+                          if (!state.showPieChart)
+                            Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              width: double.infinity,
+                              height: 16,
+                              child: CustomPaint(
+                                painter: LinearPainter(
+                                  state.reports[index].catExpneseList,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 8),
-                            width: double.infinity,
-                            height: 16,
-                            child: CustomPaint(
-                              painter: LinearPainter(
+                          if (state.showPieChart)
+                            PieChart(
+                              dataMap: pieChartDataMapper(
                                 state.reports[index].catExpneseList,
                               ),
+                              chartType: ChartType.disc,
+                              legendOptions: const LegendOptions(
+                                showLegends: true,
+                                legendPosition: LegendPosition.left,
+                              ),
+                              formatChartValues: (value) =>
+                                  '${value.toStringAsFixed(1)} %',
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -149,11 +74,133 @@ class ReportScreen extends StatelessWidget {
     );
   }
 
+  List<Widget> detailCategoryExpenseList(
+    ReportSuccesState state,
+    int index,
+    BuildContext context,
+  ) {
+    return List.generate(
+      state.reports[index].catExpneseList.length,
+      (idx) => Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 0,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _getColor(
+                  state.reports[index].catExpneseList[idx].color,
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  state.reports[index].catExpneseList[idx].title,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF424242),
+                  ),
+                ),
+                Text(
+                  '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF616161),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  priceFormat(
+                    state.reports[index].catExpneseList[idx].price,
+                    context.read<GlobalBloc>().state.settings.unit,
+                  ),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFFE53935),
+                  ),
+                ),
+                Text(
+                  '${(state.reports[index].catExpneseList[idx].percent).toStringAsFixed(1)} %',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF212121),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row headerCard(ReportSuccesState state, int index, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            Text(
+              _getMonthName(
+                state.reports[index].monthName,
+              ),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              priceFormat(
+                state.reports[index].sumPrice,
+                context.read<GlobalBloc>().state.settings.unit,
+              ),
+            ),
+          ],
+        ),
+        IconButton(
+          onPressed: () {
+            context.read<ReportBloc>().add(
+                  SwitchTypeCard(state.showPieChart ? false : true),
+                );
+          },
+          icon: const Icon(Icons.switch_camera_outlined),
+        ),
+      ],
+    );
+  }
+
   String _getMonthName(String monthName) {
     final dateArray = monthName.split('/');
     final year = dateArray.first;
     final month = int.tryParse(dateArray.last) ?? 1;
     return '${JalaliDate.months[month - 1]} $year';
+  }
+
+  Map<String, double> pieChartDataMapper(List<CatExpense> catExpneseList) {
+    final result = <String, double>{};
+    for (var catExpense in catExpneseList) {
+      result[catExpense.title] = catExpense.percent;
+    }
+    return result;
   }
 }
 

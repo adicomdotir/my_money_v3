@@ -1,5 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/usecase/usecase.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
@@ -18,9 +18,18 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
       final result = await getReportUseCase(NoParams());
       result.fold(
         (error) => emit(ReportErrorState(message: _mapFailureToMsg(error))),
-        (success) => emit(ReportSuccesState(reports: success)),
+        (success) =>
+            emit(ReportSuccesState(reports: success, showPieChart: false)),
       );
     });
+    on<SwitchTypeCard>(
+      (event, emit) {
+        print((state as ReportSuccesState).reports.length);
+        emit(
+          (state as ReportSuccesState).copywith(showPieChart: event.type),
+        );
+      },
+    );
   }
 
   String _mapFailureToMsg(Failure failure) {

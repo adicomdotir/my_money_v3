@@ -17,6 +17,23 @@ class ReportErrorState extends ReportState {
 
 class ReportSuccesState extends ReportState {
   final List<ReportEntity> reports;
+  final bool showPieChart;
 
-  const ReportSuccesState({required this.reports});
+  const ReportSuccesState({
+    required this.reports,
+    required this.showPieChart,
+  });
+
+  ReportSuccesState copywith({
+    List<ReportEntity>? reports,
+    bool? showPieChart,
+  }) {
+    return ReportSuccesState(
+      reports: reports ?? this.reports,
+      showPieChart: showPieChart ?? this.showPieChart,
+    );
+  }
+
+  @override
+  List<Object> get props => [reports, showPieChart];
 }
