@@ -1,7 +1,7 @@
-import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/config/routes/app_routes.dart';
+import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 
 import '../../../../config/locale/app_localizations.dart';
 import '../cubit/home_info_cubit.dart';

@@ -79,7 +79,7 @@ class HomeContent extends StatelessWidget {
           Text(
             priceFormat(
               price,
-              context,
+              BlocProvider.of<GlobalBloc>(context).state.settings.unit,
             ),
           ),
         ],
