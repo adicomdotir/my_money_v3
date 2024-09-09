@@ -10,7 +10,7 @@ Color generateOppositeColor(String color) {
     var bgColor = Color.fromRGBO(red, green, blue, 1.0);
     resultColor =
         bgColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-  } catch (ex) {
+  } on Exception catch (_) {
     // change color if you want
   }
   return resultColor;

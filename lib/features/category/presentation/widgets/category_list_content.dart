@@ -11,8 +11,8 @@ class CategoryListContent extends StatefulWidget {
   final List<Category> categories;
 
   const CategoryListContent({
-    Key? key,
     required this.categories,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -49,7 +49,7 @@ class _CategoryListContentState extends State<CategoryListContent> {
 class CategoryCard extends StatelessWidget {
   final Category category;
 
-  const CategoryCard({super.key, required this.category});
+  const CategoryCard({required this.category, super.key});
 
   @override
   Widget build(BuildContext context) {

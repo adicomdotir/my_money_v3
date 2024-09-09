@@ -179,7 +179,7 @@ class ReportScreen extends StatelessWidget {
         IconButton(
           onPressed: () {
             context.read<ReportBloc>().add(
-                  SwitchTypeCard(state.showPieChart ? false : true),
+                  SwitchTypeCard(!state.showPieChart),
                 );
           },
           icon: const Icon(Icons.switch_camera_outlined),

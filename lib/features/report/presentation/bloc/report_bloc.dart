@@ -24,7 +24,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     });
     on<SwitchTypeCard>(
       (event, emit) {
-        print((state as ReportSuccesState).reports.length);
         emit(
           (state as ReportSuccesState).copywith(showPieChart: event.type),
         );

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
+  const Constants._();
+
   static void showErrorDialog({
     required BuildContext context,
     required String msg,

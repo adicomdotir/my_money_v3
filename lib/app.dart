@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+
 import 'config/locale/app_localizations_setup.dart';
 import 'config/routes/app_routes.dart';
 import 'config/themes/app_theme.dart';
@@ -15,15 +16,15 @@ class MyMoneyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
+          create: (BuildContext context) =>
               di.sl<GlobalBloc>()..add(GetSettingsGlobalEvent()),
         ),
       ],
       child: BlocBuilder<GlobalBloc, GlobalState>(
-        buildWhen: (previousState, currentState) {
+        buildWhen: (GlobalState previousState, GlobalState currentState) {
           return previousState != currentState;
         },
-        builder: (context, state) {
+        builder: (BuildContext context, GlobalState state) {
           return MaterialApp(
             title: AppStrings.appName,
             locale: state.settings.locale,

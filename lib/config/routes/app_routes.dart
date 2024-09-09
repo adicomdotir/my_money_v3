@@ -31,6 +31,8 @@ class Routes {
 }
 
 class AppRoutes {
+  const AppRoutes._();
+
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:

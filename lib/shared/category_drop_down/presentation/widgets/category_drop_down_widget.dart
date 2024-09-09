@@ -10,9 +10,9 @@ class CategoryDropDownWidget extends StatefulWidget {
   final String value;
 
   const CategoryDropDownWidget({
-    super.key,
     required this.onSelected,
     required this.value,
+    super.key,
   });
 
   @override

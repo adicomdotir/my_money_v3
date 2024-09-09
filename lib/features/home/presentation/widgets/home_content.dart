@@ -11,8 +11,8 @@ import '../cubit/home_info_cubit.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({
-    Key? key,
     required this.homeInfoList,
+    Key? key,
   }) : super(key: key);
 
   final HomeInfoEntity homeInfoList;

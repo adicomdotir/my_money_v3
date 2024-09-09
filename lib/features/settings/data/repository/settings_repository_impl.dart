@@ -19,7 +19,7 @@ class SettingsRepositoryImpl extends SettingsRepository {
       );
       final res = await settingsDataSource.changeMoneyUnit(map);
       return Right(res);
-    } catch (e) {
+    } on Exception {
       return Left(CacheFailure());
     }
   }

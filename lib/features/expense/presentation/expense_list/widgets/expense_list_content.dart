@@ -14,8 +14,8 @@ class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
 
   const ExpenseListContent({
-    Key? key,
     required this.expenses,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -55,8 +55,8 @@ class ExpenseCard extends StatelessWidget {
   final Expense expense;
 
   const ExpenseCard({
-    super.key,
     required this.expense,
+    super.key,
   });
 
   @override
