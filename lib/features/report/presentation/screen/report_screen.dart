@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/core/utils/functions/functions.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../core/utils/price_format.dart';
@@ -192,7 +192,7 @@ class ReportScreen extends StatelessWidget {
     final dateArray = monthName.split('/');
     final year = dateArray.first;
     final month = int.tryParse(dateArray.last) ?? 1;
-    return '${JalaliDate.months[month - 1]} $year';
+    return '${getMonthName(month - 1)} $year';
   }
 
   Map<String, double> pieChartDataMapper(List<CatExpense> catExpneseList) {

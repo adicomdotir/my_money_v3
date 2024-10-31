@@ -1,7 +1,8 @@
-import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/config/locale/app_localizations.dart';
+import 'package:my_money_v3/core/utils/functions/functions.dart';
+import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../cubit/expense_cubit.dart';
@@ -10,7 +11,7 @@ import '../widgets/expense_list_content.dart';
 List<String> calenderFilters = ['روز', 'هفته', 'ماه'];
 
 class ExpenseListScreen extends StatefulWidget {
-  const ExpenseListScreen({Key? key}) : super(key: key);
+  const ExpenseListScreen({super.key});
 
   @override
   State<ExpenseListScreen> createState() => _ExpenseListScreenState();
@@ -147,7 +148,7 @@ class CalenderFilterWidget extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: Text(
-              '${state.fromDate?.day.toString()} ${JalaliDate.months[(state.fromDate?.month ?? 1) - 1]}',
+              '${state.fromDate?.day.toString()} ${getMonthName((state.fromDate?.month ?? 1) - 1)}',
               textAlign: TextAlign.center,
             ),
           ),
@@ -238,7 +239,7 @@ class CalenderFilterWidget extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             child: Text(
-              '${JalaliDate.months[(state.fromDate?.month ?? 1) - 1]} ${state.fromDate?.year}',
+              '${getMonthName((state.fromDate?.month ?? 1) - 1)} ${state.fromDate?.year}',
               textAlign: TextAlign.center,
             ),
           ),
