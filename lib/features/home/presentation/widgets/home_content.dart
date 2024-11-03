@@ -9,30 +9,61 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../cubit/home_info_cubit.dart';
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({
     required this.homeInfoList,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final HomeInfoEntity homeInfoList;
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent>
+    with TickerProviderStateMixin {
+  AnimationController? animation;
+  Animation<double>? _fadeInFadeOut;
+
+  @override
+  void initState() {
+    super.initState();
+    animation = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+    _fadeInFadeOut = Tween<double>(begin: 0.0, end: 1).animate(animation!);
+
+    // animation?.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     animation?.reverse();
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     animation?.forward();
+    //   }
+    // });
+    animation?.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
     final height =
         MediaQuery.of(context).size.height - AppBar().preferredSize.height - 24;
-    return SizedBox(
-      width: double.maxFinite,
-      child: Column(
-        children: [
-          reportGeneral(height, context),
-          reportByCategory(height, context),
-        ],
+    return FadeTransition(
+      opacity: _fadeInFadeOut!,
+      child: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          children: [
+            reportGeneral(height, context),
+            reportByCategory(height, context),
+          ],
+        ),
       ),
     );
   }
 
-  Container reportGeneral(double height, BuildContext context) {
+  Widget reportGeneral(double height, BuildContext context) {
     final jalali = Jalali.now();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -42,22 +73,22 @@ class HomeContent extends StatelessWidget {
         children: [
           reportGeneralItem(
             'هزینه امروز (${jalali.formatShortMonthDay()})',
-            homeInfoList.todayPrice,
+            widget.homeInfoList.todayPrice,
             context,
           ),
           reportGeneralItem(
             'هزینه ماه (${jalali.formatter.mN})',
-            homeInfoList.monthPrice,
+            widget.homeInfoList.monthPrice,
             context,
           ),
           reportGeneralItem(
             'هزینه ۳۰ روز گذشته',
-            homeInfoList.thirtyDaysPrice,
+            widget.homeInfoList.thirtyDaysPrice,
             context,
           ),
           reportGeneralItem(
             'هزینه ۹۰ روز گذشته',
-            homeInfoList.ninetyDaysPrice,
+            widget.homeInfoList.ninetyDaysPrice,
             context,
           ),
         ],
@@ -69,7 +100,7 @@ class HomeContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.blueGrey.shade100,
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -118,12 +149,12 @@ class HomeContent extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.only(bottom: 64),
-              itemCount: homeInfoList.expenseByCategory.length,
+              itemCount: widget.homeInfoList.expenseByCategory.length,
               separatorBuilder: (context, index) => const SizedBox(
                 height: 16,
               ),
               itemBuilder: (context, index) {
-                final item = homeInfoList.expenseByCategory[index];
+                final item = widget.homeInfoList.expenseByCategory[index];
                 return Column(
                   children: [
                     SizedBox(
