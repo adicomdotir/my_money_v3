@@ -38,7 +38,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
         } else {
           return Column(
             children: [
-              const CalenderFilterWidget(),
+              CalenderFilterWidget(),
               ExpenseListContent(
                 expenses: state.expenses ?? [],
               ),
@@ -62,7 +62,9 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
 }
 
 class CalenderFilterWidget extends StatelessWidget {
-  const CalenderFilterWidget({super.key});
+  CalenderFilterWidget({super.key});
+
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +84,35 @@ class CalenderFilterWidget extends StatelessWidget {
                       if (calenderFilters.length > calenderFilterType + 1) {
                         BlocProvider.of<ExpenseCubit>(context)
                             .changeCalenderFilterType(calenderFilterType + 1);
+                        _pageController.nextPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
                       }
                     },
                     child: Container(
+                      width: MediaQuery.of(context).size.width * 0.15,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
                         color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.arrow_left),
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
-                      calenderFilters[calenderFilterType],
-                      textAlign: TextAlign.center,
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (value) {
+                        BlocProvider.of<ExpenseCubit>(context)
+                            .changeCalenderFilterType(value);
+                      },
+                      children: [
+                        Center(child: Text(calenderFilters[0])),
+                        Center(child: Text(calenderFilters[1])),
+                        Center(child: Text(calenderFilters[2])),
+                      ],
                     ),
                   ),
                   GestureDetector(
@@ -104,12 +120,18 @@ class CalenderFilterWidget extends StatelessWidget {
                       if (calenderFilterType > 0) {
                         BlocProvider.of<ExpenseCubit>(context)
                             .changeCalenderFilterType(calenderFilterType - 1);
+                        _pageController.previousPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
                       }
                     },
                     child: Container(
+                      width: MediaQuery.of(context).size.width * 0.15,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
                         color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.arrow_right),
                     ),
@@ -126,138 +148,102 @@ class CalenderFilterWidget extends StatelessWidget {
     );
   }
 
-  Widget forDaysBuild(ExpenseState state, BuildContext context) {
+  Widget subFilterBuild(
+    BuildContext context,
+    Function() leftTap,
+    Function() rightTap,
+    Widget widget,
+  ) {
     return SizedBox(
       height: 48,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {
-              BlocProvider.of<ExpenseCubit>(context)
-                  .changeFromDate(state.fromDate?.addDays(1) ?? Jalali.now());
-            },
+            onTap: leftTap,
             child: Container(
+              width: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                shape: BoxShape.rectangle,
                 color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(Icons.arrow_left),
             ),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(
-              '${state.fromDate?.day.toString()} ${getMonthName((state.fromDate?.month ?? 1) - 1)}',
-              textAlign: TextAlign.center,
-            ),
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: widget,
           ),
           GestureDetector(
-            onTap: () {
-              BlocProvider.of<ExpenseCubit>(context)
-                  .changeFromDate(state.fromDate?.addDays(-1) ?? Jalali.now());
-
-              // _getDateByDayFilter();
-            },
+            onTap: rightTap,
             child: Container(
+              width: MediaQuery.of(context).size.width * 0.15,
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
+                shape: BoxShape.rectangle,
                 color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(Icons.arrow_right),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget forDaysBuild(ExpenseState state, BuildContext context) {
+    return subFilterBuild(
+      context,
+      () {
+        BlocProvider.of<ExpenseCubit>(context)
+            .changeFromDate(state.fromDate?.addDays(1) ?? Jalali.now());
+      },
+      () {
+        BlocProvider.of<ExpenseCubit>(context)
+            .changeFromDate(state.fromDate?.addDays(-1) ?? Jalali.now());
+      },
+      Text(
+        '${state.fromDate?.day.toString()} ${getMonthName((state.fromDate?.month ?? 1) - 1)}',
+        textAlign: TextAlign.center,
       ),
     );
   }
 
   Widget forWeekBuild(ExpenseState state, BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              BlocProvider.of<ExpenseCubit>(context)
-                  .changeFromDate(state.fromDate?.addDays(7) ?? Jalali.now());
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: const Icon(Icons.arrow_left),
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(
-              '${state.fromDate?.formatShortMonthDay()} تا ${state.fromDate?.addDays(6).formatShortMonthDay()}',
-              textAlign: TextAlign.center,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              BlocProvider.of<ExpenseCubit>(context)
-                  .changeFromDate(state.fromDate?.addDays(-7) ?? Jalali.now());
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: const Icon(Icons.arrow_right),
-            ),
-          ),
-        ],
+    return subFilterBuild(
+      context,
+      () {
+        BlocProvider.of<ExpenseCubit>(context)
+            .changeFromDate(state.fromDate?.addDays(7) ?? Jalali.now());
+      },
+      () {
+        BlocProvider.of<ExpenseCubit>(context)
+            .changeFromDate(state.fromDate?.addDays(-7) ?? Jalali.now());
+      },
+      Text(
+        '${state.fromDate?.formatShortMonthDay()} تا ${state.fromDate?.addDays(6).formatShortMonthDay()}',
+        textAlign: TextAlign.center,
       ),
     );
   }
 
   Widget forMonthBuild(ExpenseState state, BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Jalali monthStart = state.fromDate?.addMonths(1) ?? Jalali.now();
-              monthStart = Jalali(monthStart.year, monthStart.month, 1);
-              BlocProvider.of<ExpenseCubit>(context).changeFromDate(monthStart);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: const Icon(Icons.arrow_left),
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(
-              '${getMonthName((state.fromDate?.month ?? 1) - 1)} ${state.fromDate?.year}',
-              textAlign: TextAlign.center,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Jalali monthStart = state.fromDate?.addMonths(-1) ?? Jalali.now();
-              monthStart = Jalali(monthStart.year, monthStart.month, 1);
-              BlocProvider.of<ExpenseCubit>(context).changeFromDate(monthStart);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-              child: const Icon(Icons.arrow_right),
-            ),
-          ),
-        ],
+    return subFilterBuild(
+      context,
+      () {
+        Jalali monthStart = state.fromDate?.addMonths(1) ?? Jalali.now();
+        monthStart = Jalali(monthStart.year, monthStart.month, 1);
+        BlocProvider.of<ExpenseCubit>(context).changeFromDate(monthStart);
+      },
+      () {
+        Jalali monthStart = state.fromDate?.addMonths(-1) ?? Jalali.now();
+        monthStart = Jalali(monthStart.year, monthStart.month, 1);
+        BlocProvider.of<ExpenseCubit>(context).changeFromDate(monthStart);
+      },
+      Text(
+        '${getMonthName((state.fromDate?.month ?? 1) - 1)} ${state.fromDate?.year}',
+        textAlign: TextAlign.center,
       ),
     );
   }
