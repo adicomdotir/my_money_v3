@@ -2,10 +2,10 @@ import 'package:my_money_v3/features/home/domain/entities/expense_by_category_en
 
 class ExpenseByCategoryModel extends ExpenseByCategoryEntity {
   const ExpenseByCategoryModel({
-    required String title,
-    required int price,
-    required String color,
-  }) : super(title: title, price: price, color: color);
+    required super.title,
+    required super.price,
+    required super.color,
+  });
 
   factory ExpenseByCategoryModel.fromJson(Map<String, dynamic> json) =>
       ExpenseByCategoryModel(

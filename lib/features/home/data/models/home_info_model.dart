@@ -3,18 +3,12 @@ import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart'
 
 class HomeInfoModel extends HomeInfoEntity {
   const HomeInfoModel({
-    required List<ExpenseByCategoryModel> expenseByCategory,
-    required int todayPrice,
-    required int monthPrice,
-    required int thirtyDaysPrice,
-    required int ninetyDaysPrice,
-  }) : super(
-          expenseByCategory: expenseByCategory,
-          todayPrice: todayPrice,
-          monthPrice: monthPrice,
-          thirtyDaysPrice: thirtyDaysPrice,
-          ninetyDaysPrice: ninetyDaysPrice,
-        );
+    required List<ExpenseByCategoryModel> super.expenseByCategory,
+    required super.todayPrice,
+    required super.monthPrice,
+    required super.thirtyDaysPrice,
+    required super.ninetyDaysPrice,
+  });
 
   factory HomeInfoModel.fromJson(Map<String, dynamic> json) => HomeInfoModel(
         expenseByCategory: List<ExpenseByCategoryModel>.from(

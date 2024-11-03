@@ -19,9 +19,9 @@ class AddEditExpenseContent extends StatefulWidget {
   final Expense? expense;
 
   const AddEditExpenseContent({
-    Key? key,
+    super.key,
     this.expense,
-  }) : super(key: key);
+  });
 
   @override
   State<AddEditExpenseContent> createState() => _AddEditExpenseContentState();

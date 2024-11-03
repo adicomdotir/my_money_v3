@@ -1,14 +1,14 @@
-import 'package:my_money_v3/shared/domain/entities/category.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
 import 'package:my_money_v3/features/category/presentation/widgets/add_edit_category_content.dart';
+import 'package:my_money_v3/shared/domain/entities/category.dart';
 
 import '../../../../config/locale/app_localizations.dart';
 
 class AddEditCategoryScreen extends StatefulWidget {
-  const AddEditCategoryScreen({Key? key}) : super(key: key);
+  const AddEditCategoryScreen({super.key});
 
   @override
   State<AddEditCategoryScreen> createState() => _AddEditCategoryScreenState();

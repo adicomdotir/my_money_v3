@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/shared/domain/entities/category.dart';
 import 'package:my_money_v3/core/utils/opposite_color.dart';
 import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import 'package:my_money_v3/shared/domain/entities/category.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
 
   const AddEditCategoryContent({
-    Key? key,
+    super.key,
     this.category,
-  }) : super(key: key);
+  });
 
   @override
   State<AddEditCategoryContent> createState() => _AddEditCategoryContentState();

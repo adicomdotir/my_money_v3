@@ -6,7 +6,7 @@ import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/assets_manager.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

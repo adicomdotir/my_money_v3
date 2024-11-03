@@ -3,18 +3,13 @@ import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
 class ExpenseModel extends Expense {
   const ExpenseModel({
-    required String id,
-    required String title,
-    required String categoryId,
-    required int date,
-    required int price,
+    required super.id,
+    required super.title,
+    required super.categoryId,
+    required super.date,
+    required super.price,
     CategoryModel? categoryModel,
   }) : super(
-          id: id,
-          title: title,
-          categoryId: categoryId,
-          date: date,
-          price: price,
           category: categoryModel,
         );
 

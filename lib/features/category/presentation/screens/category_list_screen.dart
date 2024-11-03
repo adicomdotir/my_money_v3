@@ -7,7 +7,7 @@ import '../../../../config/routes/app_routes.dart';
 import '../cubit/category_cubit.dart';
 
 class CategoryListScreen extends StatefulWidget {
-  const CategoryListScreen({Key? key}) : super(key: key);
+  const CategoryListScreen({super.key});
 
   @override
   State<CategoryListScreen> createState() => _CategoryListScreenState();

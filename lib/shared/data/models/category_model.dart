@@ -2,11 +2,11 @@ import 'package:my_money_v3/shared/domain/entities/category.dart';
 
 class CategoryModel extends Category {
   const CategoryModel({
-    required String id,
-    required String parentId,
-    required String title,
-    required String color,
-  }) : super(id: id, parentId: parentId, title: title, color: color);
+    required super.id,
+    required super.parentId,
+    required super.title,
+    required super.color,
+  });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(

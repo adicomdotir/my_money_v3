@@ -15,8 +15,8 @@ class ExpenseListContent extends StatefulWidget {
 
   const ExpenseListContent({
     required this.expenses,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExpenseListContent> createState() => _ExpenseListContentState();

@@ -1,5 +1,5 @@
-import 'package:my_money_v3/core/utils/media_query_values.dart';
 import 'package:flutter/material.dart';
+import 'package:my_money_v3/core/utils/media_query_values.dart';
 
 import '../../config/locale/app_localizations.dart';
 import '../utils/app_colors.dart';
@@ -7,7 +7,7 @@ import '../utils/app_colors.dart';
 class ErrorWidget extends StatelessWidget {
   final VoidCallback? onPress;
 
-  const ErrorWidget({Key? key, this.onPress}) : super(key: key);
+  const ErrorWidget({super.key, this.onPress});
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,14 @@
-import 'package:my_money_v3/config/locale/app_localizations.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/config/locale/app_localizations.dart';
+import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
+
 import '../cubit/add_edit_expense_cubit.dart';
 import '../widgets/add_edit_expense_content.dart';
 
 class AddEditExpenseScreen extends StatefulWidget {
-  const AddEditExpenseScreen({Key? key}) : super(key: key);
+  const AddEditExpenseScreen({super.key});
 
   @override
   State<AddEditExpenseScreen> createState() => _AddEditExpenseScreenState();

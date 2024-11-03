@@ -12,8 +12,8 @@ class CategoryListContent extends StatefulWidget {
 
   const CategoryListContent({
     required this.categories,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CategoryListContent> createState() => _CategoryListContentState();

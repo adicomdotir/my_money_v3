@@ -8,7 +8,7 @@ import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
