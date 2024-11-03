@@ -134,10 +134,12 @@ class _HomeContentState extends State<HomeContent>
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.expenseListRoute).then(
-                    (value) =>
-                        BlocProvider.of<HomeInfoCubit>(context).getHomeInfo(),
-                  );
+                  Navigator.pushNamed(context, Routes.expenseListRoute)
+                      .then((value) {
+                    if (context.mounted) {
+                      BlocProvider.of<HomeInfoCubit>(context).getHomeInfo();
+                    }
+                  });
                 },
                 child: const Text('مشاهده همه'),
               ),

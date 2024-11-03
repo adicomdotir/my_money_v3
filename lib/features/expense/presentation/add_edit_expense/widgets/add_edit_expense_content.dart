@@ -150,8 +150,10 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     Navigator.of(context)
                         .pushNamed(Routes.addEditCategoryRoute)
                         .then((value) {
-                      BlocProvider.of<CategoriesDropDownCubit>(context)
-                          .getCategories();
+                      if (context.mounted) {
+                        BlocProvider.of<CategoriesDropDownCubit>(context)
+                            .getCategories();
+                      }
                     });
                   },
                   child: Container(

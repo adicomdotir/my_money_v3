@@ -75,7 +75,11 @@ class ExpenseCard extends StatelessWidget {
               categoryId: expense.categoryId,
             ),
           },
-        ).then((value) => BlocProvider.of<ExpenseCubit>(context).getExpenses());
+        ).then((value) {
+          if (context.mounted) {
+            BlocProvider.of<ExpenseCubit>(context).getExpenses();
+          }
+        });
       },
       child: Card(
         elevation: 2,
@@ -123,7 +127,7 @@ class ExpenseCard extends StatelessWidget {
                         IconButton(
                           onPressed: () async {
                             await showDeleteDialog(context).then((value) {
-                              if (value != null && value) {
+                              if (context.mounted && value != null && value) {
                                 BlocProvider.of<ExpenseCubit>(context)
                                     .deleteExpense(expense.id);
                               }

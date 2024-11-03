@@ -60,7 +60,9 @@ class CategoryCard extends StatelessWidget {
           Routes.addEditCategoryRoute,
           arguments: {'category': category},
         ).whenComplete(() {
-          BlocProvider.of<CategoryCubit>(context).getCategories();
+          if (context.mounted) {
+            BlocProvider.of<CategoryCubit>(context).getCategories();
+          }
         });
       },
       child: Card(
@@ -89,7 +91,7 @@ class CategoryCard extends StatelessWidget {
                     IconButton(
                       onPressed: () async {
                         await showDeleteDialog(context).then((value) {
-                          if (value != null && value) {
+                          if (context.mounted && value != null && value) {
                             BlocProvider.of<CategoryCubit>(context)
                                 .deleteCategory(category.id);
                           }
