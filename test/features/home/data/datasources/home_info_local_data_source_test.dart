@@ -18,24 +18,27 @@ void main() {
         HomeInfoLocalDataSourceImpl(databaseHelper: mockDatabaseHelper);
   });
 
-  test('getHomeInfo returns HomeInfoModel', () async {
-    // Arrange
-    const mockHomeInfo = HomeInfoModel(
+  group('getHomeInfo', () {
+    final tHomeInfoModel = HomeInfoModel(
       expenseByCategory: [],
-      todayPrice: 55000,
-      monthPrice: 65000,
-      thirtyDaysPrice: 75000,
-      ninetyDaysPrice: 95000,
+      todayPrice: 100,
+      monthPrice: 700,
+      thirtyDaysPrice: 500,
+      ninetyDaysPrice: 3000,
     );
-    when(mockDatabaseHelper.getHomeInfo())
-        .thenAnswer((_) async => mockHomeInfo);
 
-    // Act
-    final result = await dataSource.getHomeInfo();
-    print(result.toString());
-
-    // Assert
-    expect(result, equals(mockHomeInfo));
-    verify(mockDatabaseHelper.getHomeInfo());
+    test(
+      'should return HomeInfoModel from Database when call to database is successful',
+      () async {
+        // arrange
+        when(mockDatabaseHelper.getHomeInfo())
+            .thenAnswer((_) async => tHomeInfoModel.toMap());
+        // act
+        final result = await dataSource.getHomeInfo();
+        // assert
+        verify(mockDatabaseHelper.getHomeInfo());
+        expect(result, equals(tHomeInfoModel));
+      },
+    );
   });
 }
