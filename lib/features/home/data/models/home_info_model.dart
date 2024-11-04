@@ -10,21 +10,21 @@ class HomeInfoModel extends HomeInfoEntity {
     required super.ninetyDaysPrice,
   });
 
-  factory HomeInfoModel.fromJson(Map<String, dynamic> json) => HomeInfoModel(
+  factory HomeInfoModel.fromMap(Map<String, dynamic> map) => HomeInfoModel(
         expenseByCategory: List<ExpenseByCategoryModel>.from(
-          json['expenseByCategory']
-              .map((x) => ExpenseByCategoryModel.fromJson(x)),
+          map['expenseByCategory']
+              .map((x) => ExpenseByCategoryModel.fromMap(x)),
         ),
-        todayPrice: json['todayPrice'],
-        monthPrice: json['monthPrice'],
-        thirtyDaysPrice: json['thirtyDaysPrice'],
-        ninetyDaysPrice: json['ninetyDaysPrice'],
+        todayPrice: map['todayPrice'],
+        monthPrice: map['monthPrice'],
+        thirtyDaysPrice: map['thirtyDaysPrice'],
+        ninetyDaysPrice: map['ninetyDaysPrice'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'expenseByCategory': List<dynamic>.from(
           (expenseByCategory as List<ExpenseByCategoryModel>)
-              .map((x) => x.toJson()),
+              .map((x) => x.toMap()),
         ),
         'todayPrice': todayPrice,
         'monthPrice': monthPrice,

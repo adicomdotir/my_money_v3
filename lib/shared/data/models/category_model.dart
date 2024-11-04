@@ -8,7 +8,7 @@ class CategoryModel extends Category {
     required super.color,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+  factory CategoryModel.fromMap(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'],
       parentId: json['parentId'],
@@ -17,7 +17,7 @@ class CategoryModel extends Category {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'id': id,
         'parentId': parentId,
         'title': title,

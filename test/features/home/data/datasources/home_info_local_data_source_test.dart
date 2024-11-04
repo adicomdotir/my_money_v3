@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/home/data/datasources/home_info_local_data_source.dart';
 import 'package:my_money_v3/features/home/data/models/home_info_model.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
 import 'home_info_local_data_source_test.mocks.dart';
 
@@ -32,6 +32,7 @@ void main() {
 
     // Act
     final result = await dataSource.getHomeInfo();
+    print(result.toString());
 
     // Assert
     expect(result, equals(mockHomeInfo));

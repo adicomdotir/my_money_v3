@@ -25,16 +25,16 @@ void main() {
       expect(result.color, color);
     });
 
-    test('fromJson should return a valid ExpenseByCategoryModel instance', () {
+    test('fromMap should return a valid ExpenseByCategoryModel instance', () {
       // Arrange
-      final json = {
+      final map = {
         'title': title,
         'price': price,
         'color': color,
       };
 
       // Act
-      final result = ExpenseByCategoryModel.fromJson(json);
+      final result = ExpenseByCategoryModel.fromMap(map);
 
       // Assert
       expect(result, isA<ExpenseByCategoryModel>());
@@ -43,7 +43,7 @@ void main() {
       expect(result.color, color);
     });
 
-    test('toJson should return a valid JSON object', () {
+    test('toMap should return a valid JSON object', () {
       // Arrange
       const model = ExpenseByCategoryModel(
         title: title,
@@ -52,7 +52,7 @@ void main() {
       );
 
       // Act
-      final result = model.toJson();
+      final result = model.toMap();
 
       // Assert
       expect(result, isA<Map<String, dynamic>>());

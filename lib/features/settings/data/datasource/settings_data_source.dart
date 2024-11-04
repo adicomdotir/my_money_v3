@@ -18,7 +18,7 @@ class SettingsDataSourceImpl extends SettingsDataSource {
     if (sharedPreferences.containsKey(AppStrings.settings)) {
       sharedPreferences.setString(
         AppStrings.settings,
-        jsonEncode(settingsModel.toJson()),
+        jsonEncode(settingsModel.toMap()),
       );
       return true;
     } else {

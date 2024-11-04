@@ -16,6 +16,6 @@ class HomeInfoLocalDataSourceImpl implements HomeInfoLocalDataSource {
   @override
   Future<HomeInfoModel> getHomeInfo() async {
     final result = await databaseHelper.getHomeInfo();
-    return HomeInfoModel.fromJson(jsonDecode(jsonEncode(result)));
+    return HomeInfoModel.fromMap(jsonDecode(jsonEncode(result)));
   }
 }

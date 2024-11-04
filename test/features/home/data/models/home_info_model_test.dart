@@ -11,9 +11,9 @@ void main() {
   const color2 = '#008000';
 
   group('HomeInfoModel', () {
-    test('fromJson should return a valid HomeInfoModel instance', () {
+    test('fromMap should return a valid HomeInfoModel instance', () {
       // Arrange
-      final json = {
+      final map = {
         'expenseByCategory': [
           {
             'title': title1,
@@ -51,13 +51,13 @@ void main() {
       );
 
       // Act
-      final result = HomeInfoModel.fromJson(json);
+      final result = HomeInfoModel.fromMap(map);
 
       // Assert
       expect(result, expectedModel);
     });
 
-    test('toJson should return a valid JSON object', () {
+    test('toMap should return a valid JSON object', () {
       // Arrange
       const expense1 = ExpenseByCategoryModel(
         title: title1,
@@ -96,7 +96,7 @@ void main() {
       };
 
       // Act
-      final result = model.toJson();
+      final result = model.toMap();
 
       // Assert
       expect(result, expectedJson);

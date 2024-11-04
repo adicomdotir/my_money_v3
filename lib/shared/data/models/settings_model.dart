@@ -7,14 +7,14 @@ class SettingsModel {
     required this.locale,
   });
 
-  factory SettingsModel.fromJson(Map<String, dynamic> json) {
+  factory SettingsModel.fromMap(Map<String, dynamic> json) {
     return SettingsModel(
       unit: json['unit'],
       locale: json['locale'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'unit': unit,
         'locale': locale,
       };

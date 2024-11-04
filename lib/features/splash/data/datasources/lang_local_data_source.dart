@@ -29,10 +29,10 @@ class LangLocalDataSourceImpl implements LangLocalDataSource {
   Future<SettingsModel> getSavedSettings() async {
     if (sharedPreferences.containsKey(AppStrings.settings)) {
       String json = sharedPreferences.getString(AppStrings.settings) ?? '';
-      return SettingsModel.fromJson(jsonDecode(json));
+      return SettingsModel.fromMap(jsonDecode(json));
     } else {
       const sm = SettingsModel(unit: 0, locale: 'fa');
-      sharedPreferences.setString(AppStrings.settings, jsonEncode(sm.toJson()));
+      sharedPreferences.setString(AppStrings.settings, jsonEncode(sm.toMap()));
       return sm;
     }
   }

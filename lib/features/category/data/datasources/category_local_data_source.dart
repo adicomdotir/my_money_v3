@@ -19,7 +19,7 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   @override
   Future<String> addEditCategory(CategoryModel categoryModel) async {
     return await databaseHelper.addCategory(
-      categoryModel.toJson(),
+      categoryModel.toMap(),
       categoryModel.id,
     );
   }
@@ -28,7 +28,7 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   Future<List<CategoryModel>> getCategories() async {
     final result = await databaseHelper.getCategories();
     return result.map<CategoryModel>((e) {
-      return CategoryModel.fromJson(jsonDecode(jsonEncode(e)));
+      return CategoryModel.fromMap(jsonDecode(jsonEncode(e)));
     }).toList();
   }
 
