@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../domain/usecases/get_home_info.dart';
 
@@ -19,8 +18,7 @@ class HomeInfoCubit extends Cubit<HomeInfoState> {
 
   Future<void> getHomeInfo() async {
     emit(HomeInfoIsLoading());
-    Either<Failure, HomeInfoEntity> response =
-        await getHomeInfoUseCase(NoParams());
+    Either<Failure, HomeInfoEntity> response = await getHomeInfoUseCase();
     emit(
       response.fold(
         (failure) => HomeInfoError(msg: _mapFailureToMsg(failure)),

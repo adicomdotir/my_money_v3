@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../shared/domain/entities/category.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../../../shared/domain/entities/category.dart';
 import '../repositories/category_repository.dart';
 
-class CategoryListUseCase implements UseCase<List<Category>, NoParams> {
+class CategoryListUseCase implements UseCaseWithoutParam<List<Category>> {
   final CategoryRepository categoryRepository;
 
   CategoryListUseCase({required this.categoryRepository});
 
   @override
-  Future<Either<Failure, List<Category>>> call(NoParams params) =>
+  Future<Either<Failure, List<Category>>> call() =>
       categoryRepository.getCategories();
 }

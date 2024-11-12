@@ -6,7 +6,8 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../shared/domain/entities/expense.dart';
 
-class ExpenseListUseCase implements UseCase<List<Expense>, GetExpensesParams> {
+class ExpenseListUseCase
+    implements UseCaseWithParam<List<Expense>, GetExpensesParams> {
   final ExpenseRepository expenseRepository;
 
   ExpenseListUseCase({required this.expenseRepository});

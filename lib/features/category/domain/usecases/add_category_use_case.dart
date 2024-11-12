@@ -7,7 +7,7 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../shared/domain/entities/category.dart';
 import '../repositories/category_repository.dart';
 
-class AddCategoryUseCase implements UseCase<String, CategoryParams> {
+class AddCategoryUseCase implements UseCaseWithParam<String, CategoryParams> {
   final CategoryRepository categoryRepository;
 
   AddCategoryUseCase({required this.categoryRepository});

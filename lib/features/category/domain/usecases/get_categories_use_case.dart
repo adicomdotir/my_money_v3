@@ -5,12 +5,12 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../shared/domain/entities/category.dart';
 import '../repositories/category_repository.dart';
 
-class GetCategoriesUseCase implements UseCase<List<Category>, NoParams> {
+class GetCategoriesUseCase implements UseCaseWithoutParam<List<Category>> {
   final CategoryRepository categoryRepository;
 
   GetCategoriesUseCase({required this.categoryRepository});
 
   @override
-  Future<Either<Failure, List<Category>>> call(NoParams params) =>
+  Future<Either<Failure, List<Category>>> call() =>
       categoryRepository.getCategories();
 }

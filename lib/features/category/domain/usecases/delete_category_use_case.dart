@@ -5,7 +5,8 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/category_repository.dart';
 
-class DeleteCategoryUseCase implements UseCase<bool, DeleteCategoryParams> {
+class DeleteCategoryUseCase
+    implements UseCaseWithParam<bool, DeleteCategoryParams> {
   final CategoryRepository categoryRepository;
 
   DeleteCategoryUseCase({required this.categoryRepository});

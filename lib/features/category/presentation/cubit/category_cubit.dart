@@ -3,10 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/category/domain/usecases/add_category_use_case.dart';
 
-import '../../../../shared/domain/entities/category.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/app_strings.dart';
+import '../../../../shared/domain/entities/category.dart';
 import '../../domain/usecases/category_list_use_case.dart';
 import '../../domain/usecases/delete_category_use_case.dart';
 
@@ -25,8 +24,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future<void> getCategories() async {
     emit(CategoryIsLoading());
-    Either<Failure, List<Category>> response =
-        await categoryListUseCase(NoParams());
+    Either<Failure, List<Category>> response = await categoryListUseCase();
     emit(
       response.fold(
         (failure) => CategoryError(msg: _mapFailureToMsg(failure)),

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/usecase/usecase.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/shared/domain/entities/settings.dart';
 
@@ -29,7 +28,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     });
 
     on<GetSettingsGlobalEvent>((event, emit) async {
-      final result = await getSavedSettingsUseCase.call(NoParams());
+      final result = await getSavedSettingsUseCase.call();
       result.fold(
         (l) => debugPrint(l.toString()),
         (r) => emit(

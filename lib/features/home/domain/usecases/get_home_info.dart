@@ -5,12 +5,12 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/home_info_repository.dart';
 
-class GetHomeInfo implements UseCase<HomeInfoEntity, NoParams> {
+class GetHomeInfo implements UseCaseWithoutParam<HomeInfoEntity> {
   final HomeInfoRepository homeInfoRepository;
 
   GetHomeInfo({required this.homeInfoRepository});
 
   @override
-  Future<Either<Failure, HomeInfoEntity>> call(NoParams params) =>
+  Future<Either<Failure, HomeInfoEntity>> call() =>
       homeInfoRepository.getHomeInfo();
 }

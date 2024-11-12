@@ -7,7 +7,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/expense_repository.dart';
 
-class AddEditExpenseUseCase implements UseCase<void, ExpenseParams> {
+class AddEditExpenseUseCase implements UseCaseWithParam<void, ExpenseParams> {
   final ExpenseRepository expenseRepository;
 
   AddEditExpenseUseCase({required this.expenseRepository});

@@ -2,11 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/category.dart';
-import '../../../../core/usecase/usecase.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../features/category/domain/usecases/category_list_use_case.dart';
+import '../../../domain/entities/category.dart';
 
 part 'categories_drop_down_state.dart';
 
@@ -19,8 +18,7 @@ class CategoriesDropDownCubit extends Cubit<CategoriesDropDownState> {
 
   Future<void> getCategories() async {
     emit(CategoriesDropDownLoading());
-    Either<Failure, List<Category>> response =
-        await categoryListUseCase(NoParams());
+    Either<Failure, List<Category>> response = await categoryListUseCase();
     emit(
       response.fold(
         (failure) => CategoriesDropDownError(msg: _mapFailureToMsg(failure)),

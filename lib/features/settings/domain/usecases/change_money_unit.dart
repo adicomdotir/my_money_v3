@@ -4,7 +4,7 @@ import 'package:my_money_v3/core/usecase/usecase.dart';
 import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
 import 'package:my_money_v3/shared/domain/entities/settings.dart';
 
-class ChangeMoneyUnit extends UseCase<bool, Settings> {
+class ChangeMoneyUnit extends UseCaseWithParam<bool, Settings> {
   final SettingsRepository settingsRepository;
 
   ChangeMoneyUnit({required this.settingsRepository});

@@ -5,7 +5,8 @@ import 'package:my_money_v3/features/expense/domain/repositories/expense_reposit
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 
-class DeleteExpenseUseCase implements UseCase<void, DeleteExpenseParams> {
+class DeleteExpenseUseCase
+    implements UseCaseWithParam<void, DeleteExpenseParams> {
   final ExpenseRepository expenseRepository;
 
   DeleteExpenseUseCase({required this.expenseRepository});
