@@ -4,7 +4,7 @@ description: A money tracker application.
 version: 1.0.3+13
 
 environment:
-  sdk: ">=2.18.2 <3.0.0"
+  sdk: ^3.5.4
 
 dependencies:
   cupertino_icons: ^1.0.2
