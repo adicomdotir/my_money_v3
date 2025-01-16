@@ -4,6 +4,7 @@ import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/screens/add_edit_expense_screen.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/screens/expense_list_screen.dart';
+import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 
@@ -44,8 +45,15 @@ class AppRoutes {
       case Routes.homeRoute:
         return MaterialPageRoute(
           builder: (context) {
-            return BlocProvider(
-              create: (context) => di.sl<HomeInfoCubit>(),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => di.sl<HomeInfoCubit>(),
+                ),
+                BlocProvider(
+                  create: (context) => di.sl<HomeDrawerCubit>(),
+                ),
+              ],
               child: const HomeScreen(),
             );
           },

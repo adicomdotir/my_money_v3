@@ -71,11 +71,11 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case ServerFailure _:
         return AppStrings.serverFailure;
-      case CacheFailure:
+      case CacheFailure _:
         return AppStrings.cacheFailure;
-      case DatabaseFailure:
+      case DatabaseFailure _:
         return (failure as DatabaseFailure).msg;
       default:
         return AppStrings.unexpectedError;

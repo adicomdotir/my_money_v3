@@ -32,9 +32,9 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case ServerFailure _:
         return AppStrings.serverFailure;
-      case CacheFailure:
+      case CacheFailure _:
         return AppStrings.cacheFailure;
 
       default:

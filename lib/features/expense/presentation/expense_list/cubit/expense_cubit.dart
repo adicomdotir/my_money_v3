@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:my_money_v3/core/error/failures.dart';
 import 'package:my_money_v3/core/utils/app_strings.dart';
 import 'package:my_money_v3/features/expense/domain/usecases/delete_expense_use_case.dart';
 import 'package:my_money_v3/features/expense/domain/usecases/expense_list_use_case.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 part 'expense_state.dart';
@@ -108,9 +108,9 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case ServerFailure _:
         return AppStrings.serverFailure;
-      case CacheFailure:
+      case CacheFailure _:
         return AppStrings.cacheFailure;
       default:
         return AppStrings.unexpectedError;

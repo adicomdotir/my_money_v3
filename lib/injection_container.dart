@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
+import 'package:my_money_v3/features/home/domain/usecases/get_backup.dart';
+import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
 import 'package:my_money_v3/features/report/data/repository/report_repository_impl.dart';
 import 'package:my_money_v3/features/report/domain/repository/report_repository.dart';
@@ -13,10 +16,8 @@ import 'package:my_money_v3/features/settings/domain/usecases/change_money_unit.
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/category/data/datasources/category_local_data_source.dart';
 import 'features/category/data/repositories/category_repository_impl.dart';
@@ -52,6 +53,9 @@ Future<void> init() async {
   sl.registerFactory<HomeInfoCubit>(
     () => HomeInfoCubit(getHomeInfoUseCase: sl()),
   );
+  sl.registerFactory<HomeDrawerCubit>(
+    () => HomeDrawerCubit(getBackupUseCase: sl()),
+  );
   sl.registerFactory<CategoryCubit>(
     () => CategoryCubit(
       addCategoryUseCase: sl(),
@@ -86,6 +90,9 @@ Future<void> init() async {
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
     () => GetHomeInfo(homeInfoRepository: sl()),
+  );
+  sl.registerLazySingleton<GetBackup>(
+    () => GetBackup(homeInfoRepository: sl()),
   );
   sl.registerLazySingleton<GetSavedLangUseCase>(
     () => GetSavedLangUseCase(langRepository: sl()),

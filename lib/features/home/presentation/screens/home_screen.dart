@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
+import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 
 import '../../../../config/locale/app_localizations.dart';
 import '../cubit/home_info_cubit.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   Future<void> _getHomeInfo() =>
       BlocProvider.of<HomeInfoCubit>(context).getHomeInfo();
 
@@ -72,93 +74,119 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         key: _key,
         appBar: appBar,
-        drawer: Drawer(
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).viewPadding.top,
-              ),
-              Container(
-                height: 150,
-                padding: const EdgeInsets.all(16),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    fit: BoxFit.cover,
+        drawer: BlocListener<HomeDrawerCubit, HomeDrawerState>(
+          listener: (context, state) async {
+            if (state.loading) {
+              await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return Center(child: CircularProgressIndicator());
+                },
+              );
+            } else if (state.completed || state.error != null) {
+              Navigator.of(context, rootNavigator: true).pop();
+            }
+          },
+          child: Drawer(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).viewPadding.top,
+                ),
+                Container(
+                  height: 150,
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  AppLocalizations.of(context)!.translate('app_name')!,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
+                Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.translate('app_name')!,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.expenseListRoute)
-                            .then((value) => _getHomeInfo());
-                      },
-                      child: ListTile(
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        title: Text(
-                          AppLocalizations.of(context)!.translate('expenses')!,
-                        ),
-                        subtitle: Text(
-                          AppLocalizations.of(context)!
-                              .translate('expense_description')!,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.categoryListRoute)
-                            .then((value) => _getHomeInfo());
-                      },
-                      child: ListTile(
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        title: Text(
-                          AppLocalizations.of(context)!
-                              .translate('categories')!,
-                        ),
-                        subtitle: Text(
-                          AppLocalizations.of(context)!
-                              .translate('category_description')!,
+                Expanded(
+                  child: ListView(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.expenseListRoute)
+                              .then((value) => _getHomeInfo());
+                        },
+                        child: ListTile(
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          title: Text(
+                            AppLocalizations.of(context)!
+                                .translate('expenses')!,
+                          ),
+                          subtitle: Text(
+                            AppLocalizations.of(context)!
+                                .translate('expense_description')!,
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.reportRoute)
-                            .then((value) => _getHomeInfo());
-                      },
-                      child: const ListTile(
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        title: Text('گزارش'),
-                        subtitle: Text('گزارش'),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.categoryListRoute)
+                              .then((value) => _getHomeInfo());
+                        },
+                        child: ListTile(
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          title: Text(
+                            AppLocalizations.of(context)!
+                                .translate('categories')!,
+                          ),
+                          subtitle: Text(
+                            AppLocalizations.of(context)!
+                                .translate('category_description')!,
+                          ),
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.settingsRoute)
-                            .then((value) => _getHomeInfo());
-                      },
-                      child: const ListTile(
-                        trailing: Icon(Icons.arrow_forward_ios),
-                        title: Text('تنظیمات'),
-                        subtitle: Text('تنظیمات'),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.reportRoute)
+                              .then((value) => _getHomeInfo());
+                        },
+                        child: const ListTile(
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          title: Text('گزارش'),
+                          subtitle: Text('گزارش'),
+                        ),
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.settingsRoute)
+                              .then((value) => _getHomeInfo());
+                        },
+                        child: const ListTile(
+                          trailing: Icon(Icons.arrow_forward_ios),
+                          title: Text('تنظیمات'),
+                          subtitle: Text('تنظیمات'),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          context.read<HomeDrawerCubit>().getBackup();
+                        },
+                        child: const ListTile(
+                          trailing: Icon(Icons.backup_outlined),
+                          title: Text('گرفتن بکاپ'),
+                          subtitle: Text('گرفتن بکاپ'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         body: _buildBodyContent(),

@@ -22,4 +22,18 @@ class HomeInfoRepositoryImpl implements HomeInfoRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> getBackup() async {
+    try {
+      final result = await homeInfoLocalDataSource.getBackup();
+      if (result) {
+        return Right(result);
+      } else {
+        return Left(DatabaseFailure('don\'t save'));
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
 }

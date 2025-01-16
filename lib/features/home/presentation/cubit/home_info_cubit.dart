@@ -29,9 +29,9 @@ class HomeInfoCubit extends Cubit<HomeInfoState> {
 
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case ServerFailure():
         return AppStrings.serverFailure;
-      case CacheFailure:
+      case CacheFailure():
         return AppStrings.cacheFailure;
 
       default:

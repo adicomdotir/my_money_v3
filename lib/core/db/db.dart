@@ -239,4 +239,23 @@ class DatabaseHelper {
     }
     return resultList;
   }
+
+  Future<List> getBackup() async {
+    Box<dynamic> categories = await Hive.openBox('categories');
+    Box<dynamic> expenses = await Hive.openBox('expenses');
+    List<dynamic> backup = [];
+
+    for (var element in expenses.values) {
+      final map = categories.get(element['categoryId']);
+      element['category'] = map;
+      element['categoryId'] = map['id'];
+      backup.add({
+        'title': element['title'],
+        'category': map['title'],
+        'price': element['price'],
+        'date': element['date'],
+      });
+    }
+    return backup;
+  }
 }
