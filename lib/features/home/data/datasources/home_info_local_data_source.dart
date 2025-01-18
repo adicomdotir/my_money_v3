@@ -40,7 +40,7 @@ class HomeInfoLocalDataSourceImpl implements HomeInfoLocalDataSource {
 Future<void> createFileInDownloadsFolder(String msg) async {
   try {
     // Get the Downloads directory path
-    Directory? downloadsDirectory = await getDownloadsDirectory().onError(
+    Directory? downloadsDirectory = await getExternalStorageDirectory().onError(
       (error, stackTrace) {
         throw Exception(error.toString());
       },
@@ -55,7 +55,7 @@ Future<void> createFileInDownloadsFolder(String msg) async {
 
       // Define the file path with the formatted date and time as the file name
       String filePath =
-          '${downloadsDirectory.path}/my_money_$formattedDateTime.bk';
+          '/storage/emulated/0/Download/my_money_$formattedDateTime.bk';
 
       // Create the file
       File file = File(filePath);

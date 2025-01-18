@@ -16,11 +16,11 @@ class HomeDrawerCubit extends Cubit<HomeDrawerState> {
     emit(state.copyWith(loading: true));
     final res = await getBackupUseCase();
     res.fold(
-      (l) {
-        emit(state.copyWith(loading: false, error: l.toString()));
+      (failure) {
+        emit(state.copyWith(loading: false, error: failure.toString()));
       },
-      (r) {
-        emit(state.copyWith(loading: false, completed: r));
+      (success) {
+        emit(state.copyWith(loading: false, completed: success));
       },
     );
   }

@@ -86,6 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             } else if (state.completed || state.error != null) {
               Navigator.of(context, rootNavigator: true).pop();
+              if (state.completed) {
+                _showSuccessDialog(context);
+              } else if (state.error != null) {
+                _showErrorDialog(context);
+              }
             }
           },
           child: Drawer(
@@ -200,6 +205,46 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       onRefresh: () => _getHomeInfo(),
+    );
+  }
+
+  void _showSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('موفقیت'),
+          content: Text('بکاپ با موفقیت گرفته شد.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('باشه'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('خطا'),
+          content: Text('مشکلی در گرفتن بکاپ به وجود آمده است.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('باشه'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
