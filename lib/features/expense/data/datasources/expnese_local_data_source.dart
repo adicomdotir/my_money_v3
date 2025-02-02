@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/shared/data/models/expense_model.dart';
 
@@ -17,19 +15,14 @@ class ExpenseLocalDataSourceImpl implements ExpenseLocalDataSource {
   @override
   Future<void> addExpense(ExpenseModel expenseModel) async {
     return await databaseHelper.addExpanse(
-      expenseModel.toMap(),
-      expenseModel.id,
+      expenseModel,
     );
   }
 
   @override
   Future<List<ExpenseModel>> getExpenses([int? fromDate, int? toDate]) async {
     final result = await databaseHelper.getExpenses(fromDate, toDate);
-    return result.map<ExpenseModel>((e) {
-      return ExpenseModel.fromMap(
-        jsonDecode(jsonEncode(e)) as Map<String, dynamic>,
-      );
-    }).toList();
+    return result;
   }
 
   @override

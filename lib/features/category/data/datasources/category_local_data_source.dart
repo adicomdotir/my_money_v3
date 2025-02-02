@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/core/error/exceptions.dart';
 
@@ -19,17 +17,14 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
   @override
   Future<String> addEditCategory(CategoryModel categoryModel) async {
     return await databaseHelper.addCategory(
-      categoryModel.toMap(),
-      categoryModel.id,
+      categoryModel,
     );
   }
 
   @override
   Future<List<CategoryModel>> getCategories() async {
     final result = await databaseHelper.getCategories();
-    return result.map<CategoryModel>((e) {
-      return CategoryModel.fromMap(jsonDecode(jsonEncode(e)));
-    }).toList();
+    return result;
   }
 
   @override

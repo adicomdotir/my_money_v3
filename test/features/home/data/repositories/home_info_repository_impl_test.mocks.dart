@@ -57,4 +57,13 @@ class MockHomeInfoLocalDataSource extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.HomeInfoModel>);
+
+  @override
+  _i4.Future<bool> getBackup() => (super.noSuchMethod(
+        Invocation.method(
+          #getBackup,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 }

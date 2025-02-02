@@ -127,19 +127,33 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
       ) as _i3.Future<List<dynamic>>);
 
   @override
-  _i3.Future<dynamic> getHomeInfo() => (super.noSuchMethod(
+  _i3.Future<Map<String, dynamic>> getHomeInfo() => (super.noSuchMethod(
         Invocation.method(
           #getHomeInfo,
           [],
         ),
-        returnValue: _i3.Future<dynamic>.value(),
-        returnValueForMissingStub: _i3.Future<dynamic>.value(),
-      ) as _i3.Future<dynamic>);
+        returnValue:
+            _i3.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+        returnValueForMissingStub:
+            _i3.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i3.Future<Map<String, dynamic>>);
 
   @override
   _i3.Future<List<Map<String, dynamic>>> getReport() => (super.noSuchMethod(
         Invocation.method(
           #getReport,
+          [],
+        ),
+        returnValue: _i3.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+        returnValueForMissingStub: _i3.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i3.Future<List<Map<String, dynamic>>>);
+
+  @override
+  _i3.Future<List<Map<String, dynamic>>> getBackup() => (super.noSuchMethod(
+        Invocation.method(
+          #getBackup,
           [],
         ),
         returnValue: _i3.Future<List<Map<String, dynamic>>>.value(

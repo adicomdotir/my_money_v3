@@ -1,261 +1,261 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
+import 'package:my_money_v3/shared/data/models/category_model.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import '../../shared/data/models/expense_model.dart';
+import 'hive_models/expense_db_model.dart';
 
 class DatabaseHelper {
   DatabaseHelper();
 
-  Future<String> addCategory(
-    Map<String, dynamic> categoryJson,
-    String id,
-  ) async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    await categories.put(id, categoryJson);
-    return id;
+  // Helper method to open a Hive box
+  Future<Box<T>> _openBox<T>(String boxName) async {
+    return await Hive.openBox<T>(boxName);
   }
 
-  Future<List<dynamic>> getCategories() async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    return categories.values.toList();
+  // Add a category to the 'categories_v2' box
+  Future<String> addCategory(CategoryModel category) async {
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
+    await categories.put(category.id, category.toDbModel());
+    return category.id;
   }
 
-  Future<void> addExpanse(Map<String, dynamic> expenseJson, String id) async {
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    return await expenses.put(id, expenseJson);
+  // Get all categories from the 'categories_v2' box
+  Future<List<CategoryModel>> getCategories() async {
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
+    return categories.values.map(
+      (e) {
+        return e.toCategoryModel();
+      },
+    ).toList();
   }
 
+  // Add an expense to the 'expenses_v2' box
+  Future<void> addExpanse(ExpenseModel expense) async {
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    await expenses.put(expense.id, expense.toDbModel());
+  }
+
+  // Delete an expense from the 'expenses_v2' box
   Future<void> deleteExpanse(String id) async {
-    Box<dynamic>? expenses;
-    try {
-      expenses = await Hive.openBox('expenses');
-      return await expenses.delete(id);
-    } finally {
-      expenses?.close();
-    }
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    await expenses.delete(id);
   }
 
+  // Delete a category from the 'categories_v2' box if no expenses are associated with it
   Future<bool> deleteCategory(String id) async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    bool exsit = expenses.values.any((element) => element['categoryId'] == id);
-    if (exsit) {
-      return false;
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+
+    final hasAssociatedExpenses =
+        expenses.values.any((expense) => expense.categoryId == id);
+    if (hasAssociatedExpenses) {
+      return false; // Category cannot be deleted if it has associated expenses
     }
+
     await categories.delete(id);
     return true;
   }
 
-  Future<List<dynamic>> getExpenses([int? fromDate, int? toDate]) async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    Iterable<dynamic> filteredExpenses = fromDate != null
-        ? expenses.values.where(
-            (elm) => elm['date'] >= fromDate && elm['date'] < toDate,
-          )
-        : expenses.values;
-    for (var element in filteredExpenses) {
-      final map = categories.get(element['categoryId']);
-      element['category'] = map;
-      element['categoryId'] = map['id'];
-    }
-    final result = filteredExpenses.toList();
-    result.sort((a, b) {
-      int comp = b['date'] - a['date'];
-      if (comp == 0) {
-        return int.parse(b['id']) - int.parse(a['id']);
-      }
-      return comp;
+  // Get expenses, optionally filtered by date range
+  Future<List<ExpenseModel>> getExpenses([int? fromDate, int? toDate]) async {
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
+
+    final filteredExpenses = fromDate != null
+        ? expenses.values
+            .where(
+              (expense) => expense.date >= fromDate && expense.date < toDate!,
+            )
+            .toList()
+        : expenses.values.toList();
+
+    // Sort expenses by date and ID
+    filteredExpenses.sort((a, b) {
+      int dateComparison = b.date - a.date;
+      return dateComparison != 0
+          ? dateComparison
+          : int.parse(b.id) - int.parse(a.id);
     });
-    return result;
+
+    return filteredExpenses.map(
+      (exp) {
+        final category = categories.values.where(
+          (cat) {
+            return cat.id == exp.categoryId;
+          },
+        ).first;
+        return exp.toExpenseModel(category.toCategoryModel());
+      },
+    ).toList();
   }
 
-  Future<dynamic> getHomeInfo() async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    for (var element in expenses.values) {
-      final map = categories.get(element['categoryId']);
-      element['category'] = map;
-    }
+  // Get home dashboard information (expenses by category, today's expenses, etc.)
+  Future<Map<String, dynamic>> getHomeInfo() async {
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
 
-    // expense by category
-    List<dynamic> list = [];
-    Jalali jalali = Jalali.now();
-    jalali = jalali.copy(day: 1, hour: 0, minute: 0, second: 0);
-    int date = jalali.toDateTime().millisecondsSinceEpoch;
-    final result = expenses.values.where((element) => element['date'] >= date);
-    for (var category in categories.values) {
-      final resultByCategory =
-          result.where((item) => item['categoryId'] == category['id']);
-      if (resultByCategory.isNotEmpty) {
-        final price = resultByCategory
-            .map((item) => item['price'])
-            .reduce((sum, price) => sum + price);
-        list.add({
-          'title': category['title'],
-          'price': price,
-          'color': category['color'],
-        });
-      }
-    }
+    final now = Jalali.now();
+    final todayStart = now
+        .copy(hour: 0, minute: 0, second: 0)
+        .toDateTime()
+        .millisecondsSinceEpoch;
+    final monthStart = now
+        .copy(day: 1, hour: 0, minute: 0, second: 0)
+        .toDateTime()
+        .millisecondsSinceEpoch;
+    final thirtyDaysAgo =
+        DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch;
+    final ninetyDaysAgo =
+        DateTime.now().subtract(Duration(days: 90)).millisecondsSinceEpoch;
 
-    // today expense
-    jalali = Jalali.now();
-    jalali = jalali.copy(hour: 0, minute: 0, second: 0);
-    int todayDate = jalali.toDateTime().millisecondsSinceEpoch;
-    final todayResult =
-        expenses.values.where((element) => element['date'] >= todayDate);
-    int todayPrice = 0;
-    if (todayResult.isNotEmpty) {
-      todayPrice = todayResult
-          .map((e) => e['price'])
-          .reduce((sum, price) => sum + price);
-    }
+    // Calculate expenses by category
+    final expensesByCategory = categories.values
+        .map((category) {
+          final categoryExpenses = expenses.values.where(
+            (expense) =>
+                expense.categoryId == category.id && expense.date >= monthStart,
+          );
+          if (categoryExpenses.isEmpty) return null;
 
-    // month expense
-    jalali = Jalali.now();
-    jalali = jalali.copy(day: 1, hour: 0, minute: 0, second: 0);
-    int monthDate = jalali.toDateTime().millisecondsSinceEpoch;
-    final monthResult =
-        expenses.values.where((element) => element['date'] >= monthDate);
-    int monthPrice = 0;
-    if (monthResult.isNotEmpty) {
-      monthPrice = monthResult
-          .map((e) => e['price'])
-          .reduce((sum, price) => sum + price);
-    }
+          final totalPrice = categoryExpenses
+              .map((expense) => expense.price)
+              .reduce((sum, price) => sum + price);
+          return {
+            'title': category.title,
+            'price': totalPrice,
+            'color': category.color,
+          };
+        })
+        .where((element) => element != null)
+        .toList();
 
-    // 30 days expense
-    DateTime nowDate = DateTime.now().subtract(const Duration(days: 30));
-    int thirtyDaysDate = nowDate.millisecondsSinceEpoch;
-    final thirtyDaysResult =
-        expenses.values.where((element) => element['date'] >= thirtyDaysDate);
-    int thirtyDaysPrice = 0;
-    if (thirtyDaysResult.isNotEmpty) {
-      thirtyDaysPrice = thirtyDaysResult
-          .map((e) => e['price'])
-          .reduce((sum, price) => sum + price);
-    }
+    // Calculate today's expenses
+    final todayExpenses =
+        expenses.values.where((expense) => expense.date >= todayStart);
+    final todayPrice = todayExpenses.isNotEmpty
+        ? todayExpenses.map((e) => e.price).reduce((sum, price) => sum + price)
+        : 0;
 
-    // 3 month expense
-    nowDate = DateTime.now().subtract(const Duration(days: 90));
-    int threeMonthDate = nowDate.millisecondsSinceEpoch;
-    final threeMonthResult =
-        expenses.values.where((element) => element['date'] >= threeMonthDate);
-    int threeMonthPrice = 0;
-    if (threeMonthResult.isNotEmpty) {
-      threeMonthPrice = threeMonthResult
-          .map((e) => e['price'])
-          .reduce((sum, price) => sum + price);
-    }
+    // Calculate monthly expenses
+    final monthExpenses =
+        expenses.values.where((expense) => expense.date >= monthStart);
+    final monthPrice = monthExpenses.isNotEmpty
+        ? monthExpenses.map((e) => e.price).reduce((sum, price) => sum + price)
+        : 0;
 
-    // getReport();
+    // Calculate expenses for the last 30 and 90 days
+    final thirtyDaysExpenses =
+        expenses.values.where((expense) => expense.date >= thirtyDaysAgo);
+    final thirtyDaysPrice = thirtyDaysExpenses.isNotEmpty
+        ? thirtyDaysExpenses
+            .map((e) => e.price)
+            .reduce((sum, price) => sum + price)
+        : 0;
+
+    final ninetyDaysExpenses =
+        expenses.values.where((expense) => expense.date >= ninetyDaysAgo);
+    final ninetyDaysPrice = ninetyDaysExpenses.isNotEmpty
+        ? ninetyDaysExpenses
+            .map((e) => e.price)
+            .reduce((sum, price) => sum + price)
+        : 0;
 
     return {
-      'expenseByCategory': list,
+      'expenseByCategory': expensesByCategory,
       'todayPrice': todayPrice,
       'monthPrice': monthPrice,
       'thirtyDaysPrice': thirtyDaysPrice,
-      'ninetyDaysPrice': threeMonthPrice,
+      'ninetyDaysPrice': ninetyDaysPrice,
     };
   }
 
+  // Get a backup of all expenses with category details
+  Future<List<Map<String, dynamic>>> getBackup() async {
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
+
+    return expenses.values.map((expense) {
+      final category = categories.get(expense.categoryId);
+      return {
+        'title': expense.title,
+        'category': category?.title ?? 'Null',
+        'price': expense.price,
+        'date': expense.date,
+      };
+    }).toList();
+  }
+
+  // Generate a report of expenses by month and category
   Future<List<Map<String, dynamic>>> getReport() async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    Box<dynamic> expenses = await Hive.openBox('expenses');
+    final expenses = await _openBox('expenses_v2');
+    final categories = await _openBox('categories_v2');
 
-    var sortedExpenses = expenses.values.toList();
-    sortedExpenses.sort((a, b) {
-      int comp = b['date'] - a['date'];
-      return comp;
-    });
+    // Sort expenses by date
+    final sortedExpenses = expenses.values.toList()
+      ..sort((a, b) => b['date'] - a['date']);
 
-    final categoriesMap = {};
-    final categoriesColorMap = {};
-    for (var category in categories.values) {
-      categoriesMap[category['id'].toString()] = category['title'];
-      categoriesColorMap[category['id'].toString()] = category['color'];
-    }
+    // Create maps for category titles and colors
+    final categoriesMap = {
+      for (var category in categories.values)
+        category['id'].toString(): category['title'],
+    };
+    final categoriesColorMap = {
+      for (var category in categories.values)
+        category['id'].toString(): category['color'],
+    };
 
-    List<Map<String, dynamic>> resultList = [];
+    // Group expenses by month and category
+    final Map<String, Map<String, dynamic>> reportMap = {};
     for (var expense in sortedExpenses) {
       final jalali = Jalali.fromDateTime(
         DateTime.fromMillisecondsSinceEpoch(expense['date']),
       );
-      final key = '${jalali.year}/${jalali.month}';
-      bool keyExist = false;
-      for (var item in resultList) {
-        if (item['monthName'] == key) {
-          keyExist = true;
-          final get = item;
-          int count = get['sumPrice'];
-          get['sumPrice'] = count + expense['price'];
-          final catExpenses = (get['catExpenseList'] as List<dynamic>);
-          bool exist = false;
-          for (var cExp in catExpenses) {
-            if (cExp['id'] == expense['categoryId']) {
-              cExp['price'] = cExp['price'] + expense['price'];
-              cExp['transactionCount'] = cExp['transactionCount'] + 1;
-              exist = true;
-            }
-          }
-          if (exist == false) {
-            catExpenses.add({
-              'id': expense['categoryId'],
-              'title': categoriesMap[expense['categoryId'].toString()],
-              'transactionCount': 1,
-              'color': categoriesColorMap[expense['categoryId'].toString()],
-              'price': expense['price'],
-            });
-          }
-        }
+      final monthKey = '${jalali.year}/${jalali.month}';
+
+      if (!reportMap.containsKey(monthKey)) {
+        reportMap[monthKey] = {
+          'monthName': monthKey,
+          'sumPrice': 0,
+          'catExpenseList': [],
+        };
       }
-      if (keyExist == false) {
-        resultList.add({
-          'monthName': key,
-          'sumPrice': expense['price'],
-          'catExpenseList': [
-            {
-              'id': expense['categoryId'],
-              'title': categoriesMap[expense['categoryId'].toString()],
-              'transactionCount': 1,
-              'color': categoriesColorMap[expense['categoryId'].toString()],
-              'price': expense['price'],
-            }
-          ],
+
+      final monthData = reportMap[monthKey]!;
+      monthData['sumPrice'] += expense['price'];
+
+      final categoryId = expense['categoryId'].toString();
+      final categoryExpense = monthData['catExpenseList'].firstWhere(
+        (element) => element['id'] == categoryId,
+        orElse: () => null,
+      );
+
+      if (categoryExpense != null) {
+        categoryExpense['price'] += expense['price'];
+        categoryExpense['transactionCount'] += 1;
+      } else {
+        monthData['catExpenseList'].add({
+          'id': categoryId,
+          'title': categoriesMap[categoryId],
+          'transactionCount': 1,
+          'color': categoriesColorMap[categoryId],
+          'price': expense['price'],
         });
       }
     }
 
-    // For percent & sort
-    for (var item in resultList) {
-      final catExpenses = (item['catExpenseList'] as List<dynamic>);
-      for (var cExp in catExpenses) {
-        cExp['percent'] = cExp['price'] / item['sumPrice'] * 100;
+    // Calculate percentages and sort categories by price
+    final reportList = reportMap.values.toList();
+    for (var monthData in reportList) {
+      final catExpenses = monthData['catExpenseList'] as List<dynamic>;
+      for (var catExpense in catExpenses) {
+        catExpense['percent'] =
+            (catExpense['price'] / monthData['sumPrice']) * 100;
       }
-      catExpenses.sort(
-        (a, b) {
-          return b['price'] - a['price'];
-        },
-      );
+      catExpenses.sort((a, b) => b['price'] - a['price']);
     }
-    return resultList;
-  }
 
-  Future<List> getBackup() async {
-    Box<dynamic> categories = await Hive.openBox('categories');
-    Box<dynamic> expenses = await Hive.openBox('expenses');
-    List<dynamic> backup = [];
-
-    for (var element in expenses.values) {
-      final map = categories.get(element['categoryId']);
-      element['category'] = map;
-      element['categoryId'] = map['id'];
-      backup.add({
-        'title': element['title'],
-        'category': map['title'],
-        'price': element['price'],
-        'date': element['date'],
-      });
-    }
-    return backup;
+    return reportList;
   }
 }
