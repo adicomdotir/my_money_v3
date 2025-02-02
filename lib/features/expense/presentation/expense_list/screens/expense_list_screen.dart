@@ -21,6 +21,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<ExpenseCubit>(context).changeCalenderFilterType(0);
   }
 
   Widget _buildBodyContent() {

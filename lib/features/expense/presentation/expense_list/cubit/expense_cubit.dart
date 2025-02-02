@@ -22,10 +22,18 @@ class ExpenseCubit extends Cubit<ExpenseState> {
   Future<void> getExpenses() async {
     emit(state.copyWith(loading: true));
     Either<Failure, List<Expense>> response = await expenseListUseCase(
-      GetExpensesParams(
-        state.fromDate?.toDateTime().millisecondsSinceEpoch,
-        state.toDate?.toDateTime().millisecondsSinceEpoch,
-      ),
+      state.fromDate == null
+          ? GetExpensesParams()
+          : GetExpensesParams(
+              state.fromDate
+                  ?.copy(hour: 0, minute: 0, second: 0, millisecond: 0)
+                  .toDateTime()
+                  .millisecondsSinceEpoch,
+              state.toDate
+                  ?.copy(hour: 0, minute: 0, second: 0, millisecond: 0)
+                  .toDateTime()
+                  .millisecondsSinceEpoch,
+            ),
     );
     emit(
       response.fold(

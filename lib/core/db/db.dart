@@ -98,11 +98,11 @@ class DatabaseHelper {
 
     final now = Jalali.now();
     final todayStart = now
-        .copy(hour: 0, minute: 0, second: 0)
+        .copy(hour: 0, minute: 0, second: 0, millisecond: 0)
         .toDateTime()
         .millisecondsSinceEpoch;
     final monthStart = now
-        .copy(day: 1, hour: 0, minute: 0, second: 0)
+        .copy(day: 1, hour: 0, minute: 0, second: 0, millisecond: 0)
         .toDateTime()
         .millisecondsSinceEpoch;
     final thirtyDaysAgo =
@@ -132,15 +132,19 @@ class DatabaseHelper {
         .toList();
 
     // Calculate today's expenses
-    final todayExpenses =
-        expenses.values.where((expense) => expense.date >= todayStart);
+    final todayExpenses = expenses.values.where((expense) {
+      return expense.date >= todayStart;
+    });
+
     final todayPrice = todayExpenses.isNotEmpty
         ? todayExpenses.map((e) => e.price).reduce((sum, price) => sum + price)
         : 0;
 
     // Calculate monthly expenses
-    final monthExpenses =
-        expenses.values.where((expense) => expense.date >= monthStart);
+    final monthExpenses = expenses.values.where((expense) {
+      return expense.date >= monthStart;
+    });
+
     final monthPrice = monthExpenses.isNotEmpty
         ? monthExpenses.map((e) => e.price).reduce((sum, price) => sum + price)
         : 0;
