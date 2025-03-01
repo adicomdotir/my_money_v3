@@ -5,8 +5,6 @@ import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.
 import 'package:my_money_v3/features/category/presentation/widgets/add_edit_category_content.dart';
 import 'package:my_money_v3/shared/domain/entities/category.dart';
 
-import '../../../../config/locale/app_localizations.dart';
-
 class AddEditCategoryScreen extends StatefulWidget {
   const AddEditCategoryScreen({super.key});
 
@@ -58,9 +56,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     }
 
     final appBar = AppBar(
-      title: category == null
-          ? Text(AppLocalizations.of(context)!.translate('add_category')!)
-          : Text(AppLocalizations.of(context)!.translate('edit_category')!),
+      title: category == null ? Text('دسته جدید') : Text('ویرایش دسته'),
     );
     return Scaffold(
       appBar: appBar,

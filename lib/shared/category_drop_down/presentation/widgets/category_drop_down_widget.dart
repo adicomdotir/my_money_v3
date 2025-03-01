@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../config/locale/app_localizations.dart';
 import '../../../domain/entities/category.dart';
 import '../cubit/categories_drop_down_cubit.dart';
 
@@ -56,8 +55,7 @@ class _CategoriesDropDownState extends State<CategoryDropDownWidget> {
           );
           return InputDecorator(
             decoration: InputDecoration(
-              labelText:
-                  AppLocalizations.of(context)!.translate('parent_category')!,
+              labelText: 'parent_category',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12.0,
                 vertical: 0.0,

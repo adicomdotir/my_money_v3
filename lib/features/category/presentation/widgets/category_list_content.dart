@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
@@ -118,20 +117,19 @@ Future<bool?> showDeleteDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        content:
-            Text(AppLocalizations.of(context)!.translate('delete_question')!),
+        content: Text('ایا برای حذف ایتم مطمئن هستید؟'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context, true);
             },
-            child: Text(AppLocalizations.of(context)!.translate('yes')!),
+            child: Text('بله'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context, false);
             },
-            child: Text(AppLocalizations.of(context)!.translate('no')!),
+            child: Text('خیر'),
           ),
         ],
       );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
@@ -67,7 +66,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelText: AppLocalizations.of(context)!.translate('title')!,
+                labelText: 'title',
               ),
             ),
             const SizedBox(
@@ -88,8 +87,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      labelText:
-                          AppLocalizations.of(context)!.translate('price')!,
+                      labelText: 'price',
                     ),
                   ),
                 ),
@@ -116,7 +114,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     _selectDate(context);
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.translate('select_date')!,
+                    'select_date',
                   ),
                 ),
                 Text(
@@ -224,9 +222,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   context.read<AddEditExpenseCubit>().editExpense(expense);
                 }
               },
-              child: widget.expense == null
-                  ? Text(AppLocalizations.of(context)!.translate('save')!)
-                  : Text(AppLocalizations.of(context)!.translate('update')!),
+              child: widget.expense == null ? Text('save') : Text('update'),
             ),
           ],
         ),

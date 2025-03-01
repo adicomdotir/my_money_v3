@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
@@ -119,7 +118,7 @@ class ExpenseCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${AppLocalizations.of(context)!.translate('date')!}: ${dateFormat(expense.date)}',
+                              '${('date')}: ${dateFormat(expense.date)}',
                             ),
                             Text(expense.category!.title),
                           ],
@@ -156,20 +155,19 @@ Future<bool?> showDeleteDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        content:
-            Text(AppLocalizations.of(context)!.translate('delete_question')!),
+        content: Text('delete_question'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context, true);
             },
-            child: Text(AppLocalizations.of(context)!.translate('yes')!),
+            child: Text('yes'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context, false);
             },
-            child: Text(AppLocalizations.of(context)!.translate('no')!),
+            child: Text('no'),
           ),
         ],
       );

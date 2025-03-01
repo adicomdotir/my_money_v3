@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/core/utils/id_generator.dart';
 import 'package:my_money_v3/core/utils/opposite_color.dart';
@@ -52,7 +51,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelText: AppLocalizations.of(context)!.translate('title')!,
+                labelText: '',
               ),
             ),
             const SizedBox(
@@ -142,9 +141,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                   context.read<CategoryCubit>().editCategory(tmpCategory);
                 }
               },
-              child: widget.category == null
-                  ? Text(AppLocalizations.of(context)!.translate('save')!)
-                  : Text(AppLocalizations.of(context)!.translate('update')!),
+              child: widget.category == null ? Text('ذخیره') : Text('اپدیت'),
             ),
           ],
         ),

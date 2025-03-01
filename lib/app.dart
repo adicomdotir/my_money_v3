@@ -1,9 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
-import 'config/locale/app_localizations_setup.dart';
 import 'config/routes/app_routes.dart';
 import 'core/utils/app_strings.dart';
 import 'injection_container.dart' as di;
@@ -27,7 +28,7 @@ class MyMoneyApp extends StatelessWidget {
         builder: (BuildContext context, GlobalState state) {
           return MaterialApp(
             title: AppStrings.appName,
-            locale: state.settings.locale,
+            locale: const Locale('fa', 'IR'),
             debugShowCheckedModeBanner: false,
             // The Mandy red, light theme.
             theme: FlexThemeData.light(
@@ -51,12 +52,18 @@ class MyMoneyApp extends StatelessWidget {
             //   useMaterial3: true,
             //   colorScheme: darkColorScheme,
             // ),
+            supportedLocales: const [
+              Locale('fa', 'IR'),
+            ],
+            localizationsDelegates: const [
+              // Add Localization
+              PersianMaterialLocalizations.delegate,
+              PersianCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
             onGenerateRoute: AppRoutes.onGenerateRoute,
-            supportedLocales: AppLocalizationsSetup.supportedLocales,
-            localeResolutionCallback:
-                AppLocalizationsSetup.localeResolutionCallback,
-            localizationsDelegates:
-                AppLocalizationsSetup.localizationsDelegates,
           );
         },
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/category/presentation/widgets/category_list_content.dart';
 
-import '../../../../config/locale/app_localizations.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../cubit/category_cubit.dart';
 
@@ -26,7 +25,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text(AppLocalizations.of(context)!.translate('categories')!),
+      title: Text('دسته بندی ها'),
     );
     return Scaffold(
       appBar: appBar,
@@ -35,7 +34,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           await Navigator.pushNamed(context, Routes.addEditCategoryRoute);
           _getCategories();
         },
-        label: Text(AppLocalizations.of(context)!.translate('add_category')!),
+        label: Text('دسته جدید'),
         icon: const Icon(Icons.add),
       ),
       body: _buildBodyContent(),

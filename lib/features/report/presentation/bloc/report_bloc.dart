@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
@@ -13,20 +15,28 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final GetReportUseCase getReportUseCase;
 
   ReportBloc({required this.getReportUseCase}) : super(ReportInitial()) {
-    on<GetReportEvent>((event, emit) async {
-      final result = await getReportUseCase();
-      result.fold(
-        (error) => emit(ReportErrorState(message: _mapFailureToMsg(error))),
-        (success) =>
-            emit(ReportSuccesState(reports: success, showPieChart: false)),
-      );
-    });
-    on<SwitchTypeCard>(
-      (event, emit) {
-        emit(
-          (state as ReportSuccesState).copywith(showPieChart: event.type),
-        );
-      },
+    on<GetReportEvent>(_getReportEvent);
+    on<SwitchTypeCardEvent>(_switchTypeCard);
+  }
+
+  FutureOr<void> _getReportEvent(
+    GetReportEvent event,
+    Emitter<ReportState> emit,
+  ) async {
+    final result = await getReportUseCase();
+    result.fold(
+      (error) => emit(ReportErrorState(message: _mapFailureToMsg(error))),
+      (success) =>
+          emit(ReportSuccesState(reports: success, showPieChart: false)),
+    );
+  }
+
+  FutureOr<void> _switchTypeCard(
+    SwitchTypeCardEvent event,
+    Emitter<ReportState> emit,
+  ) {
+    emit(
+      (state as ReportSuccesState).copywith(showPieChart: event.type),
     );
   }
 

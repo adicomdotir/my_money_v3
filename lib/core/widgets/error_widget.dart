@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_money_v3/core/utils/media_query_values.dart';
 
-import '../../config/locale/app_localizations.dart';
 import '../utils/app_colors.dart';
 
 class ErrorWidget extends StatelessWidget {
@@ -25,7 +24,7 @@ class ErrorWidget extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 12),
           child: Text(
-            AppLocalizations.of(context)!.translate('something_went_wrong')!,
+            'خطا',
             style: const TextStyle(
               color: Colors.black,
               fontSize: 20,
@@ -34,7 +33,7 @@ class ErrorWidget extends StatelessWidget {
           ),
         ),
         Text(
-          AppLocalizations.of(context)!.translate('try_again')!,
+          'دوباره',
           style: TextStyle(
             color: AppColors.hint,
             fontSize: 18,
@@ -55,7 +54,7 @@ class ErrorWidget extends StatelessWidget {
               ),
             ),
             child: Text(
-              AppLocalizations.of(context)!.translate('reload_screen')!,
+              'تلاش مجدد',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

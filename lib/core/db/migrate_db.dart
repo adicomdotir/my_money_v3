@@ -34,8 +34,16 @@ Future<void> migrateData() async {
       await newExpensesBox.put(newExpense.id, newExpense);
     }
 
+    oldExpensesBox.close();
+    oldCategoriesBox.close();
+    newExpensesBox.close();
+    newCategoriesBox.close();
     debugPrint('Data migration completed!');
   } else {
+    oldExpensesBox.close();
+    oldCategoriesBox.close();
+    newExpensesBox.close();
+    newCategoriesBox.close();
     debugPrint('Data migration failed! because data migrated!!');
   }
 }

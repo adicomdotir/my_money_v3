@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
@@ -55,9 +54,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     }
 
     final appBar = AppBar(
-      title: expense == null
-          ? Text(AppLocalizations.of(context)!.translate('add_expense')!)
-          : Text(AppLocalizations.of(context)!.translate('edit_expense')!),
+      title: expense == null ? Text('add_expense') : Text('edit_expense'),
     );
     return Scaffold(
       appBar: appBar,

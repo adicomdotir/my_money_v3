@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/locale/app_localizations.dart';
 import 'package:my_money_v3/core/utils/functions/functions.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -58,7 +57,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text(AppLocalizations.of(context)!.translate('expenses')!),
+      title: Text('expenses'),
     );
     return Scaffold(
       appBar: appBar,

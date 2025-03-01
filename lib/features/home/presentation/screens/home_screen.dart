@@ -4,7 +4,6 @@ import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 
-import '../../../../config/locale/app_localizations.dart';
 import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
@@ -68,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _key.currentState!.openDrawer();
         },
       ),
-      title: Text(AppLocalizations.of(context)!.translate('app_name')!),
+      title: Text('app_name'),
     );
     return RefreshIndicator(
       child: Scaffold(
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Center(
                   child: Text(
-                    AppLocalizations.of(context)!.translate('app_name')!,
+                    'app_name',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -129,12 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListTile(
                           trailing: const Icon(Icons.arrow_forward_ios),
                           title: Text(
-                            AppLocalizations.of(context)!
-                                .translate('expenses')!,
+                            'expenses',
                           ),
                           subtitle: Text(
-                            AppLocalizations.of(context)!
-                                .translate('expense_description')!,
+                            'expense_description',
                           ),
                         ),
                       ),
@@ -146,12 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListTile(
                           trailing: const Icon(Icons.arrow_forward_ios),
                           title: Text(
-                            AppLocalizations.of(context)!
-                                .translate('categories')!,
+                            'categories',
                           ),
                           subtitle: Text(
-                            AppLocalizations.of(context)!
-                                .translate('category_description')!,
+                            'category_description',
                           ),
                         ),
                       ),
@@ -200,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.pushNamed(context, Routes.addEditExpanseRoute)
                 .then((value) => _getHomeInfo());
           },
-          label: Text(AppLocalizations.of(context)!.translate('add_expense')!),
+          label: Text('add_expense'),
           icon: const Icon(Icons.add),
         ),
       ),
