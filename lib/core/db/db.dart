@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
 import 'package:my_money_v3/shared/data/models/category_model.dart';
@@ -196,35 +195,28 @@ class DatabaseHelper {
 
   // Generate a report of expenses by month and category
   Future<List<Map<String, dynamic>>> getReport() async {
-    debugPrint('0');
-    final expenses = await _openBox('expenses_v2');
-    final categories = await _openBox('categories_v2');
-
-    debugPrint('1');
+    final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
+    final categories = await _openBox<CategoryDbModel>('categories_v2');
 
     // Sort expenses by date
     final sortedExpenses = expenses.values.toList()
-      ..sort((a, b) => b['date'] - a['date']);
-
-    debugPrint('2');
+      ..sort((a, b) => b.date - a.date);
 
     // Create maps for category titles and colors
     final categoriesMap = {
       for (var category in categories.values)
-        category['id'].toString(): category['title'],
+        category.id.toString(): category.title,
     };
     final categoriesColorMap = {
       for (var category in categories.values)
-        category['id'].toString(): category['color'],
+        category.id.toString(): category.color,
     };
-
-    debugPrint('3');
 
     // Group expenses by month and category
     final Map<String, Map<String, dynamic>> reportMap = {};
     for (var expense in sortedExpenses) {
       final jalali = Jalali.fromDateTime(
-        DateTime.fromMillisecondsSinceEpoch(expense['date']),
+        DateTime.fromMillisecondsSinceEpoch(expense.date),
       );
       final monthKey = '${jalali.year}/${jalali.month}';
 
@@ -237,16 +229,16 @@ class DatabaseHelper {
       }
 
       final monthData = reportMap[monthKey]!;
-      monthData['sumPrice'] += expense['price'];
+      monthData['sumPrice'] += expense.price;
 
-      final categoryId = expense['categoryId'].toString();
+      final categoryId = expense.categoryId.toString();
       final categoryExpense = monthData['catExpenseList'].firstWhere(
         (element) => element['id'] == categoryId,
         orElse: () => null,
       );
 
       if (categoryExpense != null) {
-        categoryExpense['price'] += expense['price'];
+        categoryExpense['price'] += expense.price;
         categoryExpense['transactionCount'] += 1;
       } else {
         monthData['catExpenseList'].add({
@@ -254,12 +246,10 @@ class DatabaseHelper {
           'title': categoriesMap[categoryId],
           'transactionCount': 1,
           'color': categoriesColorMap[categoryId],
-          'price': expense['price'],
+          'price': expense.price,
         });
       }
     }
-
-    debugPrint('4');
 
     // Calculate percentages and sort categories by price
     final reportList = reportMap.values.toList();
@@ -272,7 +262,6 @@ class DatabaseHelper {
       catExpenses.sort((a, b) => b['price'] - a['price']);
     }
 
-    debugPrint('5');
     return reportList;
   }
 }

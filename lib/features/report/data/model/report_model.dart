@@ -31,15 +31,18 @@ class ReportModel {
   }
 
   factory ReportModel.fromMap(Map<String, dynamic> map) {
+    final ls = List<CatExpenseModel>.from(
+      (map['catExpenseList'] as List<dynamic>).map<CatExpenseModel>(
+        (x) {
+          final res = CatExpenseModel.fromMap(x);
+          return res;
+        },
+      ),
+    );
     return ReportModel(
       monthName: map['monthName'] as String,
       sumPrice: map['sumPrice'].toInt() as int,
-      catExpneseList: List<CatExpenseModel>.from(
-        (map['catExpenseList'] as List<Map<String, dynamic>>)
-            .map<CatExpenseModel>(
-          (x) => CatExpenseModel.fromMap(x),
-        ),
-      ),
+      catExpneseList: ls,
     );
   }
 
@@ -110,5 +113,5 @@ class CatExpenseModel {
       CatExpenseModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Categorie(title: $title, price: $price)';
+  String toString() => 'CatExpenseModel(title: $title, price: $price)';
 }
