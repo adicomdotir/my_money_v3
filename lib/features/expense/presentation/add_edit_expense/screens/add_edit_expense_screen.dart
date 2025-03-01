@@ -54,7 +54,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     }
 
     final appBar = AppBar(
-      title: expense == null ? Text('add_expense') : Text('edit_expense'),
+      title: expense == null ? Text('هزینه جدید') : Text('ویرایش هزینه'),
     );
     return Scaffold(
       appBar: appBar,

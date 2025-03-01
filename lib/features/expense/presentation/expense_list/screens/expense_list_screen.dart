@@ -57,7 +57,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text('expenses'),
+      title: Text('هزینه ها'),
     );
     return Scaffold(
       appBar: appBar,

@@ -55,7 +55,7 @@ class _CategoriesDropDownState extends State<CategoryDropDownWidget> {
           );
           return InputDecorator(
             decoration: InputDecoration(
-              labelText: 'parent_category',
+              labelText: 'دسته',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12.0,
                 vertical: 0.0,

@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _key.currentState!.openDrawer();
         },
       ),
-      title: Text('app_name'),
+      title: Text('پول من'),
     );
     return RefreshIndicator(
       child: Scaffold(
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Center(
                   child: Text(
-                    'app_name',
+                    'پول من',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -128,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListTile(
                           trailing: const Icon(Icons.arrow_forward_ios),
                           title: Text(
-                            'expenses',
+                            'هزینه ها',
                           ),
                           subtitle: Text(
-                            'expense_description',
+                            'هزینه ها',
                           ),
                         ),
                       ),
@@ -143,10 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListTile(
                           trailing: const Icon(Icons.arrow_forward_ios),
                           title: Text(
-                            'categories',
+                            'دسته ها',
                           ),
                           subtitle: Text(
-                            'category_description',
+                            'دسته ها',
                           ),
                         ),
                       ),
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.pushNamed(context, Routes.addEditExpanseRoute)
                 .then((value) => _getHomeInfo());
           },
-          label: Text('add_expense'),
+          label: Text('اضافه کردن هزینه'),
           icon: const Icon(Icons.add),
         ),
       ),

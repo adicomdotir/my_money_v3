@@ -118,7 +118,7 @@ class ExpenseCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${('date')}: ${dateFormat(expense.date)}',
+                              'تاریخ: ${dateFormat(expense.date)}',
                             ),
                             Text(expense.category!.title),
                           ],
@@ -155,19 +155,19 @@ Future<bool?> showDeleteDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return AlertDialog(
-        content: Text('delete_question'),
+        content: Text('ایا برای حذف ایتم مطمئن هستید؟'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context, true);
             },
-            child: Text('yes'),
+            child: Text('بله'),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context, false);
             },
-            child: Text('no'),
+            child: Text('خیر'),
           ),
         ],
       );

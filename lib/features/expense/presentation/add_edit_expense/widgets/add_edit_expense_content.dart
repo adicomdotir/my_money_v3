@@ -66,7 +66,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelText: 'title',
+                labelText: 'عنوان',
               ),
             ),
             const SizedBox(
@@ -87,7 +87,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      labelText: 'price',
+                      labelText: 'قیمت',
                     ),
                   ),
                 ),
@@ -114,7 +114,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     _selectDate(context);
                   },
                   child: Text(
-                    'select_date',
+                    'انتخاب تاریخ',
                   ),
                 ),
                 Text(
@@ -222,7 +222,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   context.read<AddEditExpenseCubit>().editExpense(expense);
                 }
               },
-              child: widget.expense == null ? Text('save') : Text('update'),
+              child: widget.expense == null ? Text('ذخیره') : Text('ویرایش'),
             ),
           ],
         ),
