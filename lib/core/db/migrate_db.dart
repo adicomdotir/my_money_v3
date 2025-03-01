@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
 import 'package:my_money_v3/core/db/hive_models/expense_db_model.dart';
@@ -33,8 +34,8 @@ Future<void> migrateData() async {
       await newExpensesBox.put(newExpense.id, newExpense);
     }
 
-    print('Data migration completed!');
+    debugPrint('Data migration completed!');
   } else {
-    print('Data migration failed! because data migrated!!');
+    debugPrint('Data migration failed! because data migrated!!');
   }
 }

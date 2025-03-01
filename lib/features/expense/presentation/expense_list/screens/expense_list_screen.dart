@@ -21,6 +21,11 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     BlocProvider.of<ExpenseCubit>(context).changeCalenderFilterType(0);
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import 'app_localizations.dart';
 
@@ -13,6 +14,8 @@ class AppLocalizationsSetup {
 
   static const Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates =
       [
+    PersianMaterialLocalizations.delegate,
+    PersianCupertinoLocalizations.delegate,
     AppLocalizations.delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
