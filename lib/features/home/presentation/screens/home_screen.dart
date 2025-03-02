@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Expanded(
-                  child: ListView(
+                  child: Column(
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -181,6 +181,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: Text('گرفتن بکاپ'),
                           subtitle: Text('گرفتن بکاپ'),
                         ),
+                      ),
+                      Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ورژن',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            '1.0.4+18',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16,
                       ),
                     ],
                   ),
