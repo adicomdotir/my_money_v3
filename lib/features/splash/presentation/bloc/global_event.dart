@@ -17,3 +17,9 @@ class ModifyUnitGlobalEvent extends GlobalEvent {
 }
 
 class GetSettingsGlobalEvent extends GlobalEvent {}
+
+class ChangeThemeGlobalEvent extends GlobalEvent {
+  final FlexScheme scheme;
+
+  const ChangeThemeGlobalEvent({required this.scheme});
+}

@@ -23,18 +23,17 @@ class MyMoneyApp extends StatelessWidget {
       ],
       child: BlocBuilder<GlobalBloc, GlobalState>(
         buildWhen: (GlobalState previousState, GlobalState currentState) {
+          print('22change theme');
           return previousState != currentState;
         },
         builder: (BuildContext context, GlobalState state) {
+          print('change theme');
           return MaterialApp(
             title: AppStrings.appName,
             locale: const Locale('fa', 'IR'),
             debugShowCheckedModeBanner: false,
             // The Mandy red, light theme.
-            theme: FlexThemeData.light(
-              scheme: FlexScheme.pinkM3,
-              fontFamily: 'Vazir',
-            ),
+            theme: context.watch<GlobalBloc>().state.themeData,
             // The Mandy red, dark theme.
             darkTheme: FlexThemeData.dark(
               scheme: FlexScheme.pinkM3,
