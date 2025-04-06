@@ -23,11 +23,9 @@ class MyMoneyApp extends StatelessWidget {
       ],
       child: BlocBuilder<GlobalBloc, GlobalState>(
         buildWhen: (GlobalState previousState, GlobalState currentState) {
-          print('22change theme');
           return previousState != currentState;
         },
         builder: (BuildContext context, GlobalState state) {
-          print('change theme');
           return MaterialApp(
             title: AppStrings.appName,
             locale: const Locale('fa', 'IR'),

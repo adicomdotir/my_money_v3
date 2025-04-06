@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 
@@ -166,61 +167,61 @@ final themes = [
   ThemeColorUiModel(
     scheme: FlexScheme.redM3,
     faName: 'قرمز',
-    color: Colors.red.value,
+    color: HexColor.getColorFromHex(Colors.red.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.blueM3,
     faName: 'ابی',
-    color: Colors.blue.value,
+    color: HexColor.getColorFromHex(Colors.blue.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.cyanM3,
     faName: 'ابی یشمی',
-    color: Colors.cyan.value,
+    color: HexColor.getColorFromHex(Colors.cyan.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.limeM3,
     faName: 'لیمویی',
-    color: Colors.lime.value,
+    color: HexColor.getColorFromHex(Colors.lime.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.pinkM3,
     faName: 'صورتی',
-    color: Colors.pink.value,
+    color: HexColor.getColorFromHex(Colors.pink.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.tealM3,
     faName: 'سبزابی',
-    color: Colors.teal.value,
+    color: HexColor.getColorFromHex(Colors.teal.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.greenM3,
     faName: 'سبز',
-    color: Colors.green.value,
+    color: HexColor.getColorFromHex(Colors.green.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.indigoM3,
     faName: 'سرمه ای',
-    color: Colors.indigo.value,
+    color: HexColor.getColorFromHex(Colors.indigo.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.orangeM3,
     faName: 'نارنجی',
-    color: Colors.orange.value,
+    color: HexColor.getColorFromHex(Colors.orange.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.purpleM3,
     faName: 'بنفش',
-    color: Colors.purple.value,
+    color: HexColor.getColorFromHex(Colors.purple.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.yellowM3,
     faName: 'زرد',
-    color: Colors.yellow.value,
+    color: HexColor.getColorFromHex(Colors.yellow.hex),
   ),
   ThemeColorUiModel(
     scheme: FlexScheme.deepOrangeM3,
     faName: 'نارنجی عمیق',
-    color: Colors.deepOrange.value,
+    color: HexColor.getColorFromHex(Colors.deepOrange.hex),
   ),
 ];
