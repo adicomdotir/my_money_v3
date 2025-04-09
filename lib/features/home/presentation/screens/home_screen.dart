@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 16,
                           ),
                           Text(
-                            '1.0.5+20',
+                            '1.0.7+22',
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ],
