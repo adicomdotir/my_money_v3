@@ -18,7 +18,7 @@ class FilterExpenseRepositoryImpl implements FilterExpenseRepository {
     int? toDate,
     String? categoryId,
   ]) async {
-    final result = await dataSource.getExpenses(fromDate, toDate);
+    final result = await dataSource.getExpenses(fromDate, toDate, categoryId);
     return Right(result);
   }
 }

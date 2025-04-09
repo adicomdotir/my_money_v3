@@ -132,11 +132,13 @@ class AppRoutes {
           },
         );
       case Routes.filterExpenseRoute:
+        final arguments = routeSettings.arguments as Map<String, dynamic>;
+        final id = arguments['id'] as String;
         return MaterialPageRoute(
           builder: (context) {
             return BlocProvider(
               create: (context) => di.sl<FilterExpneseBloc>(),
-              child: const FilterExpenseScreen(),
+              child: FilterExpenseScreen(id: id),
             );
           },
         );

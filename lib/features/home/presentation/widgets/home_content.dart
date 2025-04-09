@@ -159,7 +159,12 @@ class _HomeContentState extends State<HomeContent>
                 final item = widget.homeInfoList.expenseByCategory[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.filterExpenseRoute);
+                    print(item.id);
+                    Navigator.pushNamed(
+                      context,
+                      Routes.filterExpenseRoute,
+                      arguments: {'id': item.id},
+                    );
                   },
                   child: Column(
                     children: [

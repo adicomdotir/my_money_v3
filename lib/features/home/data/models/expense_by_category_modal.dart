@@ -5,6 +5,7 @@ class ExpenseByCategoryModel extends ExpenseByCategoryEntity {
     required super.title,
     required super.price,
     required super.color,
+    required super.id,
   });
 
   factory ExpenseByCategoryModel.fromMap(Map<String, dynamic> json) =>
@@ -12,11 +13,13 @@ class ExpenseByCategoryModel extends ExpenseByCategoryEntity {
         title: json['title'],
         price: json['price'],
         color: json['color'],
+        id: json['id'],
       );
 
   Map<String, dynamic> toMap() => {
         'title': title,
         'price': price,
         'color': color,
+        'id': id,
       };
 }

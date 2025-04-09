@@ -8,3 +8,13 @@ sealed class FilterExpenseState extends Equatable {
 }
 
 final class FilterExpenseInitial extends FilterExpenseState {}
+
+final class FilterExpenseLoaded extends FilterExpenseState {
+  final List<Expense> expenses;
+
+  const FilterExpenseLoaded({
+    required this.expenses,
+  });
+  @override
+  List<Object> get props => [expenses];
+}

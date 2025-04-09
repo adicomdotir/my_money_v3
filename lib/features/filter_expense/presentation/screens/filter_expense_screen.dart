@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/core/utils/date_format.dart';
 import 'package:my_money_v3/features/filter_expense/presentation/bloc/filter_expnese_bloc.dart';
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
-class FilterExpenseScreen extends StatelessWidget {
-  const FilterExpenseScreen({super.key});
+class FilterExpenseScreen extends StatefulWidget {
+  const FilterExpenseScreen({required this.id, super.key});
+
+  final String id;
+
+  @override
+  State<FilterExpenseScreen> createState() => _FilterExpenseScreenState();
+}
+
+class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<FilterExpneseBloc>(context)
+        .add(GetFilterExpenseEvent(widget.id));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +36,16 @@ class FilterExpenseScreen extends StatelessWidget {
     return BlocConsumer<FilterExpneseBloc, FilterExpenseState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is FilterExpenseInitial) {
-          return _showListView();
+        if (state is FilterExpenseLoaded) {
+          return _showListView(state.expenses);
+        } else if (state is FilterExpenseInitial) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         } else {
           return Column(
             children: [
-              Text('data'),
+              Text(widget.id),
             ],
           );
         }
@@ -34,23 +53,41 @@ class FilterExpenseScreen extends StatelessWidget {
     );
   }
 
-  Widget _showListView() {
-    return ListView.builder(
-      itemCount: fakeList.length,
-      itemBuilder: (context, index) {
-        final expense = fakeList[index];
-        return ListTile(
-          title: Text(expense.title),
-          subtitle: Text(expense.price.toString()),
-        );
-      },
+  Widget _showListView(List<Expense> expenses) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 56,
+          child: Center(
+            child: Text(
+              expenses.first.category?.title ?? 'Error',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: expenses.length,
+            itemBuilder: (context, index) {
+              final expense = expenses[index];
+              return ListTile(
+                title: Text(
+                  expense.title,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                subtitle: Text(
+                  '${expense.price.toString()} تومان',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                trailing: Text(
+                  dateFormat(expense.date).toString(),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
-
-final fakeList = <Expense>[
-  Expense(id: '1', title: 'title1', price: 100000, date: 1, categoryId: '1'),
-  Expense(id: '2', title: 'title2', price: 150000, date: 1, categoryId: '1'),
-  Expense(id: '3', title: 'title3', price: 210000, date: 1, categoryId: '1'),
-  Expense(id: '4', title: 'title4', price: 250000, date: 1, categoryId: '1'),
-];

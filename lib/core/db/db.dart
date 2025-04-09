@@ -135,6 +135,7 @@ class DatabaseHelper {
             'title': category.title,
             'price': totalPrice,
             'color': category.color,
+            'id': category.id,
           };
         })
         .where((element) => element != null)

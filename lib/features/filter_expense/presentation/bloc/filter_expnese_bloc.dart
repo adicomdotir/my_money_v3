@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../domain/usecases/get_filter_expense_use_case.dart';
@@ -27,12 +28,17 @@ class FilterExpneseBloc extends Bloc<FilterExpenseEvent, FilterExpenseState> {
     toDate = fromDate.addMonths(1);
 
     emit(FilterExpenseInitial());
-    await getFilterExpenseUseCase.call(
+
+    final res = await getFilterExpenseUseCase.call(
       GetFilterExpenseParams(
         fromDate.toDateTime().millisecondsSinceEpoch,
         toDate.toDateTime().millisecondsSinceEpoch,
         event.categoryId,
       ),
+    );
+    res.fold(
+      (failure) => emit(FilterExpenseInitial()),
+      (success) => emit(FilterExpenseLoaded(expenses: success)),
     );
   }
 }
