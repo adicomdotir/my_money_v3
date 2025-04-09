@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/date_format.dart';
+import 'package:my_money_v3/core/utils/price_format.dart';
 import 'package:my_money_v3/features/filter_expense/presentation/bloc/filter_expnese_bloc.dart';
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
+
+import '../../../splash/presentation/bloc/global_bloc.dart';
 
 class FilterExpenseScreen extends StatefulWidget {
   const FilterExpenseScreen({required this.id, super.key});
@@ -43,17 +46,14 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
             child: CircularProgressIndicator(),
           );
         } else {
-          return Column(
-            children: [
-              Text(widget.id),
-            ],
-          );
+          return Text('Error: unknown state');
         }
       },
     );
   }
 
   Widget _showListView(List<Expense> expenses) {
+    final unit = context.read<GlobalBloc>().state.settings.unit;
     return Column(
       children: [
         SizedBox(
@@ -76,7 +76,7 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 subtitle: Text(
-                  '${expense.price.toString()} تومان',
+                  priceFormat(expense.price, unit),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 trailing: Text(
