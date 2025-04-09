@@ -59,14 +59,21 @@ class DatabaseHelper {
   }
 
   // Get expenses, optionally filtered by date range
-  Future<List<ExpenseModel>> getExpenses([int? fromDate, int? toDate]) async {
+  Future<List<ExpenseModel>> getExpenses([
+    int? fromDate,
+    int? toDate,
+    String? categoryId,
+  ]) async {
     final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
     final categories = await _openBox<CategoryDbModel>('categories_v2');
 
     final filteredExpenses = fromDate != null
         ? expenses.values
             .where(
-              (expense) => expense.date >= fromDate && expense.date < toDate!,
+              (expense) =>
+                  expense.date >= fromDate &&
+                  expense.date < toDate! &&
+                  (categoryId == null || expense.categoryId == categoryId),
             )
             .toList()
         : expenses.values.toList();
@@ -128,6 +135,7 @@ class DatabaseHelper {
             'title': category.title,
             'price': totalPrice,
             'color': category.color,
+            'id': category.id,
           };
         })
         .where((element) => element != null)

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
+  static int getColorFromHex(String hexColor) {
     // Remove any leading '#' and convert to uppercase
     hexColor = hexColor.toUpperCase().replaceAll('#', '');
 
@@ -36,13 +36,5 @@ class HexColor extends Color {
   /// - AARRGGBB
   ///
   /// Throws [FormatException] if the hex string is invalid.
-  HexColor(String hexColor) : super(_getColorFromHex(hexColor));
-
-  /// Converts the color to a hex string in the format #RRGGBB
-  String toHex() =>
-      '#${value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}';
-
-  /// Converts the color to a hex string in the format #AARRGGBB
-  String toHexWithAlpha() =>
-      '#${value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+  HexColor(String hexColor) : super(getColorFromHex(hexColor));
 }

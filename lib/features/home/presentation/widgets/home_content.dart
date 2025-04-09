@@ -157,42 +157,52 @@ class _HomeContentState extends State<HomeContent>
               ),
               itemBuilder: (context, index) {
                 final item = widget.homeInfoList.expenseByCategory[index];
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 10,
-                                color: HexColor(
-                                  item.color,
+                return InkWell(
+                  onTap: () {
+                    print(item.id);
+                    Navigator.pushNamed(
+                      context,
+                      Routes.filterExpenseRoute,
+                      arguments: {'id': item.id},
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 10,
+                                  color: HexColor(
+                                    item.color,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              Text(item.title),
-                            ],
-                          ),
-                          Text(
-                            priceFormat(
-                              item.price,
-                              context.read<GlobalBloc>().state.settings.unit,
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Text(item.title),
+                              ],
                             ),
-                          ),
-                        ],
+                            Text(
+                              priceFormat(
+                                item.price,
+                                context.read<GlobalBloc>().state.settings.unit,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: 2,
-                      color: HexColor(item.color),
-                    ),
-                  ],
+                      Container(
+                        height: 2,
+                        color: HexColor(item.color),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

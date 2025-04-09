@@ -2,6 +2,10 @@ import 'package:get_it/get_it.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
+import 'package:my_money_v3/features/filter_expense/data/datasources/filter_expnese_local_data_source.dart';
+import 'package:my_money_v3/features/filter_expense/domain/repositories/filter_expense_repository.dart';
+import 'package:my_money_v3/features/filter_expense/domain/usecases/get_filter_expense_use_case.dart';
+import 'package:my_money_v3/features/filter_expense/presentation/bloc/filter_expnese_bloc.dart';
 import 'package:my_money_v3/features/home/domain/usecases/get_backup.dart';
 import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 import 'package:my_money_v3/features/report/data/data_sources/report_data_source.dart';
@@ -33,6 +37,7 @@ import 'features/expense/domain/repositories/expense_repository.dart';
 import 'features/expense/domain/usecases/add_edit_expense_use_case.dart';
 import 'features/expense/domain/usecases/delete_expense_use_case.dart';
 import 'features/expense/domain/usecases/expense_list_use_case.dart';
+import 'features/filter_expense/data/repositories/filter_expense_repository_impl.dart';
 import 'features/home/data/datasources/home_info_local_data_source.dart';
 import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/home_info_repository.dart';
@@ -86,6 +91,9 @@ Future<void> init() async {
   sl.registerFactory<SettingsBloc>(
     () => SettingsBloc(changeMoneyUnit: sl()),
   );
+  sl.registerFactory<FilterExpneseBloc>(
+    () => FilterExpneseBloc(sl()),
+  );
 
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
@@ -130,6 +138,9 @@ Future<void> init() async {
   sl.registerLazySingleton<ChangeMoneyUnit>(
     () => ChangeMoneyUnit(settingsRepository: sl()),
   );
+  sl.registerLazySingleton<GetFilterExpenseUseCase>(
+    () => GetFilterExpenseUseCase(repository: sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<HomeInfoRepository>(
@@ -154,6 +165,9 @@ Future<void> init() async {
   sl.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(settingsDataSource: sl()),
   );
+  sl.registerLazySingleton<FilterExpenseRepository>(
+    () => FilterExpenseRepositoryImpl(dataSource: sl()),
+  );
 
   // Data Sources
   sl.registerLazySingleton<HomeInfoLocalDataSource>(
@@ -173,6 +187,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SettingsDataSource>(
     () => SettingsDataSourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<FilterExpenseLocalDataSource>(
+    () => FilterExpenseLocalDataSourceImpl(databaseHelper: sl()),
   );
 
   //! External
