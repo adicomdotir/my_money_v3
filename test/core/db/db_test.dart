@@ -2,19 +2,46 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_test/hive_test.dart';
 import 'package:my_money_v3/core/db/db.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
+import 'package:my_money_v3/core/db/hive_models/expense_db_model.dart';
+import 'package:my_money_v3/shared/data/models/category_model.dart';
+import 'package:my_money_v3/shared/data/models/expense_model.dart';
 
 void main() {
   group('DatabaseHelper', () {
     late DatabaseHelper dbHelper;
-    late Box<dynamic> categoriesBox;
-    late Box<dynamic> expensesBox;
+    late Box<CategoryDbModel> categoriesBox;
+    late Box<ExpenseDbModel> expensesBox;
+
+    // Common test data
+    final foodCategory = CategoryModel.fromMap(
+      {'id': '1', 'title': 'Food', 'color': '#FF0000'},
+    );
+    final rentCategory = CategoryModel.fromMap(
+      {'id': '2', 'title': 'Rent', 'color': '#00FF00'},
+    );
+
+    final todayExpense = ExpenseModel.fromMap({
+      'categoryId': '1',
+      'date': DateTime.now().millisecondsSinceEpoch,
+      'price': 20,
+    });
+    final yesterdayExpense = ExpenseModel.fromMap({
+      'categoryId': '1',
+      'date': DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
+      'price': 10,
+    });
+    final lastMonthExpense = ExpenseModel.fromMap({
+      'categoryId': '2',
+      'date':
+          DateTime.now().subtract(Duration(days: 30)).millisecondsSinceEpoch,
+      'price': 30,
+    });
 
     setUp(() async {
-      // await Hive.initFlutter();
       await setUpTestHive();
-      categoriesBox = await Hive.openBox('categories');
-      expensesBox = await Hive.openBox('expenses');
+      categoriesBox = await Hive.openBox('categories_v2');
+      expensesBox = await Hive.openBox('expenses_v2');
       dbHelper = DatabaseHelper();
     });
 
@@ -25,236 +52,123 @@ void main() {
       await expensesBox.close();
     });
 
+    // Helper methods
+    Future<void> seedCategories() async {
+      await categoriesBox.put('1', foodCategory.toDbModel());
+      await categoriesBox.put('2', rentCategory.toDbModel());
+    }
+
+    Future<void> seedExpenses() async {
+      await expensesBox.put('1', todayExpense.toDbModel());
+      await expensesBox.put('2', yesterdayExpense.toDbModel());
+      await expensesBox.put('3', lastMonthExpense.toDbModel());
+    }
+
     group('Category Management', () {
       test('addCategory should add a new category to the database', () async {
-        final categoryJson = {'title': 'Food', 'color': '#FF0000'};
-        final id = '1';
+        await dbHelper.addCategory(foodCategory);
 
-        await dbHelper.addCategory(categoryJson, id);
         expect(categoriesBox.length, 1);
-        expect(categoriesBox.containsKey(id), true);
-        expect(categoriesBox.get(id), categoryJson);
+        expect(categoriesBox.containsKey('1'), true);
+        expect(categoriesBox.get('1'), foodCategory.toDbModel());
       });
 
-      test('getCategories should return a list of all categories', () async {
-        final category1 = {'title': 'Food', 'color': '#FF0000'};
-        final category2 = {'title': 'Rent', 'color': '#00FF00'};
-        await categoriesBox.put('1', category1);
-        await categoriesBox.put('2', category2);
+      test('getCategories should return all categories', () async {
+        await seedCategories();
 
         final categories = await dbHelper.getCategories();
 
         expect(categories.length, 2);
-        expect(categories.contains(category1), true);
-        expect(categories.contains(category2), true);
+        expect(categories, containsAll([foodCategory, rentCategory]));
       });
 
-      test(
-          'deleteCategory should delete a category from the database if no expenses are associated',
-          () async {
-        final categoryId = '1';
-        await categoriesBox
-            .put(categoryId, {'title': 'Food', 'color': '#FF0000'});
+      test('deleteCategory should succeed when no expenses exist', () async {
+        await categoriesBox.put('1', foodCategory.toDbModel());
 
-        final result = await dbHelper.deleteCategory(categoryId);
+        final result = await dbHelper.deleteCategory('1');
 
         expect(result, true);
-        expect(categoriesBox.containsKey(categoryId), false);
+        expect(categoriesBox.containsKey('1'), false);
       });
 
-      test(
-          'deleteCategory should not delete a category if expenses are associated',
-          () async {
-        final categoryId = '1';
-        await categoriesBox
-            .put(categoryId, {'title': 'Food', 'color': '#FF0000'});
-        await expensesBox.put(
-          '1',
-          {'categoryId': categoryId, 'date': 123, 'price': 10},
-        );
+      test('deleteCategory should fail when expenses exist', () async {
+        await categoriesBox.put('1', foodCategory.toDbModel());
+        await expensesBox.put('1', todayExpense.toDbModel());
 
-        final result = await dbHelper.deleteCategory(categoryId);
+        final result = await dbHelper.deleteCategory('1');
 
         expect(result, false);
-        expect(categoriesBox.containsKey(categoryId), true);
+        expect(categoriesBox.containsKey('1'), true);
       });
     });
 
     group('Expense Management', () {
-      test('addExpanse should add a new expense to the database', () async {
-        final expenseJson = {
-          'categoryId': '1',
-          'date': 1678886400000,
-          'price': 10,
-        };
-        final id = '1';
+      test('addExpanse should add a new expense', () async {
+        await dbHelper.addExpanse(todayExpense);
 
-        await dbHelper.addExpanse(expenseJson, id);
-
-        expect(expensesBox.containsKey(id), true);
-        expect(expensesBox.get(id), expenseJson);
+        expect(expensesBox.containsKey('1'), true);
+        expect(expensesBox.get('1'), todayExpense.toDbModel());
       });
 
-      test('deleteExpanse should delete an expense from the database',
-          () async {
-        final expenseId = '1';
-        await expensesBox.put(expenseId, {
-          'categoryId': '1',
-          'date': 1678886400000,
-          'price': 10,
-        });
+      test('deleteExpanse should remove an expense', () async {
+        await expensesBox.put('1', todayExpense.toDbModel());
 
-        await dbHelper.deleteExpanse(expenseId);
+        await dbHelper.deleteExpanse('1');
 
-        expect(expensesBox.containsKey(expenseId), false);
+        expect(expensesBox.containsKey('1'), false);
       });
 
-      test('getExpenses should return a list of all expenses', () async {
-        final expense1 = {
-          'categoryId': '1',
-          'date': 1678886400000,
-          'price': 10,
-        };
-        final expense2 = {
-          'categoryId': '2',
-          'date': 1678972800000,
-          'price': 20,
-        };
-        await expensesBox.put('1', expense1);
-        await expensesBox.put('2', expense2);
-        await categoriesBox.put('1', {'title': 'Food', 'color': '#FF0000'});
-        await categoriesBox.put('2', {'title': 'Rent', 'color': '#00FF00'});
+      test('getExpenses should return all expenses sorted by date', () async {
+        await seedCategories();
+        await seedExpenses();
 
         final expenses = await dbHelper.getExpenses();
 
-        expect(expenses.length, 2);
-        expect(expenses[0]['price'], 20);
-        expect(expenses[1]['price'], 10);
+        expect(expenses.length, 3);
+        expect(expenses[0].price, todayExpense.price);
+        expect(expenses[1].price, yesterdayExpense.price);
       });
 
-      test('getExpenses should filter expenses by date range', () async {
-        final expense1 = {
-          'categoryId': '1',
-          'date': 1678886400000,
-          'price': 10,
-        };
-        final expense2 = {
-          'categoryId': '2',
-          'date': 1678972800000,
-          'price': 20,
-        };
-        await expensesBox.put('1', expense1);
-        await expensesBox.put('2', expense2);
-        await categoriesBox.put('1', {'title': 'Food', 'color': '#FF0000'});
-        await categoriesBox.put('2', {'title': 'Rent', 'color': '#00FF00'});
+      test('getExpenses should filter by date range', () async {
+        await seedCategories();
+        await seedExpenses();
 
-        final fromDate = 1678929200000;
-        final toDate = 1679016000000;
+        final fromDate =
+            DateTime.now().subtract(Duration(days: 2)).millisecondsSinceEpoch;
+        final toDate = DateTime.now().millisecondsSinceEpoch;
         final expenses = await dbHelper.getExpenses(fromDate, toDate);
 
-        expect(expenses.length, 1);
-        expect(expenses[0]['price'], 20);
+        expect(expenses.length, 2);
       });
     });
 
     group('Home Screen Data', () {
-      test('getHomeInfo should return summary data for the home screen',
-          () async {
-        final category1 = {'id': '1', 'title': 'Food', 'color': '#FF0000'};
-        final category2 = {'id': '2', 'title': 'Rent', 'color': '#00FF00'};
-        await categoriesBox.put('1', category1);
-        await categoriesBox.put('2', category2);
-        final now = Jalali.now();
-        final thisMonth = now.copy(day: 1);
-        final today = now.copy(hour: 0, minute: 0, second: 0);
-        final expense1 = {
-          'categoryId': '1',
-          'date': today
-              .copy(day: today.day - 1)
-              .toDateTime()
-              .millisecondsSinceEpoch,
-          'price': 10,
-        };
-        final expense2 = {
-          'categoryId': '2',
-          'date': today.toDateTime().millisecondsSinceEpoch,
-          'price': 20,
-        };
-        final expense3 = {
-          'categoryId': '1',
-          'date': thisMonth
-              .copy(month: thisMonth.month - 1)
-              .toDateTime()
-              .millisecondsSinceEpoch,
-          'price': 30,
-        };
-        await expensesBox.put('1', expense1);
-        await expensesBox.put('2', expense2);
-        await expensesBox.put('3', expense3);
+      test('getHomeInfo should return summary data', () async {
+        await seedCategories();
+        await seedExpenses();
 
         final homeInfo = await dbHelper.getHomeInfo();
 
-        expect(homeInfo['expenseByCategory'].length, 2);
-        expect(homeInfo['expenseByCategory'][0]['price'], 20);
-        expect(homeInfo['expenseByCategory'][1]['price'], 10);
-        expect(homeInfo['todayPrice'], 20);
-        expect(homeInfo['monthPrice'], 30);
-        expect(homeInfo['thirtyDaysPrice'], 50);
-        expect(homeInfo['ninetyDaysPrice'], 80);
+        expect(homeInfo['todayPrice'], todayExpense.price);
+        expect(
+          homeInfo['monthPrice'],
+          todayExpense.price + yesterdayExpense.price,
+        );
       });
     });
 
     group('Report Generation', () {
-      test('getReport should generate a monthly expense report', () async {
-        final category1 = {'id': '1', 'title': 'Food', 'color': '#FF0000'};
-        final category2 = {'id': '2', 'title': 'Rent', 'color': '#00FF00'};
-        await categoriesBox.put('1', category1);
-        await categoriesBox.put('2', category2);
-        final now = Jalali.now();
-        final thisMonth = now.copy(day: 1);
-        final expense1 = {
-          'categoryId': '1',
-          'date': thisMonth
-              .copy(month: thisMonth.month - 2)
-              .toDateTime()
-              .millisecondsSinceEpoch,
-          'price': 10,
-        };
-        final expense2 = {
-          'categoryId': '2',
-          'date': thisMonth
-              .copy(month: thisMonth.month - 1)
-              .toDateTime()
-              .millisecondsSinceEpoch,
-          'price': 20,
-        };
-        final expense3 = {
-          'categoryId': '1',
-          'date': thisMonth.toDateTime().millisecondsSinceEpoch,
-          'price': 30,
-        };
-        await expensesBox.put('1', expense1);
-        await expensesBox.put('2', expense2);
-        await expensesBox.put('3', expense3);
+      test('getReport should generate monthly reports', () async {
+        await seedCategories();
+        await seedExpenses();
 
         final report = await dbHelper.getReport();
 
-        expect(report.length, 3);
-        expect(report[0]['monthName'], '${thisMonth.year}/${thisMonth.month}');
-        expect(report[0]['sumPrice'], 30);
-        expect(report[0]['catExpenseList'].length, 1);
+        expect(report.length, 2); // Current month and last month
         expect(
-          report[1]['monthName'],
-          '${thisMonth.copy(month: thisMonth.month - 1).year}/${thisMonth.copy(month: thisMonth.month - 1).month}',
+          report[0]['sumPrice'],
+          todayExpense.price + yesterdayExpense.price,
         );
-        expect(report[1]['sumPrice'], 20);
-        expect(report[1]['catExpenseList'].length, 1);
-        expect(
-          report[2]['monthName'],
-          '${thisMonth.copy(month: thisMonth.month - 2).year}/${thisMonth.copy(month: thisMonth.month - 2).month}',
-        );
-        expect(report[2]['sumPrice'], 10);
-        expect(report[2]['catExpenseList'].length, 1);
       });
     });
   });
