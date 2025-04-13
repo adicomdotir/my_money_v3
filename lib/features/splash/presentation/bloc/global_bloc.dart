@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/shared/domain/entities/settings.dart';
 
@@ -17,6 +18,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
             settings: Settings(
               unit: 0,
               locale: Locale('fa'),
+              themeId: -1,
             ),
             themeData: FlexThemeData.light(
               scheme: FlexScheme.pinkM3,
@@ -40,15 +42,22 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       final result = await getSavedSettingsUseCase.call();
       result.fold(
         (l) => debugPrint(l.toString()),
-        (r) => emit(
-          GlobalState(
-            settings: state.settings.copyWith(unit: r.unit, locale: r.locale),
-            themeData: FlexThemeData.light(
-              scheme: FlexScheme.pinkM3,
-              fontFamily: 'Vazir',
+        (r) {
+          final theme = themes
+              .where(
+                (element) => element.id == r.themeId,
+              )
+              .first;
+          emit(
+            GlobalState(
+              settings: state.settings.copyWith(unit: r.unit, locale: r.locale),
+              themeData: FlexThemeData.light(
+                scheme: theme.scheme,
+                fontFamily: 'Vazir',
+              ),
             ),
-          ),
-        ),
+          );
+        },
       );
     });
 

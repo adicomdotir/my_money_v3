@@ -17,6 +17,7 @@ import 'package:my_money_v3/features/settings/data/datasource/settings_data_sour
 import 'package:my_money_v3/features/settings/data/repository/settings_repository_impl.dart';
 import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
 import 'package:my_money_v3/features/settings/domain/usecases/change_money_unit.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/save_user_theme_usecase.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
@@ -166,6 +167,9 @@ void _initUseCaseDependencies() {
   sl.registerLazySingleton<GetFilterExpenseUseCase>(
     () => GetFilterExpenseUseCase(repository: sl()),
   );
+  sl.registerLazySingleton<SaveUserThemeUsecase>(
+    () => SaveUserThemeUsecase(settingsRepository: sl()),
+  );
 }
 
 void _initBlocDependencies() {
@@ -204,7 +208,7 @@ void _initBlocDependencies() {
     () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
   );
   sl.registerFactory<SettingsBloc>(
-    () => SettingsBloc(changeMoneyUnit: sl()),
+    () => SettingsBloc(changeMoneyUnit: sl(), saveUserThemeUsecase: sl()),
   );
   sl.registerFactory<FilterExpneseBloc>(
     () => FilterExpneseBloc(sl()),

@@ -12,3 +12,9 @@ class ChangeMoneyUnitEvent extends SettingsEvent {
 
   const ChangeMoneyUnitEvent({required this.settings});
 }
+
+class SaveUserThemeEvent extends SettingsEvent {
+  final int themeId;
+
+  const SaveUserThemeEvent({required this.themeId});
+}

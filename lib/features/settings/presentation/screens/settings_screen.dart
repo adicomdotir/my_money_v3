@@ -136,6 +136,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(model.faName),
                 onTap: () {
                   context
+                      .read<SettingsBloc>()
+                      .add(SaveUserThemeEvent(themeId: model.id));
+                  context
                       .read<GlobalBloc>()
                       .add(ChangeThemeGlobalEvent(scheme: model.scheme));
                   setState(() {
@@ -152,11 +155,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 }
 
 class ThemeColorUiModel {
+  final int id;
   final String faName;
   final int color;
   final FlexScheme scheme;
 
   ThemeColorUiModel({
+    required this.id,
     required this.color,
     required this.faName,
     required this.scheme,
@@ -165,61 +170,73 @@ class ThemeColorUiModel {
 
 final themes = [
   ThemeColorUiModel(
+    id: 1,
     scheme: FlexScheme.redM3,
     faName: 'قرمز',
     color: HexColor.getColorFromHex(Colors.red.hex),
   ),
   ThemeColorUiModel(
+    id: 2,
     scheme: FlexScheme.blueM3,
     faName: 'ابی',
     color: HexColor.getColorFromHex(Colors.blue.hex),
   ),
   ThemeColorUiModel(
+    id: 3,
     scheme: FlexScheme.cyanM3,
     faName: 'ابی یشمی',
     color: HexColor.getColorFromHex(Colors.cyan.hex),
   ),
   ThemeColorUiModel(
+    id: 4,
     scheme: FlexScheme.limeM3,
     faName: 'لیمویی',
     color: HexColor.getColorFromHex(Colors.lime.hex),
   ),
   ThemeColorUiModel(
+    id: 5,
     scheme: FlexScheme.pinkM3,
     faName: 'صورتی',
     color: HexColor.getColorFromHex(Colors.pink.hex),
   ),
   ThemeColorUiModel(
+    id: 6,
     scheme: FlexScheme.tealM3,
     faName: 'سبزابی',
     color: HexColor.getColorFromHex(Colors.teal.hex),
   ),
   ThemeColorUiModel(
+    id: 7,
     scheme: FlexScheme.greenM3,
     faName: 'سبز',
     color: HexColor.getColorFromHex(Colors.green.hex),
   ),
   ThemeColorUiModel(
+    id: 8,
     scheme: FlexScheme.indigoM3,
     faName: 'سرمه ای',
     color: HexColor.getColorFromHex(Colors.indigo.hex),
   ),
   ThemeColorUiModel(
+    id: 9,
     scheme: FlexScheme.orangeM3,
     faName: 'نارنجی',
     color: HexColor.getColorFromHex(Colors.orange.hex),
   ),
   ThemeColorUiModel(
+    id: 10,
     scheme: FlexScheme.purpleM3,
     faName: 'بنفش',
     color: HexColor.getColorFromHex(Colors.purple.hex),
   ),
   ThemeColorUiModel(
+    id: 11,
     scheme: FlexScheme.yellowM3,
     faName: 'زرد',
     color: HexColor.getColorFromHex(Colors.yellow.hex),
   ),
   ThemeColorUiModel(
+    id: 12,
     scheme: FlexScheme.deepOrangeM3,
     faName: 'نارنجی عمیق',
     color: HexColor.getColorFromHex(Colors.deepOrange.hex),
