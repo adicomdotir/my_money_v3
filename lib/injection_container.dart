@@ -17,6 +17,7 @@ import 'package:my_money_v3/features/settings/data/datasource/settings_data_sour
 import 'package:my_money_v3/features/settings/data/repository/settings_repository_impl.dart';
 import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
 import 'package:my_money_v3/features/settings/domain/usecases/change_money_unit.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/save_user_theme_usecase.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
@@ -52,49 +53,74 @@ import 'features/splash/domain/usecases/get_saved_lang.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! Features
+  await _initExternalDependencies();
+  _initDataSourceDependencies();
+  _initRepositoryDependencies();
+  _initUseCaseDependencies();
+  _initBlocDependencies();
+}
 
-  // Blocs
-  sl.registerFactory<HomeInfoCubit>(
-    () => HomeInfoCubit(getHomeInfoUseCase: sl()),
-  );
-  sl.registerFactory<HomeDrawerCubit>(
-    () => HomeDrawerCubit(getBackupUseCase: sl()),
-  );
-  sl.registerFactory<CategoryCubit>(
-    () => CategoryCubit(
-      addCategoryUseCase: sl(),
-      categoryListUseCase: sl(),
-      deleteCategoryUseCase: sl(),
-    ),
-  );
-  sl.registerFactory<ExpenseCubit>(
-    () => ExpenseCubit(
-      expenseListUseCase: sl(),
-      deleteExpenseUseCase: sl(),
-    ),
-  );
-  sl.registerFactory<CategoriesDropDownCubit>(
-    () => CategoriesDropDownCubit(
-      categoryListUseCase: sl(),
-    ),
-  );
-  sl.registerFactory<ReportBloc>(
-    () => ReportBloc(getReportUseCase: sl()),
-  );
-  sl.registerFactory<GlobalBloc>(
-    () => GlobalBloc(getSavedSettingsUseCase: sl()),
-  );
-  sl.registerFactory<AddEditExpenseCubit>(
-    () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
-  );
-  sl.registerFactory<SettingsBloc>(
-    () => SettingsBloc(changeMoneyUnit: sl()),
-  );
-  sl.registerFactory<FilterExpneseBloc>(
-    () => FilterExpneseBloc(sl()),
-  );
+Future<void> _initExternalDependencies() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => DatabaseHelper());
+}
 
+void _initDataSourceDependencies() {
+  // Data Sources
+  sl.registerLazySingleton<HomeInfoLocalDataSource>(
+    () => HomeInfoLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<LangLocalDataSource>(
+    () => LangLocalDataSourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<ExpenseLocalDataSource>(
+    () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<CategoryLocalDataSource>(
+    () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<ReportDataSource>(
+    () => ReportDataSourceImpl(databaseHelper: sl()),
+  );
+  sl.registerLazySingleton<SettingsDataSource>(
+    () => SettingsDataSourceImpl(sharedPreferences: sl()),
+  );
+  sl.registerLazySingleton<FilterExpenseLocalDataSource>(
+    () => FilterExpenseLocalDataSourceImpl(databaseHelper: sl()),
+  );
+}
+
+void _initRepositoryDependencies() {
+  // Repository
+  sl.registerLazySingleton<HomeInfoRepository>(
+    () => HomeInfoRepositoryImpl(
+      homeInfoLocalDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton<LangRepository>(
+    () => LangRepositoryImpl(langLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<ExpenseRepository>(
+    () => ExpenseRepositoryImpl(
+      expenseLocalDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<ReportRepository>(
+    () => ReportRepositoryImpl(reportDataSource: sl()),
+  );
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(settingsDataSource: sl()),
+  );
+  sl.registerLazySingleton<FilterExpenseRepository>(
+    () => FilterExpenseRepositoryImpl(dataSource: sl()),
+  );
+}
+
+void _initUseCaseDependencies() {
   // Use cases
   sl.registerLazySingleton<GetHomeInfo>(
     () => GetHomeInfo(homeInfoRepository: sl()),
@@ -141,59 +167,50 @@ Future<void> init() async {
   sl.registerLazySingleton<GetFilterExpenseUseCase>(
     () => GetFilterExpenseUseCase(repository: sl()),
   );
+  sl.registerLazySingleton<SaveUserThemeUsecase>(
+    () => SaveUserThemeUsecase(settingsRepository: sl()),
+  );
+}
 
-  // Repository
-  sl.registerLazySingleton<HomeInfoRepository>(
-    () => HomeInfoRepositoryImpl(
-      homeInfoLocalDataSource: sl(),
+void _initBlocDependencies() {
+  // Blocs
+  sl.registerFactory<HomeInfoCubit>(
+    () => HomeInfoCubit(getHomeInfoUseCase: sl()),
+  );
+  sl.registerFactory<HomeDrawerCubit>(
+    () => HomeDrawerCubit(getBackupUseCase: sl()),
+  );
+  sl.registerFactory<CategoryCubit>(
+    () => CategoryCubit(
+      addCategoryUseCase: sl(),
+      categoryListUseCase: sl(),
+      deleteCategoryUseCase: sl(),
     ),
   );
-  sl.registerLazySingleton<LangRepository>(
-    () => LangRepositoryImpl(langLocalDataSource: sl()),
-  );
-  sl.registerLazySingleton<ExpenseRepository>(
-    () => ExpenseRepositoryImpl(
-      expenseLocalDataSource: sl(),
+  sl.registerFactory<ExpenseCubit>(
+    () => ExpenseCubit(
+      expenseListUseCase: sl(),
+      deleteExpenseUseCase: sl(),
     ),
   );
-  sl.registerLazySingleton<CategoryRepository>(
-    () => CategoryRepositoryImpl(categoryLocalDataSource: sl()),
+  sl.registerFactory<CategoriesDropDownCubit>(
+    () => CategoriesDropDownCubit(
+      categoryListUseCase: sl(),
+    ),
   );
-  sl.registerLazySingleton<ReportRepository>(
-    () => ReportRepositoryImpl(reportDataSource: sl()),
+  sl.registerFactory<ReportBloc>(
+    () => ReportBloc(getReportUseCase: sl()),
   );
-  sl.registerLazySingleton<SettingsRepository>(
-    () => SettingsRepositoryImpl(settingsDataSource: sl()),
+  sl.registerFactory<GlobalBloc>(
+    () => GlobalBloc(getSavedSettingsUseCase: sl()),
   );
-  sl.registerLazySingleton<FilterExpenseRepository>(
-    () => FilterExpenseRepositoryImpl(dataSource: sl()),
+  sl.registerFactory<AddEditExpenseCubit>(
+    () => AddEditExpenseCubit(addEditExpenseUseCase: sl()),
   );
-
-  // Data Sources
-  sl.registerLazySingleton<HomeInfoLocalDataSource>(
-    () => HomeInfoLocalDataSourceImpl(databaseHelper: sl()),
+  sl.registerFactory<SettingsBloc>(
+    () => SettingsBloc(changeMoneyUnit: sl(), saveUserThemeUsecase: sl()),
   );
-  sl.registerLazySingleton<LangLocalDataSource>(
-    () => LangLocalDataSourceImpl(sharedPreferences: sl()),
+  sl.registerFactory<FilterExpneseBloc>(
+    () => FilterExpneseBloc(sl()),
   );
-  sl.registerLazySingleton<ExpenseLocalDataSource>(
-    () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<CategoryLocalDataSource>(
-    () => CategoryLocalDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<ReportDataSource>(
-    () => ReportDataSourceImpl(databaseHelper: sl()),
-  );
-  sl.registerLazySingleton<SettingsDataSource>(
-    () => SettingsDataSourceImpl(sharedPreferences: sl()),
-  );
-  sl.registerLazySingleton<FilterExpenseLocalDataSource>(
-    () => FilterExpenseLocalDataSourceImpl(databaseHelper: sl()),
-  );
-
-  //! External
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => DatabaseHelper());
 }

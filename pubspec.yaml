@@ -1,7 +1,7 @@
 name: my_money_v3
 description: A money tracker application.
 
-version: 1.0.7+22
+version: 1.1.0+23
 
 environment:
   sdk: ^3.5.4

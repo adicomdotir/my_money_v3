@@ -16,8 +16,19 @@ class SettingsRepositoryImpl extends SettingsRepository {
       final map = SettingsModel(
         unit: settings.unit,
         locale: settings.locale.languageCode,
+        themeId: -1,
       );
       final res = await settingsDataSource.changeMoneyUnit(map);
+      return Right(res);
+    } on Exception {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> saveUserTheme(int themeId) async {
+    try {
+      final res = await settingsDataSource.saveUserTheme(themeId);
       return Right(res);
     } on Exception {
       return Left(CacheFailure());

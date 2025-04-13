@@ -13,12 +13,12 @@ void main() {
     });
 
     test('should format date with double digit month and day correctly', () {
-      // October 15, 2024 (1403/07/23 in Jalali)
+      // October 15, 2023 (1402/07/23 in Jalali)
       final timestamp = 1697328000000; // milliseconds
 
       final result = dateFormat(timestamp);
 
-      expect(result, '1403/07/23');
+      expect(result, '1402/07/23');
     });
 
     test('should handle year transition correctly', () {

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SettingsDataSource {
   Future<bool> changeMoneyUnit(SettingsModel settingsModel);
+  Future<bool> saveUserTheme(int themeId);
 }
 
 class SettingsDataSourceImpl extends SettingsDataSource {
@@ -16,7 +17,7 @@ class SettingsDataSourceImpl extends SettingsDataSource {
   @override
   Future<bool> changeMoneyUnit(SettingsModel settingsModel) async {
     if (sharedPreferences.containsKey(AppStrings.settings)) {
-      sharedPreferences.setString(
+      await sharedPreferences.setString(
         AppStrings.settings,
         jsonEncode(settingsModel.toMap()),
       );
@@ -24,5 +25,14 @@ class SettingsDataSourceImpl extends SettingsDataSource {
     } else {
       return false;
     }
+  }
+
+  @override
+  Future<bool> saveUserTheme(int themeId) async {
+    await sharedPreferences.setInt(
+      'theme_id',
+      themeId,
+    );
+    return true;
   }
 }

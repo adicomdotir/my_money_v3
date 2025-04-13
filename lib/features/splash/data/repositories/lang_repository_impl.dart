@@ -38,7 +38,11 @@ class LangRepositoryImpl implements LangRepository {
     try {
       final settings = await langLocalDataSource.getSavedSettings();
       return Right(
-        Settings(unit: settings.unit, locale: Locale(settings.locale)),
+        Settings(
+          unit: settings.unit,
+          locale: Locale(settings.locale),
+          themeId: settings.themeId,
+        ),
       );
     } on CacheException {
       return Left(CacheFailure());

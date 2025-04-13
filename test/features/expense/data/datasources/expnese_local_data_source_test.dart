@@ -34,8 +34,7 @@ void main() {
       // Assert
       verify(
         mockDatabaseHelper.addExpanse(
-          expenseModel.toMap(),
-          expenseModel.id,
+          expenseModel,
         ),
       ).called(1);
     });
@@ -47,7 +46,7 @@ void main() {
       const fromDate = 1642051200; // Example: January 13, 2022
       const toDate = 1642137600; // Example: January 14, 2022
       final mockExpenses = [
-        {
+        ExpenseModel.fromMap({
           'id': '1',
           'title': '1',
           'categoryId': '1',
@@ -59,8 +58,8 @@ void main() {
             'title': '',
             'color': '',
           },
-        },
-        {
+        }),
+        ExpenseModel.fromMap({
           'id': '2',
           'title': '1',
           'categoryId': '1',
@@ -72,7 +71,7 @@ void main() {
             'title': '',
             'color': '',
           },
-        },
+        }),
       ];
       when(mockDatabaseHelper.getExpenses(fromDate, toDate))
           .thenAnswer((_) async => mockExpenses);

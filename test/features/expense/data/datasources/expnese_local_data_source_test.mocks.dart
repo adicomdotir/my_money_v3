@@ -6,8 +6,10 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:my_money_v3/core/db/db.dart' as _i2;
+import 'package:my_money_v3/shared/data/models/category_model.dart' as _i4;
+import 'package:my_money_v3/shared/data/models/expense_model.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,63 +29,46 @@ import 'package:my_money_v3/core/db/db.dart' as _i2;
 /// See the documentation for Mockito's code generation for more information.
 class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
   @override
-  _i3.Future<String> addCategory(
-    Map<String, dynamic>? categoryJson,
-    String? id,
-  ) =>
+  _i3.Future<String> addCategory(_i4.CategoryModel? category) =>
       (super.noSuchMethod(
         Invocation.method(
           #addCategory,
-          [
-            categoryJson,
-            id,
-          ],
+          [category],
         ),
-        returnValue: _i3.Future<String>.value(_i4.dummyValue<String>(
+        returnValue: _i3.Future<String>.value(_i5.dummyValue<String>(
           this,
           Invocation.method(
             #addCategory,
-            [
-              categoryJson,
-              id,
-            ],
+            [category],
           ),
         )),
         returnValueForMissingStub:
-            _i3.Future<String>.value(_i4.dummyValue<String>(
+            _i3.Future<String>.value(_i5.dummyValue<String>(
           this,
           Invocation.method(
             #addCategory,
-            [
-              categoryJson,
-              id,
-            ],
+            [category],
           ),
         )),
       ) as _i3.Future<String>);
 
   @override
-  _i3.Future<List<dynamic>> getCategories() => (super.noSuchMethod(
+  _i3.Future<List<_i4.CategoryModel>> getCategories() => (super.noSuchMethod(
         Invocation.method(
           #getCategories,
           [],
         ),
-        returnValue: _i3.Future<List<dynamic>>.value(<dynamic>[]),
-        returnValueForMissingStub: _i3.Future<List<dynamic>>.value(<dynamic>[]),
-      ) as _i3.Future<List<dynamic>>);
+        returnValue:
+            _i3.Future<List<_i4.CategoryModel>>.value(<_i4.CategoryModel>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.CategoryModel>>.value(<_i4.CategoryModel>[]),
+      ) as _i3.Future<List<_i4.CategoryModel>>);
 
   @override
-  _i3.Future<void> addExpanse(
-    Map<String, dynamic>? expenseJson,
-    String? id,
-  ) =>
-      (super.noSuchMethod(
+  _i3.Future<void> addExpanse(_i6.ExpenseModel? expense) => (super.noSuchMethod(
         Invocation.method(
           #addExpanse,
-          [
-            expenseJson,
-            id,
-          ],
+          [expense],
         ),
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
@@ -110,9 +95,10 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
       ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<List<dynamic>> getExpenses([
+  _i3.Future<List<_i6.ExpenseModel>> getExpenses([
     int? fromDate,
     int? toDate,
+    String? categoryId,
   ]) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -120,11 +106,14 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
           [
             fromDate,
             toDate,
+            categoryId,
           ],
         ),
-        returnValue: _i3.Future<List<dynamic>>.value(<dynamic>[]),
-        returnValueForMissingStub: _i3.Future<List<dynamic>>.value(<dynamic>[]),
-      ) as _i3.Future<List<dynamic>>);
+        returnValue:
+            _i3.Future<List<_i6.ExpenseModel>>.value(<_i6.ExpenseModel>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i6.ExpenseModel>>.value(<_i6.ExpenseModel>[]),
+      ) as _i3.Future<List<_i6.ExpenseModel>>);
 
   @override
   _i3.Future<Map<String, dynamic>> getHomeInfo() => (super.noSuchMethod(
@@ -139,9 +128,9 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
       ) as _i3.Future<Map<String, dynamic>>);
 
   @override
-  _i3.Future<List<Map<String, dynamic>>> getReport() => (super.noSuchMethod(
+  _i3.Future<List<Map<String, dynamic>>> getBackup() => (super.noSuchMethod(
         Invocation.method(
-          #getReport,
+          #getBackup,
           [],
         ),
         returnValue: _i3.Future<List<Map<String, dynamic>>>.value(
@@ -151,9 +140,9 @@ class MockDatabaseHelper extends _i1.Mock implements _i2.DatabaseHelper {
       ) as _i3.Future<List<Map<String, dynamic>>>);
 
   @override
-  _i3.Future<List<Map<String, dynamic>>> getBackup() => (super.noSuchMethod(
+  _i3.Future<List<Map<String, dynamic>>> getReport() => (super.noSuchMethod(
         Invocation.method(
-          #getBackup,
+          #getReport,
           [],
         ),
         returnValue: _i3.Future<List<Map<String, dynamic>>>.value(

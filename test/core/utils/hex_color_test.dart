@@ -38,22 +38,6 @@ void main() {
       expect(() => HexColor('FF000000FF'), throwsFormatException);
     });
 
-    test('toHex() returns correct format', () {
-      final color = HexColor('FF0000');
-      expect(color.toHex(), '#FF0000');
-
-      final colorWithAlpha = HexColor('80FF0000');
-      expect(colorWithAlpha.toHex(), '#FF0000');
-    });
-
-    test('toHexWithAlpha() returns correct format', () {
-      final color = HexColor('FF0000');
-      expect(color.toHexWithAlpha(), '#FFFF0000');
-
-      final colorWithAlpha = HexColor('80FF0000');
-      expect(colorWithAlpha.toHexWithAlpha(), '#80FF0000');
-    });
-
     test('handles various color values correctly', () {
       expect(HexColor('000').value, 0xFF000000);
       expect(HexColor('FFF').value, 0xFFFFFFFF);

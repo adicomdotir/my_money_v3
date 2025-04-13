@@ -27,11 +27,17 @@ class LangLocalDataSourceImpl implements LangLocalDataSource {
 
   @override
   Future<SettingsModel> getSavedSettings() async {
+    int themeId = 1;
+    if (sharedPreferences.containsKey('theme_id')) {
+      themeId = sharedPreferences.getInt('theme_id') ?? 1;
+    }
+
     if (sharedPreferences.containsKey(AppStrings.settings)) {
       String json = sharedPreferences.getString(AppStrings.settings) ?? '';
-      return SettingsModel.fromMap(jsonDecode(json));
+      final sm = SettingsModel.fromMap(jsonDecode(json));
+      return SettingsModel(unit: sm.unit, locale: sm.locale, themeId: themeId);
     } else {
-      const sm = SettingsModel(unit: 0, locale: 'fa');
+      const sm = SettingsModel(unit: 0, locale: 'fa', themeId: -1);
       sharedPreferences.setString(AppStrings.settings, jsonEncode(sm.toMap()));
       return sm;
     }

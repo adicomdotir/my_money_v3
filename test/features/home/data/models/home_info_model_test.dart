@@ -6,9 +6,11 @@ void main() {
   const title1 = 'Food';
   const price1 = 200000;
   const color1 = '#FFA500';
+  const id1 = '1';
   const title2 = 'Housing';
   const price2 = 500000;
   const color2 = '#008000';
+  const id2 = '2';
 
   group('HomeInfoModel', () {
     test('fromMap should return a valid HomeInfoModel instance', () {
@@ -19,11 +21,13 @@ void main() {
             'title': title1,
             'price': price1,
             'color': color1,
+            'id': id1,
           },
           {
             'title': title2,
             'price': price2,
             'color': color2,
+            'id': id2,
           },
         ],
         'todayPrice': 1,
@@ -37,11 +41,13 @@ void main() {
             title: title1,
             price: price1,
             color: color1,
+            id: id1,
           ),
           ExpenseByCategoryModel(
             title: title2,
             price: price2,
             color: color2,
+            id: id2,
           ),
         ],
         todayPrice: 1,
@@ -63,11 +69,13 @@ void main() {
         title: title1,
         price: price1,
         color: color1,
+        id: id1,
       );
       const expense2 = ExpenseByCategoryModel(
         title: title2,
         price: price2,
         color: color2,
+        id: id2,
       );
       const model = HomeInfoModel(
         expenseByCategory: [expense1, expense2],
@@ -82,11 +90,13 @@ void main() {
             'title': title1,
             'price': price1,
             'color': color1,
+            'id': id1,
           },
           {
             'title': title2,
             'price': price2,
             'color': color2,
+            'id': id2,
           },
         ],
         'todayPrice': 1,

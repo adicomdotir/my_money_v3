@@ -6,6 +6,7 @@ void main() {
   const title = 'Food';
   const price = 200000;
   const color = '#FFA500';
+  const id = '1';
 
   group('ExpenseByCategoryModel', () {
     test('should create a valid ExpenseByCategoryModel instance', () {
@@ -16,6 +17,7 @@ void main() {
         title: title,
         price: price,
         color: color,
+        id: id,
       );
 
       // Assert
@@ -31,6 +33,7 @@ void main() {
         'title': title,
         'price': price,
         'color': color,
+        'id': '1',
       };
 
       // Act
@@ -49,6 +52,7 @@ void main() {
         title: title,
         price: price,
         color: color,
+        id: id,
       );
 
       // Act
