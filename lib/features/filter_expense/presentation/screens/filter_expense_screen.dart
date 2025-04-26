@@ -8,9 +8,14 @@ import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import '../../../splash/presentation/bloc/global_bloc.dart';
 
 class FilterExpenseScreen extends StatefulWidget {
-  const FilterExpenseScreen({required this.id, super.key});
+  const FilterExpenseScreen({
+    required this.id,
+    required this.fromDate,
+    super.key,
+  });
 
   final String id;
+  final String? fromDate;
 
   @override
   State<FilterExpenseScreen> createState() => _FilterExpenseScreenState();
@@ -20,7 +25,7 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
   @override
   void initState() {
     BlocProvider.of<FilterExpneseBloc>(context)
-        .add(GetFilterExpenseEvent(widget.id));
+        .add(GetFilterExpenseEvent(widget.id, widget.fromDate));
     super.initState();
   }
 

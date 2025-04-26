@@ -5,6 +5,7 @@ import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/price_format.dart';
 import '../bloc/report_bloc.dart';
 
@@ -81,73 +82,84 @@ class ReportScreen extends StatelessWidget {
   ) {
     return List.generate(
       state.reports[index].catExpneseList.length,
-      (idx) => Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8.0,
-          horizontal: 0,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _getColor(
-                  state.reports[index].catExpneseList[idx].color,
+      (idx) => InkWell(
+        onTap: () {
+          final id = state.reports[index].catExpneseList[idx].id;
+          final fromDate = state.reports[index].monthName;
+          Navigator.pushNamed(
+            context,
+            Routes.filterExpenseRoute,
+            arguments: {'id': id, 'fromDate': fromDate},
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 0,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _getColor(
+                    state.reports[index].catExpneseList[idx].color,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  state.reports[index].catExpneseList[idx].title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF424242),
+              const SizedBox(
+                width: 8,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state.reports[index].catExpneseList[idx].title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF424242),
+                    ),
                   ),
-                ),
-                Text(
-                  '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF616161),
+                  Text(
+                    '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF616161),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  priceFormat(
-                    state.reports[index].catExpneseList[idx].price,
-                    context.read<GlobalBloc>().state.settings.unit,
+                ],
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    priceFormat(
+                      state.reports[index].catExpneseList[idx].price,
+                      context.read<GlobalBloc>().state.settings.unit,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFFE53935),
+                    ),
                   ),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFFE53935),
+                  Text(
+                    '${(state.reports[index].catExpneseList[idx].percent).toStringAsFixed(1)} %',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF212121),
+                    ),
                   ),
-                ),
-                Text(
-                  '${(state.reports[index].catExpneseList[idx].percent).toStringAsFixed(1)} %',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF212121),
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

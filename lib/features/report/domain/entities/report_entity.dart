@@ -34,6 +34,7 @@ class ReportEntity {
             transactionCount: catExpense.transactionCount,
             percent: catExpense.percent,
             color: catExpense.color,
+            id: catExpense.id,
           ),
         );
       }
@@ -58,6 +59,7 @@ class CatExpense {
   final int transactionCount;
   final double percent;
   final String color;
+  final String id;
 
   CatExpense({
     required this.title,
@@ -65,6 +67,7 @@ class CatExpense {
     required this.transactionCount,
     required this.percent,
     required this.color,
+    required this.id,
   });
 
   CatExpense copyWith({
@@ -73,6 +76,7 @@ class CatExpense {
     int? transactionCount,
     double? percent,
     String? color,
+    String? id,
   }) {
     return CatExpense(
       title: title ?? this.title,
@@ -80,10 +84,11 @@ class CatExpense {
       transactionCount: transactionCount ?? this.transactionCount,
       percent: percent ?? this.percent,
       color: color ?? this.color,
+      id: id ?? this.id,
     );
   }
 
   @override
   String toString() =>
-      'Categorie(title: $title, price: $price, transactionCount: $transactionCount, percent: $percent, color: $color)';
+      'Categorie(title: $title, price: $price, transactionCount: $transactionCount, percent: $percent, color: $color, id: $id)';
 }

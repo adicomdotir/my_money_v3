@@ -58,6 +58,7 @@ class ReportModel {
 
 class CatExpenseModel {
   final String title;
+  final String id;
   final int price;
   final int transactionCount;
   final double percent;
@@ -65,6 +66,7 @@ class CatExpenseModel {
 
   CatExpenseModel({
     required this.title,
+    required this.id,
     required this.price,
     required this.transactionCount,
     required this.percent,
@@ -77,6 +79,7 @@ class CatExpenseModel {
     int? transactionCount,
     double? percent,
     String? color,
+    String? id,
   }) {
     return CatExpenseModel(
       title: title ?? this.title,
@@ -84,6 +87,7 @@ class CatExpenseModel {
       transactionCount: transactionCount ?? this.transactionCount,
       percent: percent ?? this.percent,
       color: color ?? this.color,
+      id: id ?? this.id,
     );
   }
 
@@ -104,6 +108,7 @@ class CatExpenseModel {
       transactionCount: (map['transactionCount'] ?? 0).toInt() as int,
       percent: (map['percent'] ?? 0).toDouble() as double,
       color: (map['color'] ?? '') as String,
+      id: map['id'] as String,
     );
   }
 

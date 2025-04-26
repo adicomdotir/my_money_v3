@@ -24,6 +24,10 @@ class FilterExpneseBloc extends Bloc<FilterExpenseEvent, FilterExpenseState> {
   ) async {
     Jalali fromDate = Jalali.now();
     fromDate = Jalali(fromDate.year, fromDate.month, 1);
+    if (event.fromDate != null) {
+      final date = event.fromDate?.split('/');
+      fromDate = Jalali(int.parse(date![0]), int.parse(date[1]));
+    }
     Jalali toDate = Jalali.now();
     toDate = fromDate.addMonths(1);
 

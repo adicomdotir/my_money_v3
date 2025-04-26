@@ -9,8 +9,9 @@ sealed class FilterExpenseEvent extends Equatable {
 
 class GetFilterExpenseEvent extends FilterExpenseEvent {
   final String categoryId;
+  final String? fromDate;
 
-  const GetFilterExpenseEvent(this.categoryId);
+  const GetFilterExpenseEvent(this.categoryId, this.fromDate);
 
   @override
   List<Object> get props => [categoryId];
