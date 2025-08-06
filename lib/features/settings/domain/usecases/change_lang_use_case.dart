@@ -2,14 +2,14 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../repositories/lang_repository.dart';
+import '../repository/settings_repository.dart';
 
 class ChangeLangUseCase implements UseCaseWithParam<bool, String> {
-  final LangRepository langRepository;
+  final SettingsRepository settingsRepository;
 
-  ChangeLangUseCase({required this.langRepository});
+  ChangeLangUseCase({required this.settingsRepository});
 
   @override
   Future<Either<Failure, bool>> call(String langCode) async =>
-      await langRepository.changeLang(langCode: langCode);
+      await settingsRepository.changeLang(langCode: langCode);
 }

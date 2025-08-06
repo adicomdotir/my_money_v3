@@ -1,44 +1,56 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/assets_manager.dart';
+import '../../../../injection_container.dart' as di;
+import '../bloc/splash_bloc.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  late Timer _timer;
-
-  Future<Object?> _goNext() =>
-      Navigator.pushReplacementNamed(context, Routes.homeRoute);
-
-  void _startDelay() {
-    _timer = Timer(const Duration(milliseconds: 2000), () => _goNext());
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _startDelay();
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Image.asset(ImgAssets.logo),
+    return BlocProvider(
+      create: (context) => di.sl<SplashBloc>()..add(const InitializeAppEvent()),
+      child: BlocListener<SplashBloc, SplashState>(
+        listener: (context, state) {
+          if (state is SplashLoaded) {
+            Navigator.pushReplacementNamed(context, Routes.homeRoute);
+          } else if (state is SplashError) {
+            // Handle error - maybe show a dialog or retry button
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                action: SnackBarAction(
+                  label: 'Retry',
+                  onPressed: () {
+                    context.read<SplashBloc>().add(const InitializeAppEvent());
+                  },
+                ),
+              ),
+            );
+          }
+        },
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(ImgAssets.logo),
+                const SizedBox(height: 20),
+                BlocBuilder<SplashBloc, SplashState>(
+                  builder: (context, state) {
+                    if (state is SplashLoading) {
+                      return const CircularProgressIndicator();
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

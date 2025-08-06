@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/functions/functions.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
-import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../config/routes/app_routes.dart';

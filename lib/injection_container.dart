@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:my_money_v3/core/db/db.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
@@ -16,11 +17,14 @@ import 'package:my_money_v3/features/report/presentation/bloc/report_bloc.dart';
 import 'package:my_money_v3/features/settings/data/datasource/settings_data_source.dart';
 import 'package:my_money_v3/features/settings/data/repository/settings_repository_impl.dart';
 import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/change_lang_use_case.dart';
 import 'package:my_money_v3/features/settings/domain/usecases/change_money_unit.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/get_saved_lang_use_case.dart';
+import 'package:my_money_v3/features/settings/domain/usecases/get_saved_settings_use_case.dart';
 import 'package:my_money_v3/features/settings/domain/usecases/save_user_theme_usecase.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:my_money_v3/features/splash/domain/usecases/get_saved_settings.dart';
-import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+import 'package:my_money_v3/features/splash/domain/usecases/initialize_app_use_case.dart';
+import 'package:my_money_v3/features/splash/presentation/bloc/splash_bloc.dart';
 import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,11 +48,9 @@ import 'features/home/data/repositories/home_info_repository_impl.dart';
 import 'features/home/domain/repositories/home_info_repository.dart';
 import 'features/home/domain/usecases/get_home_info.dart';
 import 'features/home/presentation/cubit/home_info_cubit.dart';
-import 'features/splash/data/datasources/lang_local_data_source.dart';
-import 'features/splash/data/repositories/lang_repository_impl.dart';
-import 'features/splash/domain/repositories/lang_repository.dart';
-import 'features/splash/domain/usecases/change_lang.dart';
-import 'features/splash/domain/usecases/get_saved_lang.dart';
+import 'features/splash/data/datasources/splash_local_data_source.dart';
+import 'features/splash/data/repositories/splash_repository_impl.dart';
+import 'features/splash/domain/repositories/splash_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -71,8 +73,8 @@ void _initDataSourceDependencies() {
   sl.registerLazySingleton<HomeInfoLocalDataSource>(
     () => HomeInfoLocalDataSourceImpl(databaseHelper: sl()),
   );
-  sl.registerLazySingleton<LangLocalDataSource>(
-    () => LangLocalDataSourceImpl(sharedPreferences: sl()),
+  sl.registerLazySingleton<SplashLocalDataSource>(
+    () => SplashLocalDataSourceImpl(),
   );
   sl.registerLazySingleton<ExpenseLocalDataSource>(
     () => ExpenseLocalDataSourceImpl(databaseHelper: sl()),
@@ -98,8 +100,8 @@ void _initRepositoryDependencies() {
       homeInfoLocalDataSource: sl(),
     ),
   );
-  sl.registerLazySingleton<LangRepository>(
-    () => LangRepositoryImpl(langLocalDataSource: sl()),
+  sl.registerLazySingleton<SplashRepository>(
+    () => SplashRepositoryImpl(splashLocalDataSource: sl()),
   );
   sl.registerLazySingleton<ExpenseRepository>(
     () => ExpenseRepositoryImpl(
@@ -128,11 +130,14 @@ void _initUseCaseDependencies() {
   sl.registerLazySingleton<GetBackup>(
     () => GetBackup(homeInfoRepository: sl()),
   );
+  sl.registerLazySingleton<InitializeAppUseCase>(
+    () => InitializeAppUseCase(splashRepository: sl()),
+  );
   sl.registerLazySingleton<GetSavedLangUseCase>(
-    () => GetSavedLangUseCase(langRepository: sl()),
+    () => GetSavedLangUseCase(settingsRepository: sl()),
   );
   sl.registerLazySingleton<ChangeLangUseCase>(
-    () => ChangeLangUseCase(langRepository: sl()),
+    () => ChangeLangUseCase(settingsRepository: sl()),
   );
   sl.registerLazySingleton<AddCategoryUseCase>(
     () => AddCategoryUseCase(categoryRepository: sl()),
@@ -159,7 +164,7 @@ void _initUseCaseDependencies() {
     () => GetReportUseCase(reportRepository: sl()),
   );
   sl.registerLazySingleton<GetSavedSettingsUseCase>(
-    () => GetSavedSettingsUseCase(langRepository: sl()),
+    () => GetSavedSettingsUseCase(settingsRepository: sl()),
   );
   sl.registerLazySingleton<ChangeMoneyUnit>(
     () => ChangeMoneyUnit(settingsRepository: sl()),
@@ -212,5 +217,8 @@ void _initBlocDependencies() {
   );
   sl.registerFactory<FilterExpneseBloc>(
     () => FilterExpneseBloc(sl()),
+  );
+  sl.registerFactory<SplashBloc>(
+    () => SplashBloc(initializeAppUseCase: sl()),
   );
 }

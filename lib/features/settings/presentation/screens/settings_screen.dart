@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/hex_color.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:my_money_v3/features/splash/presentation/bloc/global_bloc.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

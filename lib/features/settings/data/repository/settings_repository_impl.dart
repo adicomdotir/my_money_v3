@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:my_money_v3/core/error/exceptions.dart';
 import 'package:my_money_v3/core/error/failures.dart';
 import 'package:my_money_v3/features/settings/data/datasource/settings_data_source.dart';
 import 'package:my_money_v3/features/settings/domain/repository/settings_repository.dart';
@@ -31,6 +33,43 @@ class SettingsRepositoryImpl extends SettingsRepository {
       final res = await settingsDataSource.saveUserTheme(themeId);
       return Right(res);
     } on Exception {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> changeLang({required String langCode}) async {
+    try {
+      final langIsChanged =
+          await settingsDataSource.changeLang(langCode: langCode);
+      return Right(langIsChanged);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> getSavedLang() async {
+    try {
+      final langCode = await settingsDataSource.getSavedLang();
+      return Right(langCode);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Settings>> getSavedSettings() async {
+    try {
+      final settings = await settingsDataSource.getSavedSettings();
+      return Right(
+        Settings(
+          unit: settings.unit,
+          locale: Locale(settings.locale),
+          themeId: settings.themeId,
+        ),
+      );
+    } on CacheException {
       return Left(CacheFailure());
     }
   }

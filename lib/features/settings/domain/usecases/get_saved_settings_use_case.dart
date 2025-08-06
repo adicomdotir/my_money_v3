@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
-import 'package:my_money_v3/shared/domain/entities/settings.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../repositories/lang_repository.dart';
+import '../../../../shared/domain/entities/settings.dart';
+import '../repository/settings_repository.dart';
 
 class GetSavedSettingsUseCase implements UseCaseWithoutParam<Settings> {
-  final LangRepository langRepository;
+  final SettingsRepository settingsRepository;
 
-  GetSavedSettingsUseCase({required this.langRepository});
+  GetSavedSettingsUseCase({required this.settingsRepository});
 
   @override
   Future<Either<Failure, Settings>> call() async =>
-      await langRepository.getSavedSettings();
+      await settingsRepository.getSavedSettings();
 }

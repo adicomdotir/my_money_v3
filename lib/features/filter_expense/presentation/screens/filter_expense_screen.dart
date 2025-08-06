@@ -5,7 +5,7 @@ import 'package:my_money_v3/core/utils/price_format.dart';
 import 'package:my_money_v3/features/filter_expense/presentation/bloc/filter_expnese_bloc.dart';
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
-import '../../../splash/presentation/bloc/global_bloc.dart';
+import 'package:my_money_v3/core/bloc/global_bloc.dart';
 
 class FilterExpenseScreen extends StatefulWidget {
   const FilterExpenseScreen({
