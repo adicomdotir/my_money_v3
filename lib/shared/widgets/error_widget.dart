@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/utils.dart';
+import '../../core/utils/utils.dart';
 
 class ErrorWidget extends StatelessWidget {
   final VoidCallback? onPress;

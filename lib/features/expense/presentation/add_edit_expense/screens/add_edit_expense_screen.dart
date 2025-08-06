@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:my_money_v3/shared/domain/entities/expense.dart';
+import 'package:my_money_v3/shared/widgets/error_widget.dart' as error_widget;
 
 import '../cubit/add_edit_expense_cubit.dart';
 import '../widgets/add_edit_expense_content.dart';

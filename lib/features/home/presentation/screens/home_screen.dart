@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
+import 'package:my_money_v3/shared/widgets/error_widget.dart' as error_widget;
 
 import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';

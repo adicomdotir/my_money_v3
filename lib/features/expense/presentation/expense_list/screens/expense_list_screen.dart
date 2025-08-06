@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/utils.dart';
-import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
+import 'package:my_money_v3/shared/widgets/error_widget.dart' as error_widget;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../cubit/expense_cubit.dart';
