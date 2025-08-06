@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/error/failures.dart';
 import '../../domain/entities/template_entity.dart';
 import '../../domain/repositories/template_repository.dart';
 
@@ -25,7 +24,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
       (failure) => emit(
         state.copyWith(
           status: TemplateStatus.error,
-          errorMessage: _mapFailureToMessage(failure),
+          errorMessage: failure.message,
         ),
       ),
       (items) => emit(
@@ -60,7 +59,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
       (failure) async => emit(
         state.copyWith(
           status: TemplateStatus.error,
-          errorMessage: _mapFailureToMessage(failure),
+          errorMessage: failure.message,
         ),
       ),
       (item) async {
@@ -91,7 +90,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
       (failure) => emit(
         state.copyWith(
           status: TemplateStatus.error,
-          errorMessage: _mapFailureToMessage(failure),
+          errorMessage: failure.message,
           items: previousItems, // Restore on failure
         ),
       ),
@@ -127,7 +126,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
                   (i) => i.id == id ? item : i,
                 )
                 .toList(),
-            errorMessage: _mapFailureToMessage(failure),
+            errorMessage: failure.message,
           ),
         );
       },
@@ -153,18 +152,5 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
         searchQuery: '',
       ),
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure _:
-        return 'Server error occurred';
-      case CacheFailure _:
-        return 'Cache error occurred';
-      case DatabaseFailure _:
-        return (failure as DatabaseFailure).msg;
-      default:
-        return 'Unexpected error occurred';
-    }
   }
 }

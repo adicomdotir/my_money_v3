@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_money_v3/shared/data/models/expense_model.dart';
 
-import '../../../../shared/domain/entities/expense.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../shared/domain/entities/expense.dart';
 import '../../domain/repositories/expense_repository.dart';
 import '../datasources/expnese_local_data_source.dart';
 
@@ -19,7 +19,7 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
       var result = await expenseLocalDataSource.addExpense(expenseModel);
       return Right(result);
     } on Exception {
-      return Left(DatabaseFailure(''));
+      return Left(DatabaseFailure(message: 'Can\'t add expense'));
     }
   }
 

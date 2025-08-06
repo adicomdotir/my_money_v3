@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/error/failures.dart';
 import '../../domain/entities/template_entity.dart';
 import '../../domain/usecases/create_template_item_usecase.dart';
 import '../../domain/usecases/get_template_items_usecase.dart';
@@ -45,12 +44,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
     );
 
     result.fold(
-      (failure) => emit(TemplateError(message: _mapFailureToMessage(failure))),
-      (items) => emit(TemplateLoaded(
-        items: items,
-        filteredItems: items,
-        isFiltered: false,
-      ),),
+      (failure) => emit(TemplateError(message: failure.message)),
+      (items) => emit(
+        TemplateLoaded(
+          items: items,
+          filteredItems: items,
+          isFiltered: false,
+        ),
+      ),
     );
   }
 
@@ -74,22 +75,26 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
       await result.fold(
         (failure) async {
-          emit(currentState.copyWith(
-            isCreating: false,
-            error: _mapFailureToMessage(failure),
-          ),);
+          emit(
+            currentState.copyWith(
+              isCreating: false,
+              error: failure.message,
+            ),
+          );
         },
         (newItem) async {
           // Add new item to the list
           final updatedItems = [newItem, ...currentState.items];
-          emit(TemplateLoaded(
-            items: updatedItems,
-            filteredItems: currentState.isFiltered
-                ? _applyCurrentFilters(updatedItems, currentState)
-                : updatedItems,
-            isFiltered: currentState.isFiltered,
-            lastCreatedItem: newItem,
-          ),);
+          emit(
+            TemplateLoaded(
+              items: updatedItems,
+              filteredItems: currentState.isFiltered
+                  ? _applyCurrentFilters(updatedItems, currentState)
+                  : updatedItems,
+              isFiltered: currentState.isFiltered,
+              lastCreatedItem: newItem,
+            ),
+          );
         },
       );
     }
@@ -108,10 +113,12 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       // Debounce search
       _searchDebounce = Timer(const Duration(milliseconds: 300), () async {
         if (event.query.isEmpty) {
-          emit(currentState.copyWith(
-            filteredItems: currentState.items,
-            isFiltered: false,
-          ),);
+          emit(
+            currentState.copyWith(
+              filteredItems: currentState.items,
+              isFiltered: false,
+            ),
+          );
           return;
         }
 
@@ -120,12 +127,14 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
         );
 
         result.fold(
-          (failure) => emit(TemplateError(message: _mapFailureToMessage(failure))),
-          (items) => emit(currentState.copyWith(
-            filteredItems: items,
-            isFiltered: true,
-            currentSearchQuery: event.query,
-          ),),
+          (failure) => emit(TemplateError(message: failure.message)),
+          (items) => emit(
+            currentState.copyWith(
+              filteredItems: items,
+              isFiltered: true,
+              currentSearchQuery: event.query,
+            ),
+          ),
         );
       });
     }
@@ -147,15 +156,19 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       );
 
       result.fold(
-        (failure) => emit(TemplateError(message: _mapFailureToMessage(failure))),
-        (items) => emit(TemplateLoaded(
-          items: items,
-          filteredItems: items,
-          isFiltered: event.fromDate != null || event.toDate != null || event.isActive != null,
-          currentFromDate: event.fromDate,
-          currentToDate: event.toDate,
-          currentIsActiveFilter: event.isActive,
-        ),),
+        (failure) => emit(TemplateError(message: failure.message)),
+        (items) => emit(
+          TemplateLoaded(
+            items: items,
+            filteredItems: items,
+            isFiltered: event.fromDate != null ||
+                event.toDate != null ||
+                event.isActive != null,
+            currentFromDate: event.fromDate,
+            currentToDate: event.toDate,
+            currentIsActiveFilter: event.isActive,
+          ),
+        ),
       );
     }
   }
@@ -166,7 +179,7 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
   ) async {
     if (state is TemplateLoaded) {
       final currentState = state as TemplateLoaded;
-      
+
       final result = await getTemplateItemsUseCase(
         GetTemplateItemsParams(
           fromDate: currentState.currentFromDate,
@@ -177,11 +190,13 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
       );
 
       result.fold(
-        (failure) => emit(currentState.copyWith(error: _mapFailureToMessage(failure))),
-        (items) => emit(currentState.copyWith(
-          items: items,
-          filteredItems: items,
-        ),),
+        (failure) => emit(currentState.copyWith(error: failure.message)),
+        (items) => emit(
+          currentState.copyWith(
+            items: items,
+            filteredItems: items,
+          ),
+        ),
       );
     }
   }
@@ -194,44 +209,40 @@ class TemplateBloc extends Bloc<TemplateEvent, TemplateState> {
 
     if (state.currentSearchQuery?.isNotEmpty ?? false) {
       final query = state.currentSearchQuery!.toLowerCase();
-      filtered = filtered.where((item) =>
-        item.title.toLowerCase().contains(query) ||
-        item.description.toLowerCase().contains(query),
-      ).toList();
+      filtered = filtered
+          .where(
+            (item) =>
+                item.title.toLowerCase().contains(query) ||
+                item.description.toLowerCase().contains(query),
+          )
+          .toList();
     }
 
     if (state.currentFromDate != null) {
-      filtered = filtered.where((item) => 
-        item.createdAt.isAfter(state.currentFromDate!),
-      ).toList();
+      filtered = filtered
+          .where(
+            (item) => item.createdAt.isAfter(state.currentFromDate!),
+          )
+          .toList();
     }
 
     if (state.currentToDate != null) {
-      filtered = filtered.where((item) => 
-        item.createdAt.isBefore(state.currentToDate!),
-      ).toList();
+      filtered = filtered
+          .where(
+            (item) => item.createdAt.isBefore(state.currentToDate!),
+          )
+          .toList();
     }
 
     if (state.currentIsActiveFilter != null) {
-      filtered = filtered.where((item) => 
-        item.isActive == state.currentIsActiveFilter,
-      ).toList();
+      filtered = filtered
+          .where(
+            (item) => item.isActive == state.currentIsActiveFilter,
+          )
+          .toList();
     }
 
     return filtered;
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure _:
-        return 'Server error occurred';
-      case CacheFailure _:
-        return 'Cache error occurred';
-      case DatabaseFailure _:
-        return (failure as DatabaseFailure).msg;
-      default:
-        return 'Unexpected error occurred';
-    }
   }
 
   @override

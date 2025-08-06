@@ -16,7 +16,7 @@ class ReportRepositoryImpl extends ReportRepository {
     try {
       return Right(ReportEntity.fromModel(result));
     } on Exception catch (e) {
-      return Left(DatabaseFailure(e.toString()));
+      return Left(DatabaseFailure(message: e.toString()));
     }
   }
 }

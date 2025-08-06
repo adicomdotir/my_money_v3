@@ -33,7 +33,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Left(CacheFailure());
     } catch (e) {
       return Left(
-        DatabaseFailure('Failed to get template items: ${e.toString()}'),
+        DatabaseFailure(
+          message: 'Failed to get template items: ${e.toString()}',
+        ),
       );
     }
   }
@@ -45,11 +47,13 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(model.toEntity());
     } on Exception catch (e) {
       if (e.toString().contains('not found')) {
-        return Left(DatabaseFailure('Item not found'));
+        return Left(DatabaseFailure(message: 'Item not found'));
       }
       return Left(CacheFailure());
     } catch (e) {
-      return Left(DatabaseFailure('Failed to get item: ${e.toString()}'));
+      return Left(
+        DatabaseFailure(message: 'Failed to get item: ${e.toString()}'),
+      );
     }
   }
 
@@ -61,7 +65,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
       // Check if item already exists
       final exists = await localDataSource.itemExists(item.id);
       if (exists) {
-        return Left(DatabaseFailure('Item with this ID already exists'));
+        return Left(
+          DatabaseFailure(message: 'Item with this ID already exists'),
+        );
       }
 
       final model = TemplateModel.fromEntity(item);
@@ -70,7 +76,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
     } on Exception {
       return Left(CacheFailure());
     } catch (e) {
-      return Left(DatabaseFailure('Failed to create item: ${e.toString()}'));
+      return Left(
+        DatabaseFailure(message: 'Failed to create item: ${e.toString()}'),
+      );
     }
   }
 
@@ -82,7 +90,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
       // Verify item exists before updating
       final exists = await localDataSource.itemExists(item.id);
       if (!exists) {
-        return Left(DatabaseFailure('Cannot update non-existent item'));
+        return Left(
+          DatabaseFailure(message: 'Cannot update non-existent item'),
+        );
       }
 
       final model = TemplateModel.fromEntity(item);
@@ -94,7 +104,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
     } on Exception {
       return Left(CacheFailure());
     } catch (e) {
-      return Left(DatabaseFailure('Failed to update item: ${e.toString()}'));
+      return Left(
+        DatabaseFailure(message: 'Failed to update item: ${e.toString()}'),
+      );
     }
   }
 
@@ -105,11 +117,13 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return const Right(null);
     } on Exception catch (e) {
       if (e.toString().contains('non-existent')) {
-        return Left(DatabaseFailure('Item not found'));
+        return Left(DatabaseFailure(message: 'Item not found'));
       }
       return Left(CacheFailure());
     } catch (e) {
-      return Left(DatabaseFailure('Failed to delete item: ${e.toString()}'));
+      return Left(
+        DatabaseFailure(message: 'Failed to delete item: ${e.toString()}'),
+      );
     }
   }
 
@@ -121,14 +135,16 @@ class TemplateRepositoryImpl implements TemplateRepository {
       // Check for duplicate IDs in the batch
       final ids = items.map((e) => e.id).toSet();
       if (ids.length != items.length) {
-        return Left(DatabaseFailure('Duplicate IDs in batch'));
+        return Left(DatabaseFailure(message: 'Duplicate IDs in batch'));
       }
 
       // Check if any items already exist
       for (final item in items) {
         final exists = await localDataSource.itemExists(item.id);
         if (exists) {
-          return Left(DatabaseFailure('Item ${item.id} already exists'));
+          return Left(
+            DatabaseFailure(message: 'Item ${item.id} already exists'),
+          );
         }
       }
 
@@ -139,7 +155,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Left(CacheFailure());
     } catch (e) {
       return Left(
-        DatabaseFailure('Failed to create multiple items: ${e.toString()}'),
+        DatabaseFailure(
+          message: 'Failed to create multiple items: ${e.toString()}',
+        ),
       );
     }
   }
@@ -153,7 +171,9 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Left(CacheFailure());
     } catch (e) {
       return Left(
-        DatabaseFailure('Failed to check if item exists: ${e.toString()}'),
+        DatabaseFailure(
+          message: 'Failed to check if item exists: ${e.toString()}',
+        ),
       );
     }
   }
@@ -167,7 +187,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Left(CacheFailure());
     } catch (e) {
       return Left(
-        DatabaseFailure('Failed to get items count: ${e.toString()}'),
+        DatabaseFailure(message: 'Failed to get items count: ${e.toString()}'),
       );
     }
   }

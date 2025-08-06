@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/category/domain/usecases/add_category_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/app_strings.dart';
 import '../../../../shared/domain/entities/category.dart';
 import '../../domain/usecases/category_list_use_case.dart';
 import '../../domain/usecases/delete_category_use_case.dart';
@@ -27,7 +26,7 @@ class CategoryCubit extends Cubit<CategoryState> {
     Either<Failure, List<Category>> response = await categoryListUseCase();
     emit(
       response.fold(
-        (failure) => CategoryError(msg: _mapFailureToMsg(failure)),
+        (failure) => CategoryError(msg: failure.message),
         (expenses) => CategoryLoaded(categories: expenses),
       ),
     );
@@ -39,7 +38,7 @@ class CategoryCubit extends Cubit<CategoryState> {
         await deleteCategoryUseCase(DeleteCategoryParams(id));
     emit(
       response.fold(
-        (failure) => CategoryError(msg: _mapFailureToMsg(failure)),
+        (failure) => CategoryError(msg: failure.message),
         (success) => CategoryDeleteSuccess(),
       ),
     );
@@ -51,7 +50,7 @@ class CategoryCubit extends Cubit<CategoryState> {
         await addCategoryUseCase(CategoryParams(category));
     emit(
       response.fold(
-        (failure) => CategoryError(msg: _mapFailureToMsg(failure)),
+        (failure) => CategoryError(msg: failure.message),
         (id) => CategoryAddOrEditSuccess(),
       ),
     );
@@ -63,22 +62,9 @@ class CategoryCubit extends Cubit<CategoryState> {
         await addCategoryUseCase(CategoryParams(category));
     emit(
       response.fold(
-        (failure) => CategoryError(msg: _mapFailureToMsg(failure)),
+        (failure) => CategoryError(msg: failure.message),
         (id) => CategoryAddOrEditSuccess(),
       ),
     );
-  }
-
-  String _mapFailureToMsg(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure _:
-        return AppStrings.serverFailure;
-      case CacheFailure _:
-        return AppStrings.cacheFailure;
-      case DatabaseFailure _:
-        return (failure as DatabaseFailure).msg;
-      default:
-        return AppStrings.unexpectedError;
-    }
   }
 }

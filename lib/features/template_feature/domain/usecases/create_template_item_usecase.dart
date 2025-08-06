@@ -20,11 +20,13 @@ class CreateTemplateItemUseCase
   ) async {
     // Validate input
     if (params.title.trim().isEmpty) {
-      return Left(DatabaseFailure('Title cannot be empty'));
+      return Left(DatabaseFailure(message: 'Title cannot be empty'));
     }
 
     if (params.title.length < 3) {
-      return Left(DatabaseFailure('Title must be at least 3 characters long'));
+      return Left(
+        DatabaseFailure(message: 'Title must be at least 3 characters long'),
+      );
     }
 
     // Create entity with generated ID and timestamp

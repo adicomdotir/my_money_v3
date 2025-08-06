@@ -34,7 +34,8 @@ class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
       return true;
     } else {
       throw const DatabaseException(
-        'دسته مورد نظر در هزینه ها استفاده شده است و امکان  حذف وجود ندارد',
+        message:
+            'دسته مورد نظر در هزینه ها استفاده شده است و امکان  حذف وجود ندارد',
       );
     }
   }

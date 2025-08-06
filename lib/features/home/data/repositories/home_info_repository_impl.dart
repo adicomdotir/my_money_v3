@@ -30,7 +30,9 @@ class HomeInfoRepositoryImpl implements HomeInfoRepository {
       if (result) {
         return Right(result);
       } else {
-        return Left(DatabaseFailure('don\'t save'));
+        return Left(
+          DatabaseFailure(message: 'don\'t save'),
+        );
       }
     } on ServerException {
       return Left(ServerFailure());
