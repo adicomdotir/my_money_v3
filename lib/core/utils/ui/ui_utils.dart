@@ -28,9 +28,6 @@ extension MediaQueryValues on BuildContext {
 
   /// Device pixel ratio
   double get pixelRatio => MediaQuery.of(this).devicePixelRatio;
-
-  /// Text scale factor
-  double get textScaleFactor => MediaQuery.of(this).textScaleFactor;
 }
 
 /// Utility class for common UI operations.

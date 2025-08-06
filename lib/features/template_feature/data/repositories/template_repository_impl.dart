@@ -31,12 +31,6 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(entities);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(
-          message: 'Failed to get template items: ${e.toString()}',
-        ),
-      );
     }
   }
 
@@ -50,10 +44,6 @@ class TemplateRepositoryImpl implements TemplateRepository {
         return Left(DatabaseFailure(message: 'Item not found'));
       }
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(message: 'Failed to get item: ${e.toString()}'),
-      );
     }
   }
 
@@ -75,11 +65,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(item);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(message: 'Failed to create item: ${e.toString()}'),
-      );
-    }
+    } 
   }
 
   @override
@@ -103,11 +89,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(updatedEntity);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(message: 'Failed to update item: ${e.toString()}'),
-      );
-    }
+    } 
   }
 
   @override
@@ -120,11 +102,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
         return Left(DatabaseFailure(message: 'Item not found'));
       }
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(message: 'Failed to delete item: ${e.toString()}'),
-      );
-    }
+    } 
   }
 
   @override
@@ -153,13 +131,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(items);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(
-          message: 'Failed to create multiple items: ${e.toString()}',
-        ),
-      );
-    }
+    } 
   }
 
   @override
@@ -169,13 +141,7 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(exists);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(
-          message: 'Failed to check if item exists: ${e.toString()}',
-        ),
-      );
-    }
+    } 
   }
 
   @override
@@ -185,10 +151,6 @@ class TemplateRepositoryImpl implements TemplateRepository {
       return Right(count);
     } on Exception {
       return Left(CacheFailure());
-    } catch (e) {
-      return Left(
-        DatabaseFailure(message: 'Failed to get items count: ${e.toString()}'),
-      );
     }
   }
 }

@@ -48,7 +48,7 @@ class AppColors {
       final bgColor = Color.fromRGBO(red, green, blue, 1.0);
       resultColor =
           bgColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-    } catch (e) {
+    } on Exception catch (_) {
       // Return white as default if parsing fails
     }
 

@@ -8,98 +8,98 @@ class ErrorHandler {
   /// Maps exceptions to their corresponding failures
   static Failure mapExceptionToFailure(AppException exception) {
     switch (exception.runtimeType) {
-      case NetworkException:
+      case NetworkException _:
         return NetworkFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case ServerException:
+      case ServerException _:
         return ServerFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case ConnectionTimeoutException:
+      case ConnectionTimeoutException _:
         return ConnectionTimeoutFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case NoInternetConnectionException:
+      case NoInternetConnectionException _:
         return NoInternetConnectionFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case CacheException:
+      case CacheException _:
         return CacheFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case DatabaseException:
+      case DatabaseException _:
         return DatabaseFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case DataNotFoundException:
+      case DataNotFoundException _:
         return DataNotFoundFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case InvalidDataException:
+      case InvalidDataException _:
         return InvalidDataFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case AuthenticationException:
+      case AuthenticationException _:
         return AuthenticationFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case UnauthorizedException:
+      case UnauthorizedException _:
         return UnauthorizedFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case ValidationException:
+      case ValidationException _:
         return ValidationFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case BusinessLogicException:
+      case BusinessLogicException _:
         return BusinessLogicFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case UnknownException:
+      case UnknownException _:
         return UnknownFailure(
           message: exception.message,
           code: exception.code,
           details: exception.details,
         );
 
-      case UnexpectedException:
+      case UnexpectedException _:
         return UnexpectedFailure(
           message: exception.message,
           code: exception.code,

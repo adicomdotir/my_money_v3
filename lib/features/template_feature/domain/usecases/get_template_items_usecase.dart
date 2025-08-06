@@ -15,12 +15,14 @@ class GetTemplateItemsUseCase
 
   @override
   Future<Either<Failure, List<TemplateEntity>>> call(
-      GetTemplateItemsParams params) async {
+    GetTemplateItemsParams params,
+  ) async {
     // Business logic validation before calling repository
     if (params.fromDate != null && params.toDate != null) {
       if (params.fromDate!.isAfter(params.toDate!)) {
         return Left(
-            DatabaseFailure(message: 'From date cannot be after to date'));
+          DatabaseFailure(message: 'From date cannot be after to date'),
+        );
       }
     }
 

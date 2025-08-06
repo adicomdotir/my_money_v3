@@ -24,7 +24,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } catch (e) {
+    } on Exception catch (e) {
       // Handle unexpected errors
       ErrorHandler.logError(e, context: 'fetchDataFromApi');
 
@@ -53,7 +53,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } catch (e) {
+    } on Exception  catch (e) {
       ErrorHandler.logError(e, context: 'getDataFromDatabase');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -83,7 +83,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } catch (e) {
+    } on Exception  catch (e) {
       ErrorHandler.logError(e, context: 'makeHttpRequest');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -123,7 +123,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } catch (e) {
+    } on Exception  catch (e) {
       ErrorHandler.logError(e, context: 'validateUserInput');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -174,6 +174,8 @@ class ExampleUseCase {
 
 /// Example of UI error handling
 class ExampleErrorHandling {
+  ExampleErrorHandling._();
+
   /// Show appropriate error message based on failure type
   static String getErrorMessage(Failure failure) {
     return ErrorHandler.getUserFriendlyMessage(failure);
