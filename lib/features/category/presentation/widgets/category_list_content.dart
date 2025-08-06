@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/utils/hex_color.dart';
-import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
 
+import '../../../../config/routes/app_routes.dart';
+import '../../../../core/utils/utils.dart';
+import '../../../../features/category/presentation/cubit/category_cubit.dart';
 import '../../../../shared/domain/entities/category.dart';
 
 class CategoryListContent extends StatefulWidget {

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/date_format.dart';
-import 'package:my_money_v3/core/utils/price_format.dart';
-import 'package:my_money_v3/features/filter_expense/presentation/bloc/filter_expnese_bloc.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
 
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
+import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../shared/domain/entities/expense.dart';
+import '../bloc/filter_expnese_bloc.dart';
 
 class FilterExpenseScreen extends StatefulWidget {
   const FilterExpenseScreen({
@@ -81,11 +80,11 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 subtitle: Text(
-                  priceFormat(expense.price, unit),
+                  formatPrice(expense.price, unit),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 trailing: Text(
-                  dateFormat(expense.date).toString(),
+                  formatDate(expense.date).toString(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               );

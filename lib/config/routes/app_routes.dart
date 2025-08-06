@@ -10,7 +10,7 @@ import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.d
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
 
-import '../../core/utils/app_strings.dart';
+import '../../../core/utils/utils.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
 import '../../features/category/presentation/screens/add_edit_category_screen.dart';
 import '../../features/category/presentation/screens/category_list_screen.dart';
@@ -152,7 +152,7 @@ class AppRoutes {
     return MaterialPageRoute(
       builder: ((context) => const Scaffold(
             body: Center(
-              child: Text(AppStrings.noRouteFound),
+              child: Text(AppConstants.noRouteFound),
             ),
           )),
     );

@@ -19,7 +19,7 @@ class TemplateListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
+    final formatDate = DateFormat('yyyy/MM/dd HH:mm');
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -99,7 +99,7 @@ class TemplateListItem extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    dateFormat.format(item.createdAt),
+                    formatDate.format(item.createdAt),
                     style: theme.textTheme.bodySmall,
                   ),
                   if (item.updatedAt != null) ...[
@@ -111,7 +111,7 @@ class TemplateListItem extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      dateFormat.format(item.updatedAt!),
+                      formatDate.format(item.updatedAt!),
                       style: theme.textTheme.bodySmall,
                     ),
                   ],

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/app_strings.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../../features/category/domain/usecases/category_list_use_case.dart';
 import '../../../domain/entities/category.dart';
 
@@ -30,11 +30,11 @@ class CategoriesDropDownCubit extends Cubit<CategoriesDropDownState> {
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure _:
-        return AppStrings.serverFailure;
+        return AppConstants.serverFailure;
       case CacheFailure _:
-        return AppStrings.cacheFailure;
+        return AppConstants.cacheFailure;
       default:
-        return AppStrings.unexpectedError;
+        return AppConstants.unexpectedError;
     }
   }
 }

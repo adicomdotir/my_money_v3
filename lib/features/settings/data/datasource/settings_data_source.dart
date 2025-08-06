@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:my_money_v3/core/utils/app_strings.dart';
-import 'package:my_money_v3/shared/data/models/settings_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/utils/utils.dart';
+import '../../../../shared/data/models/settings_model.dart';
 
 abstract class SettingsDataSource {
   Future<bool> changeMoneyUnit(SettingsModel settingsModel);
@@ -19,9 +20,9 @@ class SettingsDataSourceImpl extends SettingsDataSource {
 
   @override
   Future<bool> changeMoneyUnit(SettingsModel settingsModel) async {
-    if (sharedPreferences.containsKey(AppStrings.settings)) {
+    if (sharedPreferences.containsKey(AppConstants.settings)) {
       await sharedPreferences.setString(
-        AppStrings.settings,
+        AppConstants.settings,
         jsonEncode(settingsModel.toMap()),
       );
       return true;
@@ -41,13 +42,13 @@ class SettingsDataSourceImpl extends SettingsDataSource {
 
   @override
   Future<bool> changeLang({required String langCode}) async =>
-      await sharedPreferences.setString(AppStrings.locale, langCode);
+      await sharedPreferences.setString(AppConstants.locale, langCode);
 
   @override
   Future<String> getSavedLang() async =>
-      sharedPreferences.containsKey(AppStrings.locale)
-          ? sharedPreferences.getString(AppStrings.locale)!
-          : AppStrings.englishCode;
+      sharedPreferences.containsKey(AppConstants.locale)
+          ? sharedPreferences.getString(AppConstants.locale)!
+          : AppConstants.englishCode;
 
   @override
   Future<SettingsModel> getSavedSettings() async {
@@ -56,13 +57,16 @@ class SettingsDataSourceImpl extends SettingsDataSource {
       themeId = sharedPreferences.getInt('theme_id') ?? 1;
     }
 
-    if (sharedPreferences.containsKey(AppStrings.settings)) {
-      String json = sharedPreferences.getString(AppStrings.settings) ?? '';
+    if (sharedPreferences.containsKey(AppConstants.settings)) {
+      String json = sharedPreferences.getString(AppConstants.settings) ?? '';
       final sm = SettingsModel.fromMap(jsonDecode(json));
       return SettingsModel(unit: sm.unit, locale: sm.locale, themeId: themeId);
     } else {
       const sm = SettingsModel(unit: 0, locale: 'fa', themeId: -1);
-      sharedPreferences.setString(AppStrings.settings, jsonEncode(sm.toMap()));
+      sharedPreferences.setString(
+        AppConstants.settings,
+        jsonEncode(sm.toMap()),
+      );
       return sm;
     }
   }

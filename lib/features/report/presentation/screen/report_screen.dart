@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/functions/functions.dart';
-import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/utils.dart';
 import '../../../../config/routes/app_routes.dart';
-import '../../../../core/utils/price_format.dart';
+import '../../domain/entities/report_entity.dart';
 import '../bloc/report_bloc.dart';
 
 class ReportScreen extends StatelessWidget {
@@ -138,7 +137,7 @@ class ReportScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    priceFormat(
+                    formatPrice(
                       state.reports[index].catExpneseList[idx].price,
                       context.read<GlobalBloc>().state.settings.unit,
                     ),
@@ -172,7 +171,7 @@ class ReportScreen extends StatelessWidget {
         Column(
           children: [
             Text(
-              _getMonthName(
+              _getPersianMonthName(
                 state.reports[index].monthName,
               ),
               style: const TextStyle(
@@ -181,7 +180,7 @@ class ReportScreen extends StatelessWidget {
               ),
             ),
             Text(
-              priceFormat(
+              formatPrice(
                 state.reports[index].sumPrice,
                 context.read<GlobalBloc>().state.settings.unit,
               ),
@@ -200,11 +199,11 @@ class ReportScreen extends StatelessWidget {
     );
   }
 
-  String _getMonthName(String monthName) {
+  String _getPersianMonthName(String monthName) {
     final dateArray = monthName.split('/');
     final year = dateArray.first;
     final month = int.tryParse(dateArray.last) ?? 1;
-    return '${getMonthName(month - 1)} $year';
+    return '${getPersianMonthName(month - 1)} $year';
   }
 
   Map<String, double> pieChartDataMapper(List<CatExpense> catExpneseList) {

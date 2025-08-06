@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/core/utils/date_format.dart';
-import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/core/utils/numeric_text_formatter.dart';
-import 'package:my_money_v3/core/utils/price_format.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
-import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
-import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
+import '../../../../../config/routes/app_routes.dart';
+import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
+import '../../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import '../../../../../shared/domain/entities/expense.dart';
 import '../cubit/add_edit_expense_cubit.dart';
 
 class AddEditExpenseContent extends StatefulWidget {
@@ -81,7 +78,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      NumericTextFormatter(),
+                      NumericOnlyFormatter(),
                     ],
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -95,7 +92,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   flex: 3,
                   child: Center(
                     child: Text(
-                      priceSignString(
+                      getCurrencyUnit(
                         context.read<GlobalBloc>().state.settings.unit,
                       ),
                     ),
@@ -118,7 +115,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   ),
                 ),
                 Text(
-                  dateFormat(
+                  formatDate(
                     selectedDate?.toDateTime().millisecondsSinceEpoch ??
                         DateTime.now().millisecondsSinceEpoch,
                   ),
@@ -196,7 +193,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     newPrice = newPrice ~/ 10;
                   }
                   final expense = Expense(
-                    id: idGenerator(),
+                    id: IDGenerator.generateUUID(),
                     title: _titleCtrl.text,
                     date: selectedDate!.toDateTime().millisecondsSinceEpoch,
                     categoryId: selectedCategoryId ?? '',

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../core/utils/app_colors.dart';
-import '../../core/utils/app_strings.dart';
+import '../../../core/utils/utils.dart';
 
 ThemeData appTheme() {
   return ThemeData(
     primaryColor: AppColors.primary,
     // hintColor: AppColors.hint,
     // scaffoldBackgroundColor: Colors.white,
-    fontFamily: AppStrings.fontFamily,
+    fontFamily: AppConstants.fontFamily,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
     ),

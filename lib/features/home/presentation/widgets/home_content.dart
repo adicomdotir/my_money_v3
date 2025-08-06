@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/hex_color.dart';
-import 'package:my_money_v3/core/utils/price_format.dart';
-import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
+import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/utils.dart';
 import '../../../../config/routes/app_routes.dart';
+import '../../domain/entities/home_info_entity.dart';
 import '../cubit/home_info_cubit.dart';
 
 class HomeContent extends StatefulWidget {
@@ -108,7 +107,7 @@ class _HomeContentState extends State<HomeContent>
         children: [
           Text(title),
           Text(
-            priceFormat(
+            formatPrice(
               price,
               BlocProvider.of<GlobalBloc>(context).state.settings.unit,
             ),
@@ -188,7 +187,7 @@ class _HomeContentState extends State<HomeContent>
                               ],
                             ),
                             Text(
-                              priceFormat(
+                              formatPrice(
                                 item.price,
                                 context.read<GlobalBloc>().state.settings.unit,
                               ),

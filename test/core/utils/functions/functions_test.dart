@@ -1,22 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_money_v3/core/utils/functions/functions.dart';
+import 'package:my_money_v3/core/utils/utils.dart';
 
 void main() {
-  group('getMonthName', () {
+  group('getPersianMonthName', () {
     test('should return correct Persian month name for valid month numbers',
         () {
-      expect(getMonthName(1 - 1), 'فروردین');
-      expect(getMonthName(2 - 1), 'اردیبهشت');
-      expect(getMonthName(3 - 1), 'خرداد');
-      expect(getMonthName(4 - 1), 'تیر');
-      expect(getMonthName(5 - 1), 'مرداد');
-      expect(getMonthName(6 - 1), 'شهریور');
-      expect(getMonthName(7 - 1), 'مهر');
-      expect(getMonthName(8 - 1), 'آبان');
-      expect(getMonthName(9 - 1), 'آذر');
-      expect(getMonthName(10 - 1), 'دی');
-      expect(getMonthName(11 - 1), 'بهمن');
-      expect(getMonthName(12 - 1), 'اسفند');
+      expect(getPersianMonthName(1 - 1), 'فروردین');
+      expect(getPersianMonthName(2 - 1), 'اردیبهشت');
+      expect(getPersianMonthName(3 - 1), 'خرداد');
+      expect(getPersianMonthName(4 - 1), 'تیر');
+      expect(getPersianMonthName(5 - 1), 'مرداد');
+      expect(getPersianMonthName(6 - 1), 'شهریور');
+      expect(getPersianMonthName(7 - 1), 'مهر');
+      expect(getPersianMonthName(8 - 1), 'آبان');
+      expect(getPersianMonthName(9 - 1), 'آذر');
+      expect(getPersianMonthName(10 - 1), 'دی');
+      expect(getPersianMonthName(11 - 1), 'بهمن');
+      expect(getPersianMonthName(12 - 1), 'اسفند');
     });
   });
 }

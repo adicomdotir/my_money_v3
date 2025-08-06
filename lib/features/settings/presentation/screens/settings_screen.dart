@@ -1,9 +1,10 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/hex_color.dart';
-import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
-import 'package:my_money_v3/core/bloc/global_bloc.dart';
+
+import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/utils.dart';
+import '../bloc/settings_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

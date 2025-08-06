@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/home/domain/entities/home_info_entity.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/app_strings.dart';
+import '../../../../core/utils/utils.dart';
 import '../../domain/usecases/get_home_info.dart';
 
 part 'home_info_state.dart';
@@ -30,12 +30,12 @@ class HomeInfoCubit extends Cubit<HomeInfoState> {
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure():
-        return AppStrings.serverFailure;
+        return AppConstants.serverFailure;
       case CacheFailure():
-        return AppStrings.cacheFailure;
+        return AppConstants.cacheFailure;
 
       default:
-        return AppStrings.unexpectedError;
+        return AppConstants.unexpectedError;
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_money_v3/core/utils/hex_color.dart';
+import 'package:my_money_v3/core/utils/utils.dart';
 
 void main() {
   group('HexColor', () {

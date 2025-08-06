@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/utils/utils.dart';
 import '../../../../config/routes/app_routes.dart';
-import '../../../../core/utils/assets_manager.dart';
 import '../../../../injection_container.dart' as di;
 import '../bloc/splash_bloc.dart';
 
@@ -37,7 +37,7 @@ class SplashScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(ImgAssets.logo),
+                Image.asset(AssetPaths.logo),
                 const SizedBox(height: 20),
                 BlocBuilder<SplashBloc, SplashState>(
                   builder: (context, state) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_money_v3/core/utils/media_query_values.dart';
 
-import '../utils/app_colors.dart';
+import '../utils/utils.dart';
 
 class ErrorWidget extends StatelessWidget {
   final VoidCallback? onPress;

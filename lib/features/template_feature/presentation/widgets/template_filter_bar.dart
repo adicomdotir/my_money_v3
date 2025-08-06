@@ -19,7 +19,7 @@ class TemplateFilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dateFormat = DateFormat('MMM dd, yyyy');
+    final formatDate = DateFormat('MMM dd, yyyy');
     final activeFilters = <Widget>[];
 
     // Date range filter chip
@@ -27,11 +27,11 @@ class TemplateFilterBar extends StatelessWidget {
       String dateText = '';
       if (fromDate != null && toDate != null) {
         dateText =
-            '${dateFormat.format(fromDate!)} - ${dateFormat.format(toDate!)}';
+            '${formatDate.format(fromDate!)} - ${formatDate.format(toDate!)}';
       } else if (fromDate != null) {
-        dateText = 'From ${dateFormat.format(fromDate!)}';
+        dateText = 'From ${formatDate.format(fromDate!)}';
       } else if (toDate != null) {
-        dateText = 'Until ${dateFormat.format(toDate!)}';
+        dateText = 'Until ${formatDate.format(toDate!)}';
       }
 
       activeFilters.add(

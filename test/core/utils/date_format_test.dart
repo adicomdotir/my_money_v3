@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_money_v3/core/utils/date_format.dart';
+import 'package:my_money_v3/core/utils/utils.dart';
 
 void main() {
-  group('dateFormat', () {
+  group('formatDate', () {
     test('should format date with single digit month and day correctly', () {
       // March 5, 2024 (1402/12/15 in Jalali)
       final timestamp = 1709654400000; // milliseconds
 
-      final result = dateFormat(timestamp);
+      final result = formatDate(timestamp);
 
       expect(result, '1402/12/15');
     });
@@ -16,7 +16,7 @@ void main() {
       // October 15, 2023 (1402/07/23 in Jalali)
       final timestamp = 1697328000000; // milliseconds
 
-      final result = dateFormat(timestamp);
+      final result = formatDate(timestamp);
 
       expect(result, '1402/07/23');
     });
@@ -25,7 +25,7 @@ void main() {
       // March 20, 2024 (1403/01/01 in Jalali - New Year)
       final timestamp = 1710892800000; // milliseconds
 
-      final result = dateFormat(timestamp);
+      final result = formatDate(timestamp);
 
       expect(result, '1403/01/01');
     });

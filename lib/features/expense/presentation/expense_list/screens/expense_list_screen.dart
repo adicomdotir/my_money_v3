@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/functions/functions.dart';
+import 'package:my_money_v3/core/utils/utils.dart';
 import 'package:my_money_v3/core/widgets/error_widget.dart' as error_widget;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
@@ -209,7 +209,7 @@ class CalenderFilterWidget extends StatelessWidget {
             .changeFromDate(state.fromDate?.addDays(-1) ?? Jalali.now());
       },
       Text(
-        '${state.fromDate?.day.toString()} ${getMonthName((state.fromDate?.month ?? 1) - 1)}',
+        '${state.fromDate?.day.toString()} ${getPersianMonthName((state.fromDate?.month ?? 1) - 1)}',
         textAlign: TextAlign.center,
       ),
     );
@@ -247,7 +247,7 @@ class CalenderFilterWidget extends StatelessWidget {
         BlocProvider.of<ExpenseCubit>(context).changeFromDate(monthStart);
       },
       Text(
-        '${getMonthName((state.fromDate?.month ?? 1) - 1)} ${state.fromDate?.year}',
+        '${getPersianMonthName((state.fromDate?.month ?? 1) - 1)} ${state.fromDate?.year}',
         textAlign: TextAlign.center,
       ),
     );

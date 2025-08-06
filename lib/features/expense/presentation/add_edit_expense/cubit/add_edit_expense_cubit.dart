@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/error/failures.dart';
-import 'package:my_money_v3/core/utils/app_strings.dart';
-import 'package:my_money_v3/features/expense/domain/usecases/add_edit_expense_use_case.dart';
-import 'package:my_money_v3/shared/domain/entities/expense.dart';
+
+import '../../../../../core/error/failures.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../shared/domain/entities/expense.dart';
+import '../../../../expense/domain/usecases/add_edit_expense_use_case.dart';
 
 part 'add_edit_expense_state.dart';
 
@@ -46,11 +47,11 @@ class AddEditExpenseCubit extends Cubit<AddExpState> {
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure _:
-        return AppStrings.serverFailure;
+        return AppConstants.serverFailure;
       case CacheFailure _:
-        return AppStrings.cacheFailure;
+        return AppConstants.cacheFailure;
       default:
-        return AppStrings.unexpectedError;
+        return AppConstants.unexpectedError;
     }
   }
 }

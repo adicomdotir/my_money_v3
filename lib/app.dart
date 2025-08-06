@@ -6,7 +6,7 @@ import 'package:my_money_v3/core/bloc/global_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import 'config/routes/app_routes.dart';
-import 'core/utils/app_strings.dart';
+import 'core/utils/utils.dart';
 import 'injection_container.dart' as di;
 
 class MyMoneyApp extends StatelessWidget {
@@ -15,7 +15,8 @@ class MyMoneyApp extends StatelessWidget {
   // Extracted list of BlocProviders for scalability
   List<BlocProvider> get _blocProviders => [
         BlocProvider(
-          create: (context) => di.sl<GlobalBloc>()..add(GetSettingsGlobalEvent()),
+          create: (context) =>
+              di.sl<GlobalBloc>()..add(GetSettingsGlobalEvent()),
         ),
         // Add more BlocProviders here as your app grows
       ];
@@ -28,7 +29,7 @@ class MyMoneyApp extends StatelessWidget {
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
           return MaterialApp(
-            title: AppStrings.appName,
+            title: AppConstants.appName,
             locale: const Locale('fa', 'IR'),
             debugShowCheckedModeBanner: false,
             theme: context.watch<GlobalBloc>().state.themeData,

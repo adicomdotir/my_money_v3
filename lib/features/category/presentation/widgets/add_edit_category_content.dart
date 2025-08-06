@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/core/utils/hex_color.dart';
-import 'package:my_money_v3/core/utils/id_generator.dart';
-import 'package:my_money_v3/core/utils/opposite_color.dart';
-import 'package:my_money_v3/features/category/presentation/cubit/category_cubit.dart';
-import 'package:my_money_v3/shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
-import 'package:my_money_v3/shared/domain/entities/category.dart';
+
+import '../../../../core/utils/utils.dart';
+import '../../../../features/category/presentation/cubit/category_cubit.dart';
+import '../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import '../../../../shared/domain/entities/category.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
@@ -81,7 +80,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                             child: Text(
                               colorStr,
                               style: TextStyle(
-                                color: generateOppositeColor(colorStr),
+                                color: AppColors.getOppositeColor(colorStr),
                                 fontFamily: 'Roboto',
                               ),
                             ),
@@ -125,7 +124,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                 }
                 if (widget.category == null) {
                   final tmpCategory = Category(
-                    id: idGenerator(),
+                    id: IDGenerator.generateUUID(),
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,

@@ -6,7 +6,7 @@ import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/report/domain/use_cases/get_report_use_case.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/utils/app_strings.dart';
+import '../../../../core/utils/utils.dart';
 
 part 'report_event.dart';
 part 'report_state.dart';
@@ -43,12 +43,12 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   String _mapFailureToMsg(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure _:
-        return AppStrings.serverFailure;
+        return AppConstants.serverFailure;
       case CacheFailure _:
-        return AppStrings.cacheFailure;
+        return AppConstants.cacheFailure;
 
       default:
-        return AppStrings.unexpectedError;
+        return AppConstants.unexpectedError;
     }
   }
 }
