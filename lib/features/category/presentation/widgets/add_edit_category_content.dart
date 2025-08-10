@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../features/category/presentation/cubit/category_cubit.dart';
-import '../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
+import '../../../../shared/components/components.dart';
 import '../../../../shared/domain/entities/category.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
@@ -56,7 +56,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             const SizedBox(
               height: 16,
             ),
-            CategoryDropDownWidget(
+            CategoryDropdownWidget(
               value: widget.category?.parentId ?? '',
               onSelected: (selectedValue) {
                 parentId = selectedValue;

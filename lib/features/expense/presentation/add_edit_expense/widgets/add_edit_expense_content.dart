@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/shared/components/components.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/bloc/global_bloc.dart';
 import '../../../../../core/utils/utils.dart';
-import '../../../../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
-import '../../../../../shared/category_drop_down/presentation/widgets/category_drop_down_widget.dart';
 import '../../../../../shared/domain/entities/expense.dart';
 import '../cubit/add_edit_expense_cubit.dart';
 
@@ -128,7 +127,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
             Row(
               children: [
                 Expanded(
-                  child: CategoryDropDownWidget(
+                  child: CategoryDropdownWidget(
                     onSelected: (newValue) {
                       setState(() {
                         selectedCategoryId = newValue;
@@ -146,7 +145,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                         .pushNamed(Routes.addEditCategoryRoute)
                         .then((value) {
                       if (context.mounted) {
-                        BlocProvider.of<CategoriesDropDownCubit>(context)
+                        BlocProvider.of<CategoryDropdownCubit>(context)
                             .getCategories();
                       }
                     });

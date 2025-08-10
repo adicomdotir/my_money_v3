@@ -20,7 +20,7 @@ import '../../features/report/presentation/bloc/report_bloc.dart';
 import '../../features/report/presentation/screen/report_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../injection_container.dart' as di;
-import '../../shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
+import '../../shared/components/components.dart';
 
 class Routes {
   static const String initialRoute = '/';
@@ -63,36 +63,36 @@ class AppRoutes {
         );
       case Routes.addEditExpanseRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
                   create: ((context) => di.sl<AddEditExpenseCubit>()),
                 ),
                 BlocProvider(
-                  create: ((context) => di.sl<CategoriesDropDownCubit>()),
+                  create: ((context) => di.sl<CategoryDropdownCubit>()),
                 ),
               ],
               child: const AddEditExpenseScreen(),
             );
-          }),
+          },
           settings: routeSettings,
         );
       case Routes.addEditCategoryRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
                   create: ((context) => di.sl<CategoryCubit>()),
                 ),
                 BlocProvider(
-                  create: ((context) => di.sl<CategoriesDropDownCubit>()),
+                  create: ((context) => di.sl<CategoryDropdownCubit>()),
                 ),
               ],
               child: const AddEditCategoryScreen(),
             );
-          }),
+          },
           settings: routeSettings,
         );
       case Routes.expenseListRoute:

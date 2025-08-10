@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/core/utils/utils.dart';
-import 'package:my_money_v3/shared/widgets/error_widget.dart' as error_widget;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
+import '../../../../../shared/widgets/widgets.dart';
 import '../cubit/expense_cubit.dart';
 import '../widgets/expense_list_content.dart';
 
@@ -37,7 +37,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
             child: CircularProgressIndicator(),
           );
         } else if (state.error != null) {
-          return error_widget.ErrorWidget(
+          return AppErrorWidget(
             onPress: () {},
           );
         } else {

@@ -24,7 +24,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Future<Either<Failure, List<Category>>> getCategories() async {
-    final result = await categoryLocalDataSource.getCategories();
+    final result =
+        await categoryLocalDataSource.getCategories() as List<Category>;
     return Right(result);
   }
 

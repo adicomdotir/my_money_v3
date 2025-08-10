@@ -14,7 +14,7 @@ class MyMoneyApp extends StatelessWidget {
 
   // Extracted list of BlocProviders for scalability
   List<BlocProvider> get _blocProviders => [
-        BlocProvider(
+        BlocProvider<GlobalBloc>(
           create: (context) =>
               di.sl<GlobalBloc>()..add(GetSettingsGlobalEvent()),
         ),

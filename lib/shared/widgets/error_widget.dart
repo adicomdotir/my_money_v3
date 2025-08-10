@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/utils.dart';
 
-class ErrorWidget extends StatelessWidget {
+class AppErrorWidget extends StatelessWidget {
   final VoidCallback? onPress;
 
-  const ErrorWidget({super.key, this.onPress});
+  const AppErrorWidget({super.key, this.onPress});
 
   @override
   Widget build(BuildContext context) {

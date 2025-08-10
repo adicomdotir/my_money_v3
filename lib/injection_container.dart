@@ -25,7 +25,6 @@ import 'package:my_money_v3/features/settings/domain/usecases/save_user_theme_us
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/splash/domain/usecases/initialize_app_use_case.dart';
 import 'package:my_money_v3/features/splash/presentation/bloc/splash_bloc.dart';
-import 'package:my_money_v3/shared/category_drop_down/presentation/cubit/categories_drop_down_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/category/data/datasources/category_local_data_source.dart';
@@ -51,6 +50,7 @@ import 'features/home/presentation/cubit/home_info_cubit.dart';
 import 'features/splash/data/datasources/splash_local_data_source.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
+import 'shared/components/components.dart';
 
 final sl = GetIt.instance;
 
@@ -198,10 +198,8 @@ void _initBlocDependencies() {
       deleteExpenseUseCase: sl(),
     ),
   );
-  sl.registerFactory<CategoriesDropDownCubit>(
-    () => CategoriesDropDownCubit(
-      categoryListUseCase: sl(),
-    ),
+  sl.registerFactory<CategoryDropdownCubit>(
+    () => CategoryDropdownCubit(categoryListUseCase: sl()),
   );
   sl.registerFactory<ReportBloc>(
     () => ReportBloc(getReportUseCase: sl()),

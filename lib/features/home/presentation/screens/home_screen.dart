@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/config/routes/app_routes.dart';
 import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
-import 'package:my_money_v3/shared/widgets/error_widget.dart' as error_widget;
 
+import '../../../../shared/shared.dart';
 import '../cubit/home_info_cubit.dart';
 import '../widgets/home_content.dart';
 
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CircularProgressIndicator(),
           );
         } else if (state is HomeInfoError) {
-          return error_widget.ErrorWidget(
+          return AppErrorWidget(
             onPress: () => _getHomeInfo(),
           );
         } else if (state is HomeInfoLoaded) {
