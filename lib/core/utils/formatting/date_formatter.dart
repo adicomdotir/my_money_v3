@@ -75,3 +75,13 @@ String getCurrentPersianDate() {
 
   return '${persianDate.year}/$month/$day';
 }
+
+/// Converts a Persian month name string to a formatted Persian month name.
+///
+/// [monthName] is the month name in format "YYYY/MM".
+String getPersianMonthNameFromString(String monthName) {
+  final dateArray = monthName.split('/');
+  final year = dateArray.first;
+  final month = int.tryParse(dateArray.last) ?? 1;
+  return '${getPersianMonthName(month - 1)} $year';
+}

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/report/presentation/widgets/linear_painter.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../../core/bloc/global_bloc.dart';
+import '../../../../../core/utils/colors/color_parser.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../config/routes/app_routes.dart';
-import '../../domain/entities/report_entity.dart';
+import '../../utils/report_chart_mapper.dart';
 import '../bloc/report_bloc.dart';
 
 class ReportScreen extends StatelessWidget {
@@ -30,7 +32,7 @@ class ReportScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          headerCard(state, index, context),
+                          _buildHeaderCard(state, index, context),
                           if (!state.showPieChart)
                             ...detailCategoryExpenseList(state, index, context),
                           if (!state.showPieChart)
@@ -46,7 +48,7 @@ class ReportScreen extends StatelessWidget {
                             ),
                           if (state.showPieChart)
                             PieChart(
-                              dataMap: pieChartDataMapper(
+                              dataMap: ReportChartMapper.pieChartDataMapper(
                                 state.reports[index].catExpneseList,
                               ),
                               chartType: ChartType.disc,
@@ -79,12 +81,13 @@ class ReportScreen extends StatelessWidget {
     int index,
     BuildContext context,
   ) {
+    final report = state.reports[index];
     return List.generate(
-      state.reports[index].catExpneseList.length,
+      report.catExpneseList.length,
       (idx) => InkWell(
         onTap: () {
-          final id = state.reports[index].catExpneseList[idx].id;
-          final fromDate = state.reports[index].monthName;
+          final id = report.catExpneseList[idx].id;
+          final fromDate = report.monthName;
           Navigator.pushNamed(
             context,
             Routes.filterExpenseRoute,
@@ -103,9 +106,7 @@ class ReportScreen extends StatelessWidget {
                 height: 24,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _getColor(
-                    state.reports[index].catExpneseList[idx].color,
-                  ),
+                  color: report.catExpneseList[idx].color.toColor(),
                 ),
               ),
               const SizedBox(
@@ -115,7 +116,7 @@ class ReportScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    state.reports[index].catExpneseList[idx].title,
+                    report.catExpneseList[idx].title,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -123,7 +124,7 @@ class ReportScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${state.reports[index].catExpneseList[idx].transactionCount} تراکنش',
+                    '${report.catExpneseList[idx].transactionCount} تراکنش',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -148,7 +149,7 @@ class ReportScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${(state.reports[index].catExpneseList[idx].percent).toStringAsFixed(1)} %',
+                    '${(report.catExpneseList[idx].percent).toStringAsFixed(1)} %',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -164,14 +165,18 @@ class ReportScreen extends StatelessWidget {
     );
   }
 
-  Row headerCard(ReportSuccesState state, int index, BuildContext context) {
+  Row _buildHeaderCard(
+    ReportSuccesState state,
+    int index,
+    BuildContext context,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           children: [
             Text(
-              _getPersianMonthName(
+              getPersianMonthNameFromString(
                 state.reports[index].monthName,
               ),
               style: const TextStyle(
@@ -197,61 +202,5 @@ class ReportScreen extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _getPersianMonthName(String monthName) {
-    final dateArray = monthName.split('/');
-    final year = dateArray.first;
-    final month = int.tryParse(dateArray.last) ?? 1;
-    return '${getPersianMonthName(month - 1)} $year';
-  }
-
-  Map<String, double> pieChartDataMapper(List<CatExpense> catExpneseList) {
-    final result = <String, double>{};
-    for (var catExpense in catExpneseList) {
-      result[catExpense.title] = catExpense.percent;
-    }
-    return result;
-  }
-}
-
-class LinearPainter extends CustomPainter {
-  final List<CatExpense> catExpenseList;
-
-  LinearPainter(this.catExpenseList);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    double lastWidth = 0;
-    for (var catExpense in catExpenseList) {
-      canvas.drawRect(
-        Rect.fromLTWH(
-          lastWidth,
-          0,
-          size.width * catExpense.percent / 100,
-          size.height,
-        ),
-        Paint()..color = _getColor(catExpense.color),
-      );
-      lastWidth += size.width * catExpense.percent / 100;
-    }
-  }
-
-  @override
-  bool shouldRepaint(LinearPainter oldDelegate) => false;
-
-  @override
-  bool shouldRebuildSemantics(LinearPainter oldDelegate) => false;
-}
-
-Color _getColor(String color) {
-  if (color.isEmpty) {
-    return Colors.black;
-  } else {
-    color = color.toUpperCase().replaceAll('#', '');
-    if (color.length == 6) {
-      color = 'FF$color';
-    }
-    return Color(int.tryParse(color, radix: 16) ?? 0);
   }
 }
