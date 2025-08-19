@@ -15,20 +15,22 @@ class ReportErrorState extends ReportState {
   const ReportErrorState({required this.message});
 }
 
-class ReportSuccesState extends ReportState {
+class ReportLoadingState extends ReportState {}
+
+class ReportSuccessState extends ReportState {
   final List<ReportEntity> reports;
   final bool showPieChart;
 
-  const ReportSuccesState({
+  const ReportSuccessState({
     required this.reports,
     required this.showPieChart,
   });
 
-  ReportSuccesState copywith({
+  ReportSuccessState copywith({
     List<ReportEntity>? reports,
     bool? showPieChart,
   }) {
-    return ReportSuccesState(
+    return ReportSuccessState(
       reports: reports ?? this.reports,
       showPieChart: showPieChart ?? this.showPieChart,
     );

@@ -27,7 +27,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     result.fold(
       (error) => emit(ReportErrorState(message: _mapFailureToMsg(error))),
       (success) =>
-          emit(ReportSuccesState(reports: success, showPieChart: false)),
+          emit(ReportSuccessState(reports: success, showPieChart: false)),
     );
   }
 
@@ -36,7 +36,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     Emitter<ReportState> emit,
   ) {
     emit(
-      (state as ReportSuccesState).copywith(showPieChart: event.type),
+      (state as ReportSuccessState).copywith(showPieChart: event.type),
     );
   }
 
