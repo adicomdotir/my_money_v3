@@ -5,7 +5,6 @@ import 'package:my_money_v3/features/report/presentation/widgets/linear_painter.
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../../core/bloc/global_bloc.dart';
-import '../../../../../core/utils/colors/color_parser.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../../utils/report_chart_mapper.dart';

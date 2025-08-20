@@ -232,7 +232,7 @@ class DatabaseHelper {
         reportMap[monthKey] = {
           'monthName': monthKey,
           'sumPrice': 0,
-          'catExpenseList': <Map<String, dynamic>>[],
+          'catExpenseList': <dynamic>[],
         };
       }
 
@@ -241,7 +241,7 @@ class DatabaseHelper {
 
       final categoryId = expense.categoryId.toString();
       final categoryExpense = monthData['catExpenseList'].firstWhere(
-        (Map<String, dynamic> element) => (element)['id'] == categoryId,
+        (element) => (element)['id'] == categoryId,
         orElse: () => null,
       );
 
