@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
-
-import '../error/failures.dart';
+import 'package:my_money_v3/lib.dart';
 
 abstract class UseCaseWithParam<Type, Params> {
   Future<Either<Failure, Type>> call(Params params);

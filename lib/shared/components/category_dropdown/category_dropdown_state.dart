@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../domain/entities/category.dart';
+import 'package:my_money_v3/lib.dart';
 
 abstract class CategoryDropdownState extends Equatable {
   const CategoryDropdownState();
@@ -33,4 +32,4 @@ class CategoryDropdownError extends CategoryDropdownState {
 
   @override
   List<Object?> get props => [message];
-} 
+}

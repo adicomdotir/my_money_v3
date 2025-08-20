@@ -1,9 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/lib.dart';
 
-import '../../../core/error/failures.dart';
-import '../../../features/category/domain/usecases/category_list_use_case.dart';
-import '../../domain/entities/category.dart';
 import 'category_dropdown_state.dart';
 
 /// Cubit for managing category dropdown state and operations

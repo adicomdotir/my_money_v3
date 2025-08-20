@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/shared/data/models/category_model.dart';
-
-import '../../widgets/common/dropdown_widget.dart';
-import '../../widgets/common/loading_widget.dart';
-import 'category_dropdown_cubit.dart';
+import 'package:my_money_v3/lib.dart';
 import 'category_dropdown_state.dart';
 
 /// A category dropdown widget that uses shared components and follows

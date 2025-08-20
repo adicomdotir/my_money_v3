@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_money_v3/config/routes/app_routes.dart';
-import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 
-import '../../../../shared/shared.dart';
-import '../cubit/home_info_cubit.dart';
-import '../widgets/home_content.dart';
+import 'package:my_money_v3/lib.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -184,18 +180,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Spacer(),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'ورژن',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          SizedBox(
-                            width: 16,
+                            'نسخه',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                           Text(
-                            '1.1.1+24',
-                            style: Theme.of(context).textTheme.titleMedium,
+                            '1.1.2+25',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ],
                       ),
