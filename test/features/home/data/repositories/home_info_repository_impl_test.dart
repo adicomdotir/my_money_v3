@@ -39,7 +39,10 @@ void main() {
     final result = await repository.getHomeInfo();
 
     // Assert
-    expect(result, equals(const Right(mockHomeInfoModel)));
+    expect(
+      result,
+      equals(const Right<Failure, HomeInfoModel>(mockHomeInfoModel)),
+    );
     verify(mockLocalDataSource.getHomeInfo()).called(1);
   });
 
@@ -52,7 +55,10 @@ void main() {
     final result = await repository.getHomeInfo();
 
     // Assert
-    expect(result, equals(Left(ServerFailure())));
+    expect(
+      result,
+      equals(const Left<ServerFailure, dynamic>(ServerFailure())),
+    );
     verify(mockLocalDataSource.getHomeInfo()).called(1);
   });
 }

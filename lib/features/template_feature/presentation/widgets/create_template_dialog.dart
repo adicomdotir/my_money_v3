@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 
 /// Dialog for creating a new template item
 class CreateTemplateDialog extends StatefulWidget {
-  final Function(String title, String description, double? amount) onSubmit;
+  final void Function(String title, String description, double? amount)
+      onSubmit;
 
   const CreateTemplateDialog({
     required this.onSubmit,

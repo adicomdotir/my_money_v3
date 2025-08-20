@@ -50,7 +50,7 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
   Widget build(BuildContext context) {
     if (ModalRoute.of(context)?.settings.arguments != null) {
       final args = ModalRoute.of(context)?.settings.arguments as Map;
-      expense = args['expense'];
+      expense = args['expense'] as Expense?;
     }
 
     final appBar = AppBar(

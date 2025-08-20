@@ -37,7 +37,7 @@ class Routes {
 class AppRoutes {
   const AppRoutes._();
 
-  static Route? onGenerateRoute(RouteSettings routeSettings) {
+  static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.initialRoute:
         return MaterialPageRoute(

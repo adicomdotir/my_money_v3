@@ -94,7 +94,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
           items: previousItems, // Restore on failure
         ),
       ),
-      (_) => {}, // Success - keep the optimistic update
+      (_) {}, // Success - keep the optimistic update
     );
   }
 
@@ -130,7 +130,7 @@ class TemplateSimpleCubit extends Cubit<TemplateSimpleState> {
           ),
         );
       },
-      (_) => {}, // Success
+      (_) {}, // Success
     );
   }
 

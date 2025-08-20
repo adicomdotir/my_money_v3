@@ -53,7 +53,7 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
   Widget build(BuildContext context) {
     if (ModalRoute.of(context)?.settings.arguments != null) {
       final args = ModalRoute.of(context)?.settings.arguments as Map;
-      category = args['category'];
+      category = args['category'] as Category?;
     }
 
     final appBar = AppBar(

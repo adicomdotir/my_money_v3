@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
-  void onCreate(BlocBase bloc) {
+  void onCreate(BlocBase<dynamic> bloc) {
     super.onCreate(bloc);
     if (kDebugMode) {
       print('onCreate -- ${bloc.runtimeType}');
@@ -11,7 +11,7 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onEvent(Bloc bloc, Object? event) {
+  void onEvent(Bloc<dynamic, dynamic> bloc, Object? event) {
     super.onEvent(bloc, event);
 
     if (kDebugMode) {
@@ -20,7 +20,7 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onChange(BlocBase bloc, Change change) {
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
     if (kDebugMode) {
       print('onChange -- ${bloc.runtimeType}, $change');
@@ -28,7 +28,10 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
     super.onTransition(bloc, transition);
     if (kDebugMode) {
       print('onTransition -- ${bloc.runtimeType}, $transition');
@@ -36,7 +39,7 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+  void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
     if (kDebugMode) {
       print('onError -- ${bloc.runtimeType}, $error');
     }
@@ -44,7 +47,7 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onClose(BlocBase bloc) {
+  void onClose(BlocBase<dynamic> bloc) {
     super.onClose(bloc);
     if (kDebugMode) {
       print('onClose -- ${bloc.runtimeType}');

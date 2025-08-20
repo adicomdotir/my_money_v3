@@ -95,7 +95,7 @@ class _HomeContentState extends State<HomeContent>
     );
   }
 
-  Container reportGeneralItem(String title, int price, context) {
+  Container reportGeneralItem(String title, int price, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(

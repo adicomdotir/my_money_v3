@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: BlocListener<HomeDrawerCubit, HomeDrawerState>(
           listener: (context, state) async {
             if (state.loading) {
-              await showDialog(
+              await showDialog<void>(
                 context: context,
                 barrierDismissible: false,
                 builder: (context) {
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showSuccessDialog(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _showErrorDialog(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

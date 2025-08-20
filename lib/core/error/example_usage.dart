@@ -8,7 +8,7 @@ class ExampleRepository {
   Future<Either<Failure, String>> fetchDataFromApi() async {
     try {
       // Simulate API call
-      await Future.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
 
       // Simulate network error
       throw NetworkException(
@@ -39,7 +39,7 @@ class ExampleRepository {
   Future<Either<Failure, List<String>>> getDataFromDatabase() async {
     try {
       // Simulate database operation
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
 
       // Simulate database error
       throw DatabaseException(
@@ -53,7 +53,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } on Exception  catch (e) {
+    } on Exception catch (e) {
       ErrorHandler.logError(e, context: 'getDataFromDatabase');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -67,7 +67,7 @@ class ExampleRepository {
   Future<Either<Failure, Map<String, dynamic>>> makeHttpRequest() async {
     try {
       // Simulate HTTP request
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future<void>.delayed(const Duration(milliseconds: 300));
 
       // Simulate 404 error
       final statusCode = 404;
@@ -83,7 +83,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } on Exception  catch (e) {
+    } on Exception catch (e) {
       ErrorHandler.logError(e, context: 'makeHttpRequest');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -123,7 +123,7 @@ class ExampleRepository {
       final failure = ErrorHandler.mapExceptionToFailure(e);
 
       return Left(failure);
-    } on Exception  catch (e) {
+    } on Exception catch (e) {
       ErrorHandler.logError(e, context: 'validateUserInput');
 
       final exception = ErrorHandler.createExceptionFromError(e);
@@ -184,8 +184,8 @@ class ExampleErrorHandling {
   /// Check if error should trigger a retry
   static bool shouldRetry(Failure failure) {
     return ErrorHandler.isNetworkError(failure) ||
-           failure.code == 'DB_RETRY' ||
-           failure.code == 'NETWORK_RETRY';
+        failure.code == 'DB_RETRY' ||
+        failure.code == 'NETWORK_RETRY';
   }
 
   /// Get retry message for user

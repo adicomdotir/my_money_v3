@@ -15,12 +15,13 @@ class ExpenseModel extends Expense {
 
   factory ExpenseModel.fromMap(Map<String, dynamic> json) {
     return ExpenseModel(
-      id: json['id'],
-      title: json['title'],
-      categoryId: json['categoryId'],
-      date: json['date'],
-      price: json['price'],
-      categoryModel: CategoryModel.fromMap(json['category']),
+      id: json['id'] as String,
+      title: json['title'] as String,
+      categoryId: json['categoryId'] as String,
+      date: json['date'] as int,
+      price: json['price'] as int,
+      categoryModel:
+          CategoryModel.fromMap(json['category'] as Map<String, dynamic>),
     );
   }
 

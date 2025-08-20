@@ -141,7 +141,7 @@ class ErrorHandler {
   }
 
   /// Creates a generic exception from any error
-  static AppException createExceptionFromError(error) {
+  static AppException createExceptionFromError(Object? error) {
     if (error is AppException) {
       return error;
     }
@@ -154,7 +154,7 @@ class ErrorHandler {
   }
 
   /// Checks if an error is a network-related error
-  static bool isNetworkError(error) {
+  static bool isNetworkError(Object? error) {
     return error is NetworkException ||
         error is ServerException ||
         error is ConnectionTimeoutException ||
@@ -162,7 +162,7 @@ class ErrorHandler {
   }
 
   /// Checks if an error is a data-related error
-  static bool isDataError(error) {
+  static bool isDataError(Object? error) {
     return error is CacheException ||
         error is DatabaseException ||
         error is DataNotFoundException ||
@@ -170,12 +170,12 @@ class ErrorHandler {
   }
 
   /// Checks if an error is an authentication error
-  static bool isAuthError(error) {
+  static bool isAuthError(Object? error) {
     return error is AuthenticationException || error is UnauthorizedException;
   }
 
   /// Gets a user-friendly error message
-  static String getUserFriendlyMessage(error) {
+  static String getUserFriendlyMessage(Object? error) {
     if (error is AppException) {
       return error.message;
     }
@@ -188,7 +188,7 @@ class ErrorHandler {
   }
 
   /// Logs error details for debugging
-  static void logError(error, {String? context}) {
+  static void logError(Object? error, {String? context}) {
     // This would typically integrate with your logging system
     // For now, we'll just print to console
     // ignore: avoid_print

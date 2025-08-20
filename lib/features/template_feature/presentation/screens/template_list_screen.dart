@@ -212,7 +212,7 @@ class _TemplateListScreenState extends State<TemplateListScreen> {
 
   void _showFilterDialog() {
     // Show filter dialog implementation
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Filter Items'),
@@ -229,7 +229,7 @@ class _TemplateListScreenState extends State<TemplateListScreen> {
   }
 
   void _showCreateDialog() {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (dialogContext) => CreateTemplateDialog(
         onSubmit: (title, description, amount) {
@@ -251,7 +251,7 @@ class _TemplateListScreenState extends State<TemplateListScreen> {
   }
 
   void _confirmDelete(String id) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete Item?'),

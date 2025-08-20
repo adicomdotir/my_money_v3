@@ -59,7 +59,8 @@ class SettingsDataSourceImpl extends SettingsDataSource {
 
     if (sharedPreferences.containsKey(AppConstants.settings)) {
       String json = sharedPreferences.getString(AppConstants.settings) ?? '';
-      final sm = SettingsModel.fromMap(jsonDecode(json));
+      final sm =
+          SettingsModel.fromMap(jsonDecode(json) as Map<String, dynamic>);
       return SettingsModel(unit: sm.unit, locale: sm.locale, themeId: themeId);
     } else {
       const sm = SettingsModel(unit: 0, locale: 'fa', themeId: -1);

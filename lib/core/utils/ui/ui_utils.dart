@@ -44,7 +44,7 @@ class UIUtils {
     required String message,
     String? title,
   }) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: Text(
@@ -97,7 +97,7 @@ class UIUtils {
     VoidCallback? onConfirm,
     VoidCallback? onCancel,
   }) {
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: Text(
@@ -157,7 +157,7 @@ class UIUtils {
     required BuildContext context,
     String message = 'لطفا صبر کنید...',
   }) {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) => CupertinoAlertDialog(

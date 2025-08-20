@@ -34,7 +34,7 @@ class ReportModel {
     final ls = List<CatExpenseModel>.from(
       (map['catExpenseList'] as List<dynamic>).map<CatExpenseModel>(
         (x) {
-          final res = CatExpenseModel.fromMap(x);
+          final res = CatExpenseModel.fromMap(x as Map<String, dynamic>);
           return res;
         },
       ),

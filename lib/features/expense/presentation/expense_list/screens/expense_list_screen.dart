@@ -155,8 +155,8 @@ class CalenderFilterWidget extends StatelessWidget {
 
   Widget subFilterBuild(
     BuildContext context,
-    Function() leftTap,
-    Function() rightTap,
+    void Function() leftTap,
+    void Function() rightTap,
     Widget widget,
   ) {
     return SizedBox(

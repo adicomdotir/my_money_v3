@@ -12,13 +12,14 @@ class HomeInfoModel extends HomeInfoEntity {
 
   factory HomeInfoModel.fromMap(Map<String, dynamic> map) => HomeInfoModel(
         expenseByCategory: List<ExpenseByCategoryModel>.from(
-          map['expenseByCategory']
-              .map((x) => ExpenseByCategoryModel.fromMap(x)),
+          (map['expenseByCategory'] as List<dynamic>).map(
+            (x) => ExpenseByCategoryModel.fromMap(x as Map<String, dynamic>),
+          ),
         ),
-        todayPrice: map['todayPrice'],
-        monthPrice: map['monthPrice'],
-        thirtyDaysPrice: map['thirtyDaysPrice'],
-        ninetyDaysPrice: map['ninetyDaysPrice'],
+        todayPrice: map['todayPrice'] as int,
+        monthPrice: map['monthPrice'] as int,
+        thirtyDaysPrice: map['thirtyDaysPrice'] as int,
+        ninetyDaysPrice: map['ninetyDaysPrice'] as int,
       );
 
   Map<String, dynamic> toMap() => {

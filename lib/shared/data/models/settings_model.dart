@@ -11,9 +11,9 @@ class SettingsModel {
 
   factory SettingsModel.fromMap(Map<String, dynamic> json) {
     return SettingsModel(
-      unit: json['unit'],
-      locale: json['locale'],
-      themeId: json['themeId'],
+      unit: json['unit'] as int,
+      locale: json['locale'] as String,
+      themeId: json['themeId'] as int,
     );
   }
 

@@ -22,7 +22,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     emit(SplashLoading());
 
     // Simulate minimum splash duration
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future<void>.delayed(const Duration(milliseconds: 2000));
 
     final result = await initializeAppUseCase.call();
 

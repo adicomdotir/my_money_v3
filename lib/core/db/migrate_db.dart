@@ -4,8 +4,8 @@ import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
 import 'package:my_money_v3/core/db/hive_models/expense_db_model.dart';
 
 Future<void> migrateData() async {
-  final oldCategoriesBox = await Hive.openBox('categories');
-  final oldExpensesBox = await Hive.openBox('expenses');
+  final oldCategoriesBox = await Hive.openBox<dynamic>('categories');
+  final oldExpensesBox = await Hive.openBox<dynamic>('expenses');
 
   final newCategoriesBox = await Hive.openBox<CategoryDbModel>('categories_v2');
   final newExpensesBox = await Hive.openBox<ExpenseDbModel>('expenses_v2');
@@ -14,10 +14,10 @@ Future<void> migrateData() async {
     // Migrate categories
     for (var oldCategory in oldCategoriesBox.values) {
       final newCategory = CategoryDbModel(
-        id: oldCategory['id'],
-        title: oldCategory['title'],
-        color: oldCategory['color'],
-        parentId: oldCategory['parentId'],
+        id: oldCategory['id'] as String,
+        title: oldCategory['title'] as String,
+        color: oldCategory['color'] as String,
+        parentId: oldCategory['parentId'] as String,
       );
       await newCategoriesBox.put(newCategory.id, newCategory);
     }
@@ -25,11 +25,11 @@ Future<void> migrateData() async {
     // Migrate expenses
     for (var oldExpense in oldExpensesBox.values) {
       final newExpense = ExpenseDbModel(
-        id: oldExpense['id'],
-        title: oldExpense['title'],
-        price: oldExpense['price'],
-        date: oldExpense['date'],
-        categoryId: oldExpense['categoryId'],
+        id: oldExpense['id'] as String,
+        title: oldExpense['title'] as String,
+        price: oldExpense['price'] as int,
+        date: oldExpense['date'] as int,
+        categoryId: oldExpense['categoryId'] as String,
       );
       await newExpensesBox.put(newExpense.id, newExpense);
     }

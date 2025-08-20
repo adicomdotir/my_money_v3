@@ -53,7 +53,6 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
             size: 20.0,
           );
         } else if (state is CategoryDropdownLoaded) {
-          print('state.categories: ${state.categories}');
           final categories = state.categories;
 
           return AppDropdownWidget<String>(

@@ -21,12 +21,14 @@ class HomeInfoLocalDataSourceImpl implements HomeInfoLocalDataSource {
   @override
   Future<HomeInfoModel> getHomeInfo() async {
     final result = await databaseHelper.getHomeInfo();
-    return HomeInfoModel.fromMap(jsonDecode(jsonEncode(result)));
+    return HomeInfoModel.fromMap(
+      jsonDecode(jsonEncode(result)) as Map<String, dynamic>,
+    );
   }
 
   @override
   Future<bool> getBackup() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future<void>.delayed(const Duration(milliseconds: 1000));
     try {
       final res = await databaseHelper.getBackup();
       await createFileInDownloadsFolder(jsonEncode(res));

@@ -12,3 +12,8 @@ git tag $version
 flutter build apk --release
 mv build/app/outputs/flutter-apk/app-release.apk build/my_money_$version.apk
 
+#storePassword=123456
+#keyPassword=123456
+#keyAlias=upload
+#storeFile=/home/yashar/AndroidStudioProjects/personal_project/my_money_v3/my-money-v3-keystore.jks
+#flutter build apk --release --dart-define-file=key.properties

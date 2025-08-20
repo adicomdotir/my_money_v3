@@ -232,7 +232,7 @@ class DatabaseHelper {
         reportMap[monthKey] = {
           'monthName': monthKey,
           'sumPrice': 0,
-          'catExpenseList': [],
+          'catExpenseList': <Map<String, dynamic>>[],
         };
       }
 
@@ -241,7 +241,7 @@ class DatabaseHelper {
 
       final categoryId = expense.categoryId.toString();
       final categoryExpense = monthData['catExpenseList'].firstWhere(
-        (element) => element['id'] == categoryId,
+        (Map<String, dynamic> element) => (element)['id'] == categoryId,
         orElse: () => null,
       );
 
@@ -267,7 +267,9 @@ class DatabaseHelper {
         catExpense['percent'] =
             (catExpense['price'] / monthData['sumPrice']) * 100;
       }
-      catExpenses.sort((a, b) => b['price'] - a['price']);
+      catExpenses.sort(
+        (a, b) => (b['price'] as num).toInt() - (a['price'] as num).toInt(),
+      );
     }
 
     return reportList;
