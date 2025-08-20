@@ -5,7 +5,8 @@ import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/bloc/global_bloc.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../../shared/domain/entities/expense.dart';
-import '../cubit/expense_cubit.dart';
+import '../../../../../shared/widgets/confirm_dialog.dart';
+import '../../../../expense/presentation/expense_list/cubit/expense_cubit.dart';
 
 class ExpenseListContent extends StatefulWidget {
   final List<Expense> expenses;
@@ -146,29 +147,4 @@ class ExpenseCard extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<bool?> showDeleteDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        content: Text('ایا برای حذف ایتم مطمئن هستید؟'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-            child: Text('بله'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-            child: Text('خیر'),
-          ),
-        ],
-      );
-    },
-  );
 }

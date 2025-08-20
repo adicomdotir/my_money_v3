@@ -3,7 +3,7 @@ import 'package:my_money_v3/shared/data/models/expense_model.dart';
 
 abstract class FilterExpenseLocalDataSource {
   Future<List<ExpenseModel>> getExpenses([
-    int? jalali,
+    int? fromDate,
     int? toDate,
     String? categoryId,
   ]);

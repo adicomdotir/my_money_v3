@@ -31,7 +31,7 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text('فیلتر'),
+      title: const Text('فیلتر'),
     );
     return Scaffold(
       appBar: appBar,
@@ -43,28 +43,65 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
     return BlocConsumer<FilterExpneseBloc, FilterExpenseState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is FilterExpenseLoaded) {
-          return _showListView(state.expenses);
-        } else if (state is FilterExpenseInitial) {
-          return Center(
+        if (state is FilterExpenseLoading) {
+          return const Center(
             child: CircularProgressIndicator(),
           );
+        } else if (state is FilterExpenseLoaded) {
+          return _showListView(state.expenses);
+        } else if (state is FilterExpenseError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  size: 64,
+                  color: Colors.red,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  state.message,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<FilterExpneseBloc>(context)
+                        .add(GetFilterExpenseEvent(widget.id, widget.fromDate));
+                  },
+                  child: const Text('تلاش مجدد'),
+                ),
+              ],
+            ),
+          );
         } else {
-          return Text('Error: unknown state');
+          return const Center(
+            child: Text('وضعیت نامشخص'),
+          );
         }
       },
     );
   }
 
   Widget _showListView(List<Expense> expenses) {
+    if (expenses.isEmpty) {
+      return const Center(
+        child: Text('هیچ هزینه‌ای یافت نشد'),
+      );
+    }
+
     final unit = context.read<GlobalBloc>().state.settings.unit;
+    final categoryTitle = expenses.first.category?.title ?? 'نامشخص';
+
     return Column(
       children: [
         SizedBox(
           height: 56,
           child: Center(
             child: Text(
-              expenses.first.category?.title ?? 'Error',
+              categoryTitle,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),

@@ -22,27 +22,32 @@ class FilterExpneseBloc extends Bloc<FilterExpenseEvent, FilterExpenseState> {
     GetFilterExpenseEvent event,
     Emitter<FilterExpenseState> emit,
   ) async {
-    Jalali fromDate = Jalali.now();
-    fromDate = Jalali(fromDate.year, fromDate.month, 1);
-    if (event.fromDate != null) {
-      final date = event.fromDate?.split('/');
-      fromDate = Jalali(int.parse(date![0]), int.parse(date[1]));
+    try {
+      emit(FilterExpenseLoading());
+
+      Jalali fromDate = Jalali.now();
+      fromDate = Jalali(fromDate.year, fromDate.month, 1);
+      if (event.fromDate != null) {
+        final date = event.fromDate?.split('/');
+        fromDate = Jalali(int.parse(date![0]), int.parse(date[1]));
+      }
+      Jalali toDate = Jalali.now();
+      toDate = fromDate.addMonths(1);
+
+      final res = await getFilterExpenseUseCase.call(
+        GetFilterExpenseParams(
+          fromDate.toDateTime().millisecondsSinceEpoch,
+          toDate.toDateTime().millisecondsSinceEpoch,
+          event.categoryId,
+        ),
+      );
+
+      res.fold(
+        (failure) => emit(FilterExpenseError('خطا در بارگذاری داده‌ها')),
+        (success) => emit(FilterExpenseLoaded(expenses: success)),
+      );
+    } on Exception catch (e) {
+      emit(FilterExpenseError('خطای غیرمنتظره: ${e.toString()}'));
     }
-    Jalali toDate = Jalali.now();
-    toDate = fromDate.addMonths(1);
-
-    emit(FilterExpenseInitial());
-
-    final res = await getFilterExpenseUseCase.call(
-      GetFilterExpenseParams(
-        fromDate.toDateTime().millisecondsSinceEpoch,
-        toDate.toDateTime().millisecondsSinceEpoch,
-        event.categoryId,
-      ),
-    );
-    res.fold(
-      (failure) => emit(FilterExpenseInitial()),
-      (success) => emit(FilterExpenseLoaded(expenses: success)),
-    );
   }
 }

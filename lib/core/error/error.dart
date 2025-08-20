@@ -1,4 +1,5 @@
-// Export all error-related classes for easier imports
+// Error handling barrel file
+export 'error.dart';
 export 'error_handler.dart';
 export 'exceptions.dart';
 export 'failures.dart';

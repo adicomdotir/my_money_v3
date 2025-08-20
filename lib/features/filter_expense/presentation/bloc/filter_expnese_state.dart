@@ -9,6 +9,8 @@ sealed class FilterExpenseState extends Equatable {
 
 final class FilterExpenseInitial extends FilterExpenseState {}
 
+final class FilterExpenseLoading extends FilterExpenseState {}
+
 final class FilterExpenseLoaded extends FilterExpenseState {
   final List<Expense> expenses;
 
@@ -17,4 +19,13 @@ final class FilterExpenseLoaded extends FilterExpenseState {
   });
   @override
   List<Object> get props => [expenses];
+}
+
+final class FilterExpenseError extends FilterExpenseState {
+  final String message;
+
+  const FilterExpenseError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }

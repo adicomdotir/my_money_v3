@@ -5,6 +5,7 @@ import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../features/category/presentation/cubit/category_cubit.dart';
 import '../../../../shared/domain/entities/category.dart';
+import '../../../../shared/widgets/confirm_dialog.dart';
 
 class CategoryListContent extends StatefulWidget {
   final List<Category> categories;
@@ -110,29 +111,4 @@ class CategoryCard extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<bool?> showDeleteDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        content: Text('ایا برای حذف ایتم مطمئن هستید؟'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-            child: Text('بله'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-            child: Text('خیر'),
-          ),
-        ],
-      );
-    },
-  );
 }
