@@ -33,8 +33,12 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
     super.initState();
     selectedDate = Jalali.now();
     if (widget.expense != null) {
+      int newPrice = widget.expense!.price;
+      if (BlocProvider.of<GlobalBloc>(context).state.settings.unit == 1) {
+        newPrice = newPrice * 10;
+      }
       _titleCtrl.text = widget.expense!.title;
-      _priceCtrl.text = addThousandsSeparator(widget.expense!.price.toString());
+      _priceCtrl.text = addThousandsSeparator(newPrice.toString());
       selectedCategoryId = widget.expense!.categoryId;
       selectedDate = Jalali.fromDateTime(
         DateTime.fromMillisecondsSinceEpoch(widget.expense!.date),
@@ -218,7 +222,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                           .settings
                           .unit ==
                       1) {
-                    newPrice = (newPrice / 10) as int;
+                    newPrice = (newPrice / 10).toInt();
                   }
                   final expense = Expense(
                     id: widget.expense!.id,
