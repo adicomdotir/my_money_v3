@@ -34,7 +34,7 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
     selectedDate = Jalali.now();
     if (widget.expense != null) {
       _titleCtrl.text = widget.expense!.title;
-      _priceCtrl.text = widget.expense!.price.toString();
+      _priceCtrl.text = addThousandsSeparator(widget.expense!.price.toString());
       selectedCategoryId = widget.expense!.categoryId;
       selectedDate = Jalali.fromDateTime(
         DateTime.fromMillisecondsSinceEpoch(widget.expense!.date),
@@ -75,9 +75,21 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   child: TextField(
                     controller: _priceCtrl,
                     keyboardType: TextInputType.number,
+                    onAppPrivateCommand: (action, data) {
+                      print('onApp');
+                    },
+                    onChanged: (value) {
+                      print('onChanged');
+                    },
+                    onEditingComplete: () {
+                      print('onEditingComplete');
+                    },
+                    onSubmitted: (value) {
+                      print('onSubmitted');
+                    },
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      NumericOnlyFormatter(),
+                      NumericTextFormatter(),
                     ],
                     decoration: InputDecoration(
                       border: OutlineInputBorder(

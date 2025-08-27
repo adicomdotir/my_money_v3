@@ -38,7 +38,6 @@ class NumericOnlyFormatter extends TextInputFormatter {
   ) {
     // Remove any non-numeric characters
     final filtered = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
-
     return TextEditingValue(
       text: filtered,
       selection: TextSelection.collapsed(offset: filtered.length),

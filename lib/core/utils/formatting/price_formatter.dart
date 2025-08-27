@@ -4,7 +4,7 @@ import '../constants/app_constants.dart';
 /// and the appropriate price sign based on the unit setting.
 ///
 /// [price] is the price value to format.
-/// [unit] is the currency unit (0 for تومان, 1 for ریال).
+/// [unit] is the currency unit (0 for toman and 1 for rial).
 ///
 /// Returns the formatted price as a [String].
 String formatPrice(int price, int unit) {
@@ -13,7 +13,7 @@ String formatPrice(int price, int unit) {
   }
 
   final unitText = getCurrencyUnit(unit);
-  final formattedNumber = _addThousandsSeparator(price.toString());
+  final formattedNumber = addThousandsSeparator(price.toString());
 
   return '$formattedNumber $unitText';
 }
@@ -32,7 +32,7 @@ String getCurrencyUnit(int unit) {
 /// [numberString] is the number as a string.
 ///
 /// Returns the formatted number string with commas.
-String _addThousandsSeparator(String numberString) {
+String addThousandsSeparator(String numberString) {
   final len = numberString.length;
   final buffer = StringBuffer();
 
@@ -52,5 +52,5 @@ String _addThousandsSeparator(String numberString) {
 ///
 /// Returns the formatted price as a [String].
 String formatPriceOnly(int price) {
-  return _addThousandsSeparator(price.toString());
+  return addThousandsSeparator(price.toString());
 }
