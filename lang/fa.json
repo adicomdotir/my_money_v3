@@ -29,5 +29,9 @@
     "date": "تاریخ",
     "update": "بروزرسانی",
     "edit_expense": "ویرایش هزینه",
-    "edit_category": "ویرایش دسته"
+    "edit_category": "ویرایش دسته",
+    "pick_icon": "انتخاب آیکون",
+    "search": "جستجو...",
+    "pick_color": "انتخاب رنگ",
+    "pick_icon_title": "آیکون مورد نظر را انتخاب کنید"
 }

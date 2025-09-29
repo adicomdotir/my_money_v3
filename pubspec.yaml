@@ -42,6 +42,7 @@ flutter:
     - lang/fa.json
     - lang/en.json
     - assets/images/logo.png
+    - assets/expense_categories/expense_categories/
 
   fonts:
     - family: Vazir

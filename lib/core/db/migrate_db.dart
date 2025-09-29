@@ -18,6 +18,7 @@ Future<void> migrateData() async {
         title: oldCategory['title'] as String,
         color: oldCategory['color'] as String,
         parentId: oldCategory['parentId'] as String,
+        iconKey: (oldCategory['iconKey'] as String?) ?? 'ic_other',
       );
       await newCategoriesBox.put(newCategory.id, newCategory);
     }

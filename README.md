@@ -27,3 +27,15 @@
     <td><img src="https://raw.github.com/adicomdotir/my_money_v3/main/screenshots/4.png"  width="100%" height="100%"></td>
   </tr>
  </table>
+
+## Category Icons
+
+- Each category now has an `iconKey` stored alongside `id`, `parentId`, `title`, and `color`.
+- Icons are selected from bundled assets under `assets/expense_categories/expense_categories/`.
+- Add/Edit Category screen includes an icon picker with search and preview.
+- Category dropdown renders icons next to names.
+- Backward compatibility: existing data without `iconKey` defaults to `ic_other`; migration backfills it.
+
+Developer notes:
+- Add new icons by placing PNGs in the folder and adding their keys to `IconCatalog.allIconKeys`.
+- Default icon key is `ic_other`.

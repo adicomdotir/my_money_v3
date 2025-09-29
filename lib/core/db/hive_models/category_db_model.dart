@@ -11,6 +11,7 @@ class CategoryDbModel {
     required this.parentId,
     required this.title,
     required this.color,
+    required this.iconKey,
   });
 
   @HiveField(0)
@@ -21,9 +22,11 @@ class CategoryDbModel {
   final String title;
   @HiveField(3)
   final String color;
+  @HiveField(4)
+  final String iconKey;
 
-  CategoryModel toCategoryModel() =>
-      CategoryModel(id: id, parentId: parentId, title: title, color: color);
+  CategoryModel toCategoryModel() => CategoryModel(
+      id: id, parentId: parentId, title: title, color: color, iconKey: iconKey);
 }
 
 extension Mapper on CategoryModel {
@@ -33,6 +36,7 @@ extension Mapper on CategoryModel {
       parentId: parentId,
       title: title,
       color: color,
+      iconKey: iconKey,
     );
   }
 }

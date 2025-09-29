@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/lib.dart';
+
+import '../../utils/icon_catalog.dart';
 import 'category_dropdown_state.dart';
 
 /// A category dropdown widget that uses shared components and follows
@@ -62,6 +64,32 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
             allowEmpty: true,
             emptyText: 'انتخاب کنید',
             emptyValue: '',
+            itemBuilder: (id) {
+              if (id.isEmpty) {
+                return const SizedBox();
+              }
+              final category = categories.firstWhere(
+                (cat) => cat.id == id,
+                orElse: () => const CategoryModel(
+                  id: '',
+                  parentId: '',
+                  title: '',
+                  color: '',
+                  iconKey: 'ic_other',
+                ),
+              );
+              return Row(
+                children: [
+                  Image.asset(
+                    IconCatalog.assetFor(category.iconKey),
+                    width: 20,
+                    height: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(category.title)),
+                ],
+              );
+            },
             itemToString: (id) {
               if (id.isEmpty) {
                 return '';
@@ -73,6 +101,7 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
                   parentId: '',
                   title: '',
                   color: '',
+                  iconKey: 'ic_other',
                 ),
               );
               return category.title;

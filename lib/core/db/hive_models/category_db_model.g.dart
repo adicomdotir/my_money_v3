@@ -21,13 +21,14 @@ class CategoryDbModelAdapter extends TypeAdapter<CategoryDbModel> {
       parentId: fields[1] as String,
       title: fields[2] as String,
       color: fields[3] as String,
+      iconKey: (fields[4] as String?) ?? 'ic_other',
     );
   }
 
   @override
   void write(BinaryWriter writer, CategoryDbModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class CategoryDbModelAdapter extends TypeAdapter<CategoryDbModel> {
       ..writeByte(2)
       ..write(obj.title)
       ..writeByte(3)
-      ..write(obj.color);
+      ..write(obj.color)
+      ..writeByte(4)
+      ..write(obj.iconKey);
   }
 
   @override
