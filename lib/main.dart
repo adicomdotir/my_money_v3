@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'injection_container.dart' as di;
@@ -19,9 +18,6 @@ Future<void> main() async {
 
     // Initialize dependencies
     await di.init();
-
-    // Set up bloc observer
-    Bloc.observer = AppBlocObserver();
 
     runApp(const MyMoneyApp());
   } catch (e) {

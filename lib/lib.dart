@@ -1,6 +1,7 @@
 // Main barrel file for the application
 export 'app.dart';
-export 'bloc_observer.dart';
+// Config
+export 'config/config.dart';
 // Core modules
 export 'core/core.dart';
 // Feature modules
@@ -9,5 +10,3 @@ export 'injection_container.dart';
 export 'main.dart';
 // Shared modules
 export 'shared/shared.dart';
-// Config
-export 'config/config.dart';

@@ -79,18 +79,6 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   child: TextField(
                     controller: _priceCtrl,
                     keyboardType: TextInputType.number,
-                    onAppPrivateCommand: (action, data) {
-                      print('onApp');
-                    },
-                    onChanged: (value) {
-                      print('onChanged');
-                    },
-                    onEditingComplete: () {
-                      print('onEditingComplete');
-                    },
-                    onSubmitted: (value) {
-                      print('onSubmitted');
-                    },
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       NumericTextFormatter(),
