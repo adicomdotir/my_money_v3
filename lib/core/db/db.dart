@@ -140,6 +140,11 @@ class DatabaseHelper {
         })
         .where((element) => element != null)
         .toList();
+    expensesByCategory.sort((a, b) {
+      final int priceA = a?['price'] as int? ?? 0;
+      final int priceB = b?['price'] as int? ?? 0;
+      return priceB - priceA;
+    });
 
     // Calculate today's expenses
     final todayExpenses = expenses.values.where((expense) {
