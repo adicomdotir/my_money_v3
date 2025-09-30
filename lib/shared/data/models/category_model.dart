@@ -6,14 +6,16 @@ class CategoryModel extends Category {
     required super.parentId,
     required super.title,
     required super.color,
+    required super.iconKey,
   });
 
   factory CategoryModel.fromMap(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'] as String,
-      parentId: json['parentId'] as String,
+      parentId: (json['parentId'] as String?) ?? '',
       title: json['title'] as String,
       color: json['color'] as String,
+      iconKey: (json['iconKey'] as String?) ?? 'ic_other',
     );
   }
 
@@ -22,5 +24,6 @@ class CategoryModel extends Category {
         'parentId': parentId,
         'title': title,
         'color': color,
+        'iconKey': iconKey,
       };
 }

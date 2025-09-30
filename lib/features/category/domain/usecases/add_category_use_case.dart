@@ -20,6 +20,7 @@ class AddCategoryUseCase implements UseCaseWithParam<String, CategoryParams> {
           parentId: params.category.parentId,
           title: params.category.title,
           color: params.category.color,
+          iconKey: params.category.iconKey,
         ),
       );
 }

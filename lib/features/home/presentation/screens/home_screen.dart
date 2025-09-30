@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:my_money_v3/lib.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -193,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                           ),
                           Text(
-                            '1.1.2+25',
+                            '1.1.2+26',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium

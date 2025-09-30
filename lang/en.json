@@ -29,5 +29,9 @@
     "date": "Date",
     "update": "Update",
     "edit_expense": "Edit Expense",
-    "edit_category": "Edit Category"
+    "edit_category": "Edit Category",
+    "pick_icon": "Pick Icon",
+    "search": "Search...",
+    "pick_color": "Pick Color",
+    "pick_icon_title": "Select an icon"
 }

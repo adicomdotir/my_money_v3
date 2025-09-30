@@ -5,6 +5,7 @@ import '../../../../core/utils/utils.dart';
 import '../../../../features/category/presentation/cubit/category_cubit.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/domain/entities/category.dart';
+import '../../../../shared/utils/icon_catalog.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
@@ -22,12 +23,14 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   final TextEditingController _controller = TextEditingController();
   String colorStr = '';
   String? parentId;
+  String iconKey = IconCatalog.defaultIconKey;
 
   @override
   void initState() {
     _controller.text = widget.category?.title ?? '';
     parentId = widget.category?.parentId;
     colorStr = widget.category?.color ?? '';
+    iconKey = widget.category?.iconKey ?? IconCatalog.defaultIconKey;
     super.initState();
   }
 
@@ -50,7 +53,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelText: '',
+                labelText: 'عنوان',
               ),
             ),
             const SizedBox(
@@ -67,6 +70,12 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             ),
             Row(
               children: [
+                Image.asset(
+                  IconCatalog.assetFor(iconKey),
+                  width: 40,
+                  height: 40,
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -104,6 +113,18 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     'انتخاب رنگ',
                   ),
                 ),
+                const SizedBox(width: 12),
+                TextButton(
+                  onPressed: () async {
+                    final picked = await iconDialog(context, initial: iconKey);
+                    if (picked != null) {
+                      setState(() {
+                        iconKey = picked;
+                      });
+                    }
+                  },
+                  child: const Text('انتخاب آیکون'),
+                ),
               ],
             ),
             const SizedBox(
@@ -128,6 +149,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
+                    iconKey: iconKey,
                   );
                   context.read<CategoryCubit>().addCategory(tmpCategory);
                 } else {
@@ -136,6 +158,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
+                    iconKey: iconKey,
                   );
                   context.read<CategoryCubit>().editCategory(tmpCategory);
                 }
@@ -185,6 +208,58 @@ Future<String?> colorDialog(BuildContext context) {
             ),
           ],
         ),
+      );
+    },
+  );
+}
+
+Future<String?> iconDialog(BuildContext context, {String? initial}) {
+  return showDialog<String>(
+    context: context,
+    builder: (_) {
+      String query = '';
+      final keys = IconCatalog.allIconKeys;
+      return StatefulBuilder(
+        builder: (context, setState) {
+          final filtered = keys
+              .where((k) => k.toLowerCase().contains(query.toLowerCase()))
+              .toList();
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('آیکون مورد نظر را انتخاب کنید'),
+                const SizedBox(height: 8),
+                TextField(
+                  decoration: const InputDecoration(hintText: 'جستجو...'),
+                  onChanged: (v) => setState(() => query = v),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 300,
+                  width: 260,
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                    ),
+                    itemCount: filtered.length,
+                    itemBuilder: (_, index) {
+                      final key = filtered[index];
+                      return GestureDetector(
+                        onTap: () => Navigator.of(context).pop(key),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Image.asset(IconCatalog.assetFor(key)),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       );
     },
   );
