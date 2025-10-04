@@ -5,7 +5,6 @@ import '../../../../config/routes/app_routes.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../features/category/presentation/cubit/category_cubit.dart';
 import '../../../../shared/domain/entities/category.dart';
-import '../../../../shared/utils/icon_catalog.dart';
 import '../../../../shared/widgets/confirm_dialog.dart';
 
 class CategoryListContent extends StatefulWidget {
@@ -86,12 +85,12 @@ class CategoryCard extends StatelessWidget {
                         const SizedBox(
                           width: 16,
                         ),
-                        Image.asset(
-                          IconCatalog.assetFor(category.iconKey),
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(width: 12),
+                        // Image.asset(
+                        //   IconCatalog.assetFor(category.iconKey),
+                        //   width: 24,
+                        //   height: 24,
+                        // ),
+                        // const SizedBox(width: 12),
                         Text(category.title),
                       ],
                     ),

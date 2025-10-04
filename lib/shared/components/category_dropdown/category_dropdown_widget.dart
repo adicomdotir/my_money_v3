@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/lib.dart';
 
-import '../../utils/icon_catalog.dart';
 import 'category_dropdown_state.dart';
 
 /// A category dropdown widget that uses shared components and follows
@@ -80,12 +79,11 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
               );
               return Row(
                 children: [
-                  Image.asset(
-                    IconCatalog.assetFor(category.iconKey),
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(width: 8),
+                  // Icon(
+                  //   category.iconKey as IconData,
+                  //   size: 20,
+                  // ),
+                  // const SizedBox(width: 8),
                   Expanded(child: Text(category.title)),
                 ],
               );

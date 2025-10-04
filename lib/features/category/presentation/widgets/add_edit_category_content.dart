@@ -23,14 +23,15 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   final TextEditingController _controller = TextEditingController();
   String colorStr = '';
   String? parentId;
-  String iconKey = IconCatalog.defaultIconKey;
+  IconData iconKey = IconCatalog.defaultIconKey;
 
   @override
   void initState() {
     _controller.text = widget.category?.title ?? '';
     parentId = widget.category?.parentId;
     colorStr = widget.category?.color ?? '';
-    iconKey = widget.category?.iconKey ?? IconCatalog.defaultIconKey;
+    iconKey =
+        widget.category?.iconKey as IconData? ?? IconCatalog.defaultIconKey;
     super.initState();
   }
 
@@ -70,10 +71,9 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             ),
             Row(
               children: [
-                Image.asset(
-                  IconCatalog.assetFor(iconKey),
-                  width: 40,
-                  height: 40,
+                Icon(
+                  iconKey,
+                  size: 24,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -149,7 +149,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
-                    iconKey: iconKey,
+                    iconKey: iconKey.toString(),
                   );
                   context.read<CategoryCubit>().addCategory(tmpCategory);
                 } else {
@@ -158,7 +158,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
-                    iconKey: iconKey,
+                    iconKey: iconKey.toString(),
                   );
                   context.read<CategoryCubit>().editCategory(tmpCategory);
                 }
@@ -213,16 +213,18 @@ Future<String?> colorDialog(BuildContext context) {
   );
 }
 
-Future<String?> iconDialog(BuildContext context, {String? initial}) {
-  return showDialog<String>(
+Future<IconData?> iconDialog(BuildContext context, {IconData? initial}) {
+  return showDialog<IconData>(
     context: context,
     builder: (_) {
       String query = '';
-      final keys = IconCatalog.allIconKeys;
+      final keys = IconCatalog.allIcons;
       return StatefulBuilder(
         builder: (context, setState) {
           final filtered = keys
-              .where((k) => k.toLowerCase().contains(query.toLowerCase()))
+              .where(
+                (k) => k.toString().toLowerCase().contains(query.toLowerCase()),
+              )
               .toList();
           return AlertDialog(
             content: Column(
@@ -250,7 +252,7 @@ Future<String?> iconDialog(BuildContext context, {String? initial}) {
                         onTap: () => Navigator.of(context).pop(key),
                         child: Padding(
                           padding: const EdgeInsets.all(6.0),
-                          child: Image.asset(IconCatalog.assetFor(key)),
+                          child: Icon(key),
                         ),
                       );
                     },
