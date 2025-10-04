@@ -67,10 +67,10 @@ class AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: ((context) => di.sl<AddEditExpenseCubit>()),
+                  create: (context) => di.sl<AddEditExpenseCubit>(),
                 ),
                 BlocProvider(
-                  create: ((context) => di.sl<CategoryDropdownCubit>()),
+                  create: (context) => di.sl<CategoryDropdownCubit>(),
                 ),
               ],
               child: const AddEditExpenseScreen(),
@@ -84,10 +84,10 @@ class AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: ((context) => di.sl<CategoryCubit>()),
+                  create: (context) => di.sl<CategoryCubit>(),
                 ),
                 BlocProvider(
-                  create: ((context) => di.sl<CategoryDropdownCubit>()),
+                  create: (context) => di.sl<CategoryDropdownCubit>(),
                 ),
               ],
               child: const AddEditCategoryScreen(),
@@ -97,30 +97,30 @@ class AppRoutes {
         );
       case Routes.expenseListRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return BlocProvider(
-              create: ((context) => di.sl<ExpenseCubit>()),
+              create: (context) => di.sl<ExpenseCubit>(),
               child: const ExpenseListScreen(),
             );
-          }),
+          },
         );
       case Routes.categoryListRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return BlocProvider(
-              create: ((context) => di.sl<CategoryCubit>()),
+              create: (context) => di.sl<CategoryCubit>(),
               child: const CategoryListScreen(),
             );
-          }),
+          },
         );
       case Routes.reportRoute:
         return MaterialPageRoute(
-          builder: ((context) {
+          builder: (context) {
             return BlocProvider(
               create: (context) => di.sl<ReportBloc>(),
               child: const ReportScreen(),
             );
-          }),
+          },
         );
       case Routes.settingsRoute:
         return MaterialPageRoute(
