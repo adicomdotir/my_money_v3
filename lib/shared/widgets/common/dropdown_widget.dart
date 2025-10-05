@@ -18,6 +18,7 @@ class AppDropdownWidget<T> extends StatelessWidget {
   final bool allowEmpty;
   final String? emptyText;
   final T? emptyValue;
+  final InputDecoration? decoration;
 
   const AppDropdownWidget({
     required this.items,
@@ -36,6 +37,7 @@ class AppDropdownWidget<T> extends StatelessWidget {
     this.contentPadding,
     this.emptyText,
     this.emptyValue,
+    this.decoration,
   });
 
   @override
@@ -60,38 +62,39 @@ class AppDropdownWidget<T> extends StatelessWidget {
           const SizedBox(height: 8),
         ],
         InputDecorator(
-          decoration: InputDecoration(
-            contentPadding: contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: isError
-                    ? Theme.of(context).colorScheme.error
-                    : Theme.of(context).colorScheme.outline,
+          decoration: decoration ??
+              InputDecoration(
+                contentPadding: contentPadding ??
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  borderSide: BorderSide(
+                    color: isError
+                        ? Theme.of(context).colorScheme.error
+                        : Theme.of(context).colorScheme.outline,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2.0,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+                errorText: errorText,
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outline,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
-                width: 2.0,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
-            errorText: errorText,
-          ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<T?>(
               value: value,

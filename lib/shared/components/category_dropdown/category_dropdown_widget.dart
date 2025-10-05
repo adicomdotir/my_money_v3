@@ -53,9 +53,26 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
           final categories = state.categories;
 
           return AppDropdownWidget<String>(
+            // در AppDropdownWidget این استایل‌ها رو داشته باشه:
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.grey[400]!),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.grey[400]!),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            ),
             value: selectedId,
             items: categories.map((category) => category.id).toList(),
-            labelText: widget.labelText ?? 'دسته',
+            labelText: widget.labelText ?? 'دسته‌بندی',
             hintText: widget.hintText ?? 'انتخاب کنید',
             isRequired: widget.isRequired,
             isError: widget.isError,
@@ -65,8 +82,15 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
             emptyValue: '',
             itemBuilder: (id) {
               if (id.isEmpty) {
-                return const SizedBox();
+                return Container(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    'انتخاب کنید',
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
+                );
               }
+
               final category = categories.firstWhere(
                 (cat) => cat.id == id,
                 orElse: () => const CategoryModel(
@@ -77,18 +101,35 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
                   iconKey: 'ic_other',
                 ),
               );
-              return Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: HexColor(category.color),
-                      shape: BoxShape.circle,
+
+              return Container(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: HexColor(category.color),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                          width: 1,
+                        ),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(12),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(category.title)),
-                ],
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        category.title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
             itemToString: (id) {
@@ -105,6 +146,7 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
                   iconKey: 'ic_other',
                 ),
               );
+
               return category.title;
             },
             onChanged: (String? newValue) {
@@ -115,29 +157,42 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
             },
           );
         } else if (state is CategoryDropdownError) {
-          return Column(
-            children: [
-              const Icon(
-                Icons.error_outline,
-                color: Colors.red,
-                size: 24,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'خطا در بارگذاری دسته‌ها',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  BlocProvider.of<CategoryDropdownCubit>(context)
-                      .getCategories();
-                },
-                child: const Text('تلاش مجدد'),
-              ),
-            ],
+          return Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.error_outline_rounded,
+                  color: Colors.red,
+                  size: 32,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'خطا در بارگذاری دسته‌ها',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 8),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    BlocProvider.of<CategoryDropdownCubit>(context)
+                        .getCategories();
+                  },
+                  icon: Icon(Icons.refresh),
+                  label: Text('تلاش مجدد'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red[50],
+                    foregroundColor: Colors.red,
+                  ),
+                ),
+              ],
+            ),
           );
         }
 

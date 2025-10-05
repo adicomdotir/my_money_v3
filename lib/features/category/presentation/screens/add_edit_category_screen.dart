@@ -57,7 +57,26 @@ class _AddEditCategoryScreenState extends State<AddEditCategoryScreen> {
     }
 
     final appBar = AppBar(
-      title: category == null ? Text('دسته جدید') : Text('ویرایش دسته'),
+      title: Row(
+        textDirection: TextDirection.rtl,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            category == null ? Icons.add_circle_outline : Icons.edit_note,
+            size: 24,
+          ),
+          SizedBox(width: 8),
+          Text(category == null ? 'دسته جدید' : 'ویرایش دسته'),
+        ],
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(16),
+        ),
+      ),
     );
     return Scaffold(
       appBar: appBar,

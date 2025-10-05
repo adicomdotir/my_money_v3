@@ -54,11 +54,14 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelText: 'عنوان',
+                labelText: 'عنوان دسته‌بندی',
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 16, vertical: 18),
               ),
+              style: TextStyle(fontSize: 16),
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             CategoryDropdownWidget(
               value: widget.category?.parentId ?? '',
@@ -67,86 +70,147 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
               },
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             Row(
               children: [
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color:
-                          colorStr.isEmpty ? Colors.white : HexColor(colorStr),
+                      borderRadius: BorderRadius.circular(16),
+                      color: colorStr.isEmpty
+                          ? Colors.grey[200]
+                          : HexColor(colorStr),
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                        width: 2,
+                      ),
                     ),
-                    height: 48,
-                    child: colorStr.isEmpty == false
-                        ? Center(
-                            child: Text(
-                              colorStr,
+                    height: 56,
+                    child: Center(
+                      child: colorStr.isEmpty
+                          ? Text(
+                              'رنگی انتخاب نشده',
                               style: TextStyle(
-                                color: AppColors.getOppositeColor(colorStr),
-                                fontFamily: 'Roboto',
+                                color: Colors.grey[600],
+                                fontSize: 14,
                               ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: HexColor(colorStr),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color:
+                                          AppColors.getOppositeColor(colorStr),
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'رنگ انتخاب شده',
+                                  style: TextStyle(
+                                    color: AppColors.getOppositeColor(colorStr),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                        : const SizedBox(),
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  width: 24,
-                ),
-                TextButton(
-                  onPressed: () async {
-                    final result = await colorDialog(context);
-                    if (result != null) {
-                      setState(() {
-                        colorStr = result;
-                      });
-                    }
-                  },
-                  child: const Text(
-                    'انتخاب رنگ',
+                SizedBox(width: 16),
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      final result = await colorDialog(context);
+                      if (result != null) {
+                        setState(() {
+                          colorStr = result;
+                        });
+                      }
+                    },
+                    icon: Icon(Icons.color_lens),
+                    label: Text('انتخاب رنگ'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (_validateCategory(_controller.text) == false) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'لطفا عنوان را وارد کنید',
-                        style: TextStyle(fontFamily: 'Vazir'),
+            SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_validateCategory(_controller.text) == false) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(Icons.warning_amber, color: Colors.white),
+                            SizedBox(width: 8),
+                            Text('لطفا عنوان دسته‌بندی را وارد کنید'),
+                          ],
+                        ),
+                        backgroundColor: Colors.red[600],
+                        behavior: SnackBarBehavior.floating,
                       ),
-                    ),
-                  );
-                  return;
-                }
-                if (widget.category == null) {
-                  final tmpCategory = Category(
-                    id: IDGenerator.generateUUID(),
-                    parentId: parentId ?? '',
-                    title: _controller.text,
-                    color: colorStr,
-                    iconKey: '',
-                  );
-                  context.read<CategoryCubit>().addCategory(tmpCategory);
-                } else {
-                  final tmpCategory = Category(
-                    id: widget.category!.id,
-                    parentId: parentId ?? '',
-                    title: _controller.text,
-                    color: colorStr,
-                    iconKey: '',
-                  );
-                  context.read<CategoryCubit>().editCategory(tmpCategory);
-                }
-              },
-              child: widget.category == null ? Text('ذخیره') : Text('اپدیت'),
+                    );
+                    return;
+                  }
+                  // منطق ذخیره‌سازی
+                  if (widget.category == null) {
+                    final tmpCategory = Category(
+                      id: IDGenerator.generateUUID(),
+                      parentId: parentId ?? '',
+                      title: _controller.text,
+                      color: colorStr,
+                      iconKey: '',
+                    );
+                    context.read<CategoryCubit>().addCategory(tmpCategory);
+                  } else {
+                    final tmpCategory = Category(
+                      id: widget.category!.id,
+                      parentId: parentId ?? '',
+                      title: _controller.text,
+                      color: colorStr,
+                      iconKey: '',
+                    );
+                    context.read<CategoryCubit>().editCategory(tmpCategory);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child: Text(
+                  widget.category == null
+                      ? '🎯 ذخیره دسته‌بندی'
+                      : '✏️ به‌روزرسانی',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -164,32 +228,63 @@ Future<String?> colorDialog(BuildContext context) {
     context: context,
     builder: (_) {
       return AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.palette, color: Theme.of(context).primaryColor),
+            SizedBox(width: 8),
+            Text('انتخاب رنگ دسته‌بندی'),
+          ],
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('رنگ مورد نظر را انتخاب کنید'),
-            const SizedBox(
-              height: 16,
+            Text(
+              'رنگ مورد نظر برای دسته‌بندی را انتخاب کنید',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14),
             ),
+            SizedBox(height: 20),
             SizedBox(
-              height: 250,
-              width: 200,
+              height: 300,
+              width: 280,
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 6,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
                 ),
                 itemBuilder: (_, index) => GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop(appColorList[index]);
                   },
                   child: Container(
-                    color: HexColor(appColorList[index]),
+                    decoration: BoxDecoration(
+                      color: HexColor(appColorList[index]),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.check,
+                        color: AppColors.getOppositeColor(appColorList[index]),
+                        size: 20,
+                      ),
+                    ),
                   ),
                 ),
                 itemCount: appColorList.length,
               ),
             ),
           ],
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
       );
     },
