@@ -35,12 +35,44 @@ class _CategoryListContentState extends State<CategoryListContent> {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(20),
-        child: ListView.builder(
-          itemCount: widget.categories.length,
-          itemBuilder: (context, index) {
-            return CategoryCard(category: widget.categories[index]);
-          },
-        ),
+        child: // در CategoryListContent جایگزین ListView.builder کن:
+            widget.categories.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.category_outlined,
+                          size: 64,
+                          color: Colors.grey[400],
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'هنوز دسته‌بندیی ایجاد نکرده‌اید',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'برای شروع روی دکمه "+" پایین صفحه کلیک کنید',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[500],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 8),
+                    itemCount: widget.categories.length,
+                    itemBuilder: (context, index) {
+                      return CategoryCard(category: widget.categories[index]);
+                    },
+                  ),
       ),
     );
   }
@@ -53,47 +85,89 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          Routes.addEditCategoryRoute,
-          arguments: {'category': category},
-        ).whenComplete(() {
-          if (context.mounted) {
-            BlocProvider.of<CategoryCubit>(context).getCategories();
-          }
-        });
-      },
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       child: Card(
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 10,
-                          color: HexColor(category.color),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        // Image.asset(
-                        //   IconCatalog.assetFor(category.iconKey),
-                        //   width: 24,
-                        //   height: 24,
-                        // ),
-                        // const SizedBox(width: 12),
-                        Text(category.title),
-                      ],
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              Routes.addEditCategoryRoute,
+              arguments: {'category': category},
+            ).whenComplete(() {
+              if (context.mounted) {
+                BlocProvider.of<CategoryCubit>(context).getCategories();
+              }
+            });
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                // دایره رنگی بزرگ‌تر
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: HexColor(category.color),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.grey[300]!,
+                      width: 1,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: HexColor(category.color).withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 16),
+
+                // عنوان دسته‌بندی
+                Expanded(
+                  child: Text(
+                    category.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[800],
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
+                // دکمه‌های اکشن
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // دکمه ویرایش
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.addEditCategoryRoute,
+                          arguments: {'category': category},
+                        );
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.blue,
+                        size: 20,
+                      ),
+                      padding: EdgeInsets.all(4),
+                      constraints: BoxConstraints(),
+                    ),
+
+                    // دکمه حذف
                     IconButton(
                       onPressed: () async {
                         await showDeleteDialog(context).then((value) {
@@ -103,18 +177,39 @@ class CategoryCard extends StatelessWidget {
                           }
                         });
                       },
-                      icon: const Icon(
-                        Icons.delete,
+                      icon: Icon(
+                        Icons.delete_outline,
                         color: Colors.red,
+                        size: 20,
                       ),
+                      padding: EdgeInsets.all(4),
+                      constraints: BoxConstraints(),
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+// Future<bool?> showDeleteDialog(BuildContext context) {
+//   return showDialog<bool>(
+//     context: context,
+//     builder: (context) => ConfirmDialog(
+//       title: 'حذف دسته‌بندی',
+//       message: 'آیا از حذف این دسته‌بندی اطمینان دارید؟',
+//       confirmText: 'حذف',
+//       cancelText: 'انصراف',
+//       confirmColor: Colors.red,
+//       icon: Icon(
+//         Icons.warning_rounded,
+//         color: Colors.orange,
+//         size: 48,
+//       ),
+//     ),
+//   );
+// }
