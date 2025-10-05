@@ -79,11 +79,14 @@ class _CategoryDropdownWidgetState extends State<CategoryDropdownWidget> {
               );
               return Row(
                 children: [
-                  // Icon(
-                  //   category.iconKey as IconData,
-                  //   size: 20,
-                  // ),
-                  // const SizedBox(width: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: HexColor(category.color),
+                      shape: BoxShape.circle,
+                    ),
+                    padding: const EdgeInsets.all(12),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(child: Text(category.title)),
                 ],
               );

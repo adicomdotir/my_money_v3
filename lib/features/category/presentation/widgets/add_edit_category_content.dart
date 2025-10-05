@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -5,7 +7,6 @@ import '../../../../core/utils/utils.dart';
 import '../../../../features/category/presentation/cubit/category_cubit.dart';
 import '../../../../shared/components/components.dart';
 import '../../../../shared/domain/entities/category.dart';
-import '../../../../shared/utils/icon_catalog.dart';
 
 class AddEditCategoryContent extends StatefulWidget {
   final Category? category;
@@ -23,15 +24,14 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
   final TextEditingController _controller = TextEditingController();
   String colorStr = '';
   String? parentId;
-  IconData iconKey = IconCatalog.defaultIconKey;
 
   @override
   void initState() {
     _controller.text = widget.category?.title ?? '';
     parentId = widget.category?.parentId;
-    colorStr = widget.category?.color ?? '';
-    iconKey =
-        widget.category?.iconKey as IconData? ?? IconCatalog.defaultIconKey;
+    Random random = Random();
+    colorStr = appColorList[random.nextInt(appColorList.length)];
+    colorStr = widget.category?.color ?? colorStr;
     super.initState();
   }
 
@@ -71,11 +71,6 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
             ),
             Row(
               children: [
-                Icon(
-                  iconKey,
-                  size: 24,
-                ),
-                const SizedBox(width: 12),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -113,18 +108,6 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     'انتخاب رنگ',
                   ),
                 ),
-                const SizedBox(width: 12),
-                TextButton(
-                  onPressed: () async {
-                    final picked = await iconDialog(context, initial: iconKey);
-                    if (picked != null) {
-                      setState(() {
-                        iconKey = picked;
-                      });
-                    }
-                  },
-                  child: const Text('انتخاب آیکون'),
-                ),
               ],
             ),
             const SizedBox(
@@ -149,7 +132,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
-                    iconKey: iconKey.toString(),
+                    iconKey: '',
                   );
                   context.read<CategoryCubit>().addCategory(tmpCategory);
                 } else {
@@ -158,7 +141,7 @@ class _AddEditCategoryContentState extends State<AddEditCategoryContent> {
                     parentId: parentId ?? '',
                     title: _controller.text,
                     color: colorStr,
-                    iconKey: iconKey.toString(),
+                    iconKey: '',
                   );
                   context.read<CategoryCubit>().editCategory(tmpCategory);
                 }
@@ -213,60 +196,6 @@ Future<String?> colorDialog(BuildContext context) {
   );
 }
 
-Future<IconData?> iconDialog(BuildContext context, {IconData? initial}) {
-  return showDialog<IconData>(
-    context: context,
-    builder: (_) {
-      String query = '';
-      final keys = IconCatalog.allIcons;
-      return StatefulBuilder(
-        builder: (context, setState) {
-          final filtered = keys
-              .where(
-                (k) => k.toString().toLowerCase().contains(query.toLowerCase()),
-              )
-              .toList();
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('آیکون مورد نظر را انتخاب کنید'),
-                const SizedBox(height: 8),
-                TextField(
-                  decoration: const InputDecoration(hintText: 'جستجو...'),
-                  onChanged: (v) => setState(() => query = v),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 300,
-                  width: 260,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                    ),
-                    itemCount: filtered.length,
-                    itemBuilder: (_, index) {
-                      final key = filtered[index];
-                      return GestureDetector(
-                        onTap: () => Navigator.of(context).pop(key),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(key),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
 const appColorList = [
   '#F44336',
   '#E91E63',
@@ -287,4 +216,30 @@ const appColorList = [
   '#795548',
   '#9E9E9E',
   '#607D8B',
+  // Additional colors
+  '#FF1744',
+  '#C51162',
+  '#AA00FF',
+  '#6200EA',
+  '#304FFE',
+  '#2962FF',
+  '#0091EA',
+  '#00B8D4',
+  '#00C853',
+  '#64DD17',
+  '#AEEA00',
+  '#FFD600',
+  '#FFAB00',
+  '#FF6D00',
+  '#DD2C00',
+  '#3E2723',
+  '#212121',
+  '#263238',
+  '#37474F',
+  '#546E7A',
+  '#78909C',
+  '#90A4AE',
+  '#B0BEC5',
+  '#ECEFF1',
+  '#FAFAFA',
 ];
