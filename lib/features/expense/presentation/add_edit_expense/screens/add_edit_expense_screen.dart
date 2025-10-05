@@ -54,7 +54,26 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
     }
 
     final appBar = AppBar(
-      title: expense == null ? Text('هزینه جدید') : Text('ویرایش هزینه'),
+      title: Row(
+        textDirection: TextDirection.rtl,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            expense == null ? Icons.add_circle_outline : Icons.edit_note,
+            size: 24,
+          ),
+          SizedBox(width: 8),
+          Text(expense == null ? 'هزینه جدید' : 'ویرایش هزینه'),
+        ],
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(16),
+        ),
+      ),
     );
     return Scaffold(
       appBar: appBar,

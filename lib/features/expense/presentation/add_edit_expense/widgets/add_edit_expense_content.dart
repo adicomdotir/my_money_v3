@@ -67,10 +67,15 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 labelText: 'عنوان',
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 18,
+                ), // افزایش padding
               ),
+              style: TextStyle(fontSize: 16), // افزایش سایز فونت
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             Row(
               children: [
@@ -104,17 +109,30 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _selectDate(context);
-                  },
-                  child: Text(
-                    'انتخاب تاریخ',
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).primaryColor),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () => _selectDate(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Theme.of(context).primaryColor,
+                      elevation: 0,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 18),
+                        SizedBox(width: 8),
+                        Text('انتخاب تاریخ'),
+                      ],
+                    ),
                   ),
                 ),
                 Text(
@@ -122,11 +140,16 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     selectedDate?.toDateTime().millisecondsSinceEpoch ??
                         DateTime.now().millisecondsSinceEpoch,
                   ),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700],
+                  ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             Row(
               children: [
@@ -155,74 +178,114 @@ class _AddEditExpenseContentState extends State<AddEditExpenseContent> {
                     });
                   },
                   child: Container(
-                    width: 48,
-                    height: 48,
+                    width: 56,
+                    height: 56,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(28),
                       color: Theme.of(context).primaryColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.add,
                       color: Colors.white,
-                      size: 32,
+                      size: 28,
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (_validateExpense() == false) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'لطفا عنوان و قیمت و دسته را وارد کنید',
-                        style: TextStyle(fontFamily: 'Vazir'),
+            SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_validateExpense() == false) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'لطفا عنوان، قیمت و دسته‌بندی را وارد کنید',
+                          style: TextStyle(
+                            fontFamily: 'Vazir',
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.red[600], // ✅ قرمز پررنگ
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        action: SnackBarAction(
+                          label: 'متوجه شدم',
+                          textColor: Colors.white,
+                          onPressed: () {},
+                        ),
                       ),
-                    ),
-                  );
-                  return;
-                }
-                if (widget.expense == null) {
-                  int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
-                  if (BlocProvider.of<GlobalBloc>(context)
-                          .state
-                          .settings
-                          .unit ==
-                      1) {
-                    newPrice = newPrice ~/ 10;
+                    );
                   }
-                  final expense = Expense(
-                    id: IDGenerator.generateUUID(),
-                    title: _titleCtrl.text,
-                    date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                    categoryId: selectedCategoryId ?? '',
-                    price: newPrice,
-                  );
-                  context.read<AddEditExpenseCubit>().addExpense(expense);
-                } else {
-                  int newPrice = int.parse(_priceCtrl.text.replaceAll(',', ''));
-                  if (BlocProvider.of<GlobalBloc>(context)
-                          .state
-                          .settings
-                          .unit ==
-                      1) {
-                    newPrice = (newPrice / 10).toInt();
+                  if (widget.expense == null) {
+                    int newPrice =
+                        int.parse(_priceCtrl.text.replaceAll(',', ''));
+                    if (BlocProvider.of<GlobalBloc>(context)
+                            .state
+                            .settings
+                            .unit ==
+                        1) {
+                      newPrice = newPrice ~/ 10;
+                    }
+                    final expense = Expense(
+                      id: IDGenerator.generateUUID(),
+                      title: _titleCtrl.text,
+                      date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                      categoryId: selectedCategoryId ?? '',
+                      price: newPrice,
+                    );
+                    context.read<AddEditExpenseCubit>().addExpense(expense);
+                  } else {
+                    int newPrice =
+                        int.parse(_priceCtrl.text.replaceAll(',', ''));
+                    if (BlocProvider.of<GlobalBloc>(context)
+                            .state
+                            .settings
+                            .unit ==
+                        1) {
+                      newPrice = (newPrice / 10).toInt();
+                    }
+                    final expense = Expense(
+                      id: widget.expense!.id,
+                      title: _titleCtrl.text,
+                      date: selectedDate!.toDateTime().millisecondsSinceEpoch,
+                      categoryId: selectedCategoryId ?? '',
+                      price: newPrice,
+                    );
+                    context.read<AddEditExpenseCubit>().editExpense(expense);
                   }
-                  final expense = Expense(
-                    id: widget.expense!.id,
-                    title: _titleCtrl.text,
-                    date: selectedDate!.toDateTime().millisecondsSinceEpoch,
-                    categoryId: selectedCategoryId ?? '',
-                    price: newPrice,
-                  );
-                  context.read<AddEditExpenseCubit>().editExpense(expense);
-                }
-              },
-              child: widget.expense == null ? Text('ذخیره') : Text('ویرایش'),
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child: Text(
+                  widget.expense == null ? '💾 ذخیره هزینه' : '✏️ ویرایش هزینه',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
