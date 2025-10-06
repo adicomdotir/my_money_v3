@@ -26,15 +26,78 @@ class ReportScreen extends StatelessWidget {
   Widget _buildContent(BuildContext context, ReportState state) {
     if (state is ReportSuccessState) {
       return Scaffold(
-        appBar: AppBar(title: const Text('گزارش')),
+        appBar: AppBar(
+          title: Text('📊 گزارش مالی'),
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(20),
+            ),
+          ),
+        ),
         body: _buildReportList(context, state),
       );
     } else if (state is ReportErrorState) {
-      return Center(child: Text(state.message));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Colors.red,
+            ),
+            SizedBox(height: 16),
+            Text(
+              state.message,
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
     } else if (state is ReportLoadingState) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+            SizedBox(height: 16),
+            Text(
+              'در حال بارگذاری گزارش...',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      );
     } else {
-      return const Center(child: Text('داده‌ای وجود ندارد'));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.insert_chart_outlined,
+              size: 64,
+              color: Colors.grey[400],
+            ),
+            SizedBox(height: 16),
+            Text(
+              'داده‌ای برای نمایش وجود ندارد',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -43,15 +106,7 @@ class ReportScreen extends StatelessWidget {
       itemCount: state.reports.length,
       itemBuilder: (context, index) {
         final report = state.reports[index];
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildReportCard(context, report, state.showPieChart),
-            ),
-          ),
-        );
+        return _buildReportCard(context, report, state.showPieChart);
       },
     );
   }
@@ -61,14 +116,40 @@ class ReportScreen extends StatelessWidget {
     ReportEntity report,
     bool showPieChart,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _buildHeaderCard(context, report, showPieChart),
-        if (!showPieChart) _buildCategoryList(context, report),
-        if (!showPieChart) _buildLinearProgress(report),
-        if (showPieChart) _buildPieChart(report),
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).primaryColor.withOpacity(0.05),
+                Theme.of(context).primaryColor.withOpacity(0.02),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeaderCard(context, report, showPieChart),
+                SizedBox(height: 16),
+                if (!showPieChart) _buildCategoryList(context, report),
+                if (!showPieChart) _buildLinearProgress(report),
+                if (showPieChart) _buildPieChart(context, report),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -77,12 +158,21 @@ class ReportScreen extends StatelessWidget {
     ReportEntity report,
     bool showPieChart,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildReportSummary(context, report),
-        _buildChartToggleButton(context, showPieChart),
-      ],
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: _buildReportSummary(context, report),
+          ),
+          _buildChartToggleButton(context, showPieChart),
+        ],
+      ),
     );
   }
 
@@ -91,29 +181,70 @@ class ReportScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          getPersianMonthNameFromString(report.monthName),
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_today,
+              size: 18,
+              color: Theme.of(context).primaryColor,
+            ),
+            SizedBox(width: 8),
+            Text(
+              getPersianMonthNameFromString(report.monthName),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[800],
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          formatPrice(report.sumPrice, globalBloc.state.settings.unit),
-          style: Theme.of(context).textTheme.bodyLarge,
+        SizedBox(height: 8),
+        Row(
+          children: [
+            Icon(
+              Icons.attach_money,
+              size: 16,
+              color: Colors.green,
+            ),
+            SizedBox(width: 8),
+            Text(
+              formatPrice(report.sumPrice, globalBloc.state.settings.unit),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.green[700],
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
   Widget _buildChartToggleButton(BuildContext context, bool showPieChart) {
-    return IconButton(
-      onPressed: () {
-        context.read<ReportBloc>().add(SwitchTypeCardEvent(!showPieChart));
-      },
-      icon: Icon(showPieChart ? Icons.bar_chart : Icons.pie_chart),
-      tooltip: showPieChart ? 'نمایش نمودار خطی' : 'نمایش نمودار دایره‌ای',
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: IconButton(
+        onPressed: () {
+          context.read<ReportBloc>().add(SwitchTypeCardEvent(!showPieChart));
+        },
+        icon: Icon(
+          showPieChart ? Icons.bar_chart : Icons.pie_chart,
+          color: Theme.of(context).primaryColor,
+        ),
+        tooltip: showPieChart ? 'نمایش نمودار خطی' : 'نمایش نمودار دایره‌ای',
+      ),
     );
   }
 
@@ -136,80 +267,103 @@ class ReportScreen extends StatelessWidget {
     CatExpense catExpense,
     String monthName,
   ) {
-    return InkWell(
-      onTap: () => _navigateToFilterExpense(context, catExpense.id, monthName),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          children: [
-            _buildCategoryColorIndicator(catExpense),
-            const SizedBox(width: 12),
-            _buildCategoryInfo(catExpense),
-            const Spacer(),
-            _buildCategoryAmounts(context, catExpense),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategoryColorIndicator(CatExpense catExpense) {
     return Container(
-      width: 24,
-      height: 24,
+      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: catExpense.color.toColor(),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.grey[50],
       ),
-    );
-  }
+      child: InkWell(
+        onTap: () =>
+            _navigateToFilterExpense(context, catExpense.id, monthName),
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            children: [
+              // دایره رنگی
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: catExpense.color.toColor(),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: catExpense.color.toColor().withOpacity(0.3),
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    '${catExpense.percent.toStringAsFixed(0)}%',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
 
-  Widget _buildCategoryInfo(CatExpense catExpense) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          catExpense.title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFF424242),
-          ),
-        ),
-        Text(
-          '${catExpense.transactionCount} تراکنش',
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFF616161),
-          ),
-        ),
-      ],
-    );
-  }
+              // اطلاعات دسته
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      catExpense.title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      '${catExpense.transactionCount} تراکنش',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-  Widget _buildCategoryAmounts(BuildContext context, CatExpense catExpense) {
-    final globalBloc = context.read<GlobalBloc>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          formatPrice(catExpense.price, globalBloc.state.settings.unit),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFFE53935),
+              // مبلغ
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    formatPrice(
+                      catExpense.price,
+                      context.read<GlobalBloc>().state.settings.unit,
+                    ),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red[600],
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    '${catExpense.percent.toStringAsFixed(1)}%',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        Text(
-          '${catExpense.percent.toStringAsFixed(1)} %',
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFF212121),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -224,15 +378,35 @@ class ReportScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPieChart(ReportEntity report) {
-    return PieChart(
-      dataMap: ReportChartMapper.pieChartDataMapper(report.catExpneseList),
-      chartType: ChartType.disc,
-      legendOptions: const LegendOptions(
-        showLegends: true,
-        legendPosition: LegendPosition.left,
+  Widget _buildPieChart(BuildContext context, ReportEntity report) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: PieChart(
+        dataMap: ReportChartMapper.pieChartDataMapper(report.catExpneseList),
+        chartType: ChartType.disc,
+        baseChartColor: Theme.of(context).primaryColor,
+        colorList:
+            report.catExpneseList.map((cat) => cat.color.toColor()).toList(),
+        chartRadius: MediaQuery.of(context).size.width / 3,
+        legendOptions: LegendOptions(
+          showLegends: true,
+          legendPosition: LegendPosition.bottom,
+          legendTextStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        chartValuesOptions: ChartValuesOptions(
+          showChartValues: true,
+          showChartValuesOutside: true,
+          decimalPlaces: 1,
+          chartValueStyle: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        formatChartValues: (value) => '${value.toStringAsFixed(1)}%',
       ),
-      formatChartValues: (value) => '${value.toStringAsFixed(1)} %',
     );
   }
 
