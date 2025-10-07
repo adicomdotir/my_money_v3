@@ -25,7 +25,22 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: Text('دسته بندی ها'),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(Icons.category, size: 24),
+          SizedBox(width: 8),
+          Text('دسته‌بندی‌ها'),
+        ],
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(20),
+        ),
+      ),
     );
     return Scaffold(
       appBar: appBar,
