@@ -241,92 +241,40 @@ class ExpenseCard extends StatelessWidget {
                   ),
                 ),
 
-                // دکمه حذف
-                IconButton(
-                  onPressed: () async {
-                    await showDeleteDialog(context).then((value) {
-                      if (context.mounted && value != null && value) {
-                        BlocProvider.of<ExpenseCubit>(context)
-                            .deleteExpense(expense.id);
-                      }
-                    });
-                  },
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: Colors.red,
-                    size: 20,
-                  ),
-                  padding: EdgeInsets.all(4),
-                  constraints: BoxConstraints(),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+                SizedBox(width: 8), // فاصله قبل از دکمه حذف
 
-  // نسخه فشرده برای نمایش بیشتر
-  Widget _buildCompactExpenseCard(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: InkWell(
-          onTap: () {
-            // منطق ویرایش
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              children: [
-                // دایره رنگی کوچک
+                // دکمه حذف - نسخه اصلاح شده
                 Container(
-                  width: 12,
-                  height: 12,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
-                    color: HexColor(expense.category!.color),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                SizedBox(width: 12),
-
-                // عنوان
-                Expanded(
-                  child: Text(
-                    expense.title,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                    color: Colors.red.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.red.withOpacity(0.3),
+                      width: 1,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-
-                // مبلغ
-                Text(
-                  formatPrice(
-                    expense.price,
-                    context.read<GlobalBloc>().state.settings.unit,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async {
+                        final shouldDelete = await showDeleteDialog(context);
+                        if (shouldDelete == true && context.mounted) {
+                          BlocProvider.of<ExpenseCubit>(context)
+                              .deleteExpense(expense.id);
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Center(
+                        child: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                          size: 20,
+                        ),
+                      ),
+                    ),
                   ),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red[600],
-                  ),
-                ),
-
-                // دکمه حذف
-                IconButton(
-                  onPressed: () {
-                    // منطق حذف
-                  },
-                  icon: Icon(Icons.delete_outline, size: 18, color: Colors.red),
-                  padding: EdgeInsets.zero,
-                  constraints: BoxConstraints(),
                 ),
               ],
             ),

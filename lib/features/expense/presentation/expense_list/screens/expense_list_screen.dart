@@ -305,11 +305,11 @@ class CalenderFilterWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // دکمه قبلی
+          // دکمه بعدی
           _buildDateNavButton(
             context,
-            Icons.chevron_right,
-            () => _navigateDate(context, state, calenderFilterType, -1),
+            Icons.chevron_left,
+            () => _navigateDate(context, state, calenderFilterType, 1),
           ),
 
           // نمایش تاریخ
@@ -319,11 +319,11 @@ class CalenderFilterWidget extends StatelessWidget {
             ),
           ),
 
-          // دکمه بعدی
+          // دکمه قبلی
           _buildDateNavButton(
             context,
-            Icons.chevron_left,
-            () => _navigateDate(context, state, calenderFilterType, 1),
+            Icons.chevron_right,
+            () => _navigateDate(context, state, calenderFilterType, -1),
           ),
         ],
       ),
