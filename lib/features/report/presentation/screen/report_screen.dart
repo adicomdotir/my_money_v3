@@ -200,23 +200,13 @@ class ReportScreen extends StatelessWidget {
           ],
         ),
         SizedBox(height: 8),
-        Row(
-          children: [
-            Icon(
-              Icons.attach_money,
-              size: 16,
-              color: Colors.green,
-            ),
-            SizedBox(width: 8),
-            Text(
-              formatPrice(report.sumPrice, globalBloc.state.settings.unit),
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.green[700],
-              ),
-            ),
-          ],
+        Text(
+          formatPrice(report.sumPrice, globalBloc.state.settings.unit),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.green[700],
+          ),
         ),
       ],
     );
