@@ -88,127 +88,188 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
           child: Drawer(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).viewPadding.top,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.horizontal(
+                right: Radius.circular(20),
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Theme.of(context).primaryColor.withOpacity(0.1),
+                    Theme.of(context).primaryColor.withOpacity(0.05),
+                  ],
                 ),
-                Container(
-                  height: 150,
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      fit: BoxFit.cover,
+              ),
+              child: Column(
+                children: [
+                  // هدر Drawer
+                  Container(
+                    height: 180,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(20),
+                      ),
+                    ),
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).viewPadding.top,
+                        ),
+                        // لوگو
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.account_balance_wallet,
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          '💰 پول من',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'مدیریت هوشمند هزینه‌ها',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Center(
-                  child: Text(
-                    'پول من',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.expenseListRoute)
-                              .then((value) => _getHomeInfo());
-                        },
-                        child: ListTile(
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                          title: Text(
-                            'هزینه ها',
-                          ),
-                          subtitle: Text(
-                            'هزینه ها',
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.categoryListRoute)
-                              .then((value) => _getHomeInfo());
-                        },
-                        child: ListTile(
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                          title: Text(
-                            'دسته ها',
-                          ),
-                          subtitle: Text(
-                            'دسته ها',
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.reportRoute)
-                              .then((value) => _getHomeInfo());
-                        },
-                        child: const ListTile(
-                          trailing: Icon(Icons.arrow_forward_ios),
-                          title: Text('گزارش'),
-                          subtitle: Text('گزارش'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Routes.settingsRoute)
-                              .then((value) => _getHomeInfo());
-                        },
-                        child: const ListTile(
-                          trailing: Icon(Icons.arrow_forward_ios),
-                          title: Text('تنظیمات'),
-                          subtitle: Text('تنظیمات'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          context.read<HomeDrawerCubit>().getBackup();
-                        },
-                        child: const ListTile(
-                          trailing: Icon(Icons.backup_outlined),
-                          title: Text('گرفتن بکاپ'),
-                          subtitle: Text('گرفتن بکاپ'),
-                        ),
-                      ),
-                      Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                  // منوی آیتم‌ها
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
                         children: [
-                          Text(
-                            'نسخه',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                          // آیتم‌های منو
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.receipt_long,
+                            title: '📋 هزینه‌ها',
+                            subtitle: 'مدیریت هزینه‌های روزانه',
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.expenseListRoute,
+                              ).then((value) => _getHomeInfo());
+                            },
                           ),
-                          Text(
-                            '1.1.4+27',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.category,
+                            title: '📂 دسته‌بندی‌ها',
+                            subtitle: 'سازماندهی دسته‌ها',
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.categoryListRoute,
+                              ).then((value) => _getHomeInfo());
+                            },
+                          ),
+
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.bar_chart,
+                            title: '📊 گزارش‌ها',
+                            subtitle: 'تحلیل و آمار هزینه‌ها',
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.reportRoute)
+                                  .then((value) => _getHomeInfo());
+                            },
+                          ),
+
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.settings,
+                            title: '⚙️ تنظیمات',
+                            subtitle: 'شخصی‌سازی برنامه',
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.settingsRoute)
+                                  .then((value) => _getHomeInfo());
+                            },
+                          ),
+
+                          _buildDrawerItem(
+                            context,
+                            icon: Icons.backup,
+                            title: '💾 گرفتن پشتیبان',
+                            subtitle: 'ذخیره اطلاعات',
+                            onTap: () {
+                              context.read<HomeDrawerCubit>().getBackup();
+                            },
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+
+                  // فوتر - نسخه
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'نسخه',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '1.1.4+27',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -223,6 +284,90 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       onRefresh: () => _getHomeInfo(),
+    );
+  }
+
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                // آیکون
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: Theme.of(context).primaryColor,
+                    size: 20,
+                  ),
+                ),
+                SizedBox(width: 16),
+
+                // متن
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // فلش
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: Colors.grey[400],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
