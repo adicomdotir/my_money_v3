@@ -83,7 +83,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'نسخه 1.1.4+27',
+              'نسخه 1.1.5+28',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white.withOpacity(0.7),
