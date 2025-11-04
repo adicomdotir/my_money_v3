@@ -1,5 +1,6 @@
 // Features barrel file
 export 'category/category.dart';
+export 'dollar_rate/dollar_rate.dart';
 export 'expense/expense.dart';
 export 'filter_expense/filter_expense.dart';
 export 'home/home.dart';

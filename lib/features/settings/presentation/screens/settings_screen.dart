@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/bloc/global_bloc.dart';
 import '../../../../../core/utils/utils.dart';
+import '../../../../config/routes/app_routes.dart';
 import '../bloc/settings_bloc.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -61,6 +62,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         // کارت تغییر تم
         _buildThemeCard(),
         SizedBox(height: 24),
+
+        // مدیریت نرخ دلار ماهانه
+        _buildDollarRateCard(),
 
         // سایر تنظیمات می‌تونن اینجا اضافه بشن
       ],
@@ -133,6 +137,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildDollarRateCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        leading: CircleAvatar(
+          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+          child:
+              Icon(Icons.attach_money, color: Theme.of(context).primaryColor),
+        ),
+        title: Text(
+          'نرخ دلار ماهانه',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        subtitle: Text('افزودن/ویرایش/حذف نرخ دلار برای هر ماه جلالی'),
+        trailing: const Icon(Icons.chevron_left),
+        onTap: () => Navigator.pushNamed(context, Routes.dollarRatesRoute),
       ),
     );
   }

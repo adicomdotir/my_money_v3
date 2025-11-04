@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/dollar_rate/presentation/screens/dollar_rate_screen.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/screens/add_edit_expense_screen.dart';
 import 'package:my_money_v3/features/expense/presentation/expense_list/cubit/expense_cubit.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String categoryListRoute = '/category_list_route';
   static const String reportRoute = '/report_route';
   static const String settingsRoute = '/settings_route';
+  static const String dollarRatesRoute = '/dollar_rates_route';
   static const String filterExpenseRoute = '/filter_expense_route';
 }
 
@@ -129,6 +131,12 @@ class AppRoutes {
               create: (context) => di.sl<SettingsBloc>(),
               child: const SettingsScreen(),
             );
+          },
+        );
+      case Routes.dollarRatesRoute:
+        return MaterialPageRoute(
+          builder: (context) {
+            return const DollarRateScreen();
           },
         );
       case Routes.filterExpenseRoute:

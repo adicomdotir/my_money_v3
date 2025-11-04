@@ -3,7 +3,9 @@ import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
 import 'package:my_money_v3/shared/data/models/category_model.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
+import '../../features/dollar_rate/data/models/dollar_rate_model.dart';
 import '../../shared/data/models/expense_model.dart';
+import 'hive_models/dollar_rate_db_model.dart';
 import 'hive_models/expense_db_model.dart';
 
 class DatabaseHelper {
@@ -56,6 +58,32 @@ class DatabaseHelper {
 
     await categories.delete(id);
     return true;
+  }
+
+  // Dollar rates
+  Future<void> upsertDollarRate(DollarRateModel rate) async {
+    final box = await _openBox<DollarRateDbModel>('dollar_rates_v1');
+    await box.put('${rate.year}-${rate.month}', rate.toDbModel());
+  }
+
+  Future<DollarRateModel?> getDollarRate(int year, int month) async {
+    final box = await _openBox<DollarRateDbModel>('dollar_rates_v1');
+    final v = box.get('$year-$month');
+    return v?.toModel();
+  }
+
+  Future<List<DollarRateModel>> getAllDollarRates() async {
+    final box = await _openBox<DollarRateDbModel>('dollar_rates_v1');
+    return box.values.map((e) => e.toModel()).toList()
+      ..sort((a, b) {
+        if (a.year != b.year) return b.year.compareTo(a.year);
+        return b.month.compareTo(a.month);
+      });
+  }
+
+  Future<void> deleteDollarRate(int year, int month) async {
+    final box = await _openBox<DollarRateDbModel>('dollar_rates_v1');
+    await box.delete('$year-$month');
   }
 
   // Get expenses, optionally filtered by date range
@@ -245,9 +273,10 @@ class DatabaseHelper {
       monthData['sumPrice'] += expense.price;
 
       final categoryId = expense.categoryId.toString();
-      final categoryExpense = monthData['catExpenseList'].firstWhere(
-        (element) => (element)['id'] == categoryId,
-        orElse: () => null,
+      final catExpenseList = monthData['catExpenseList'] as List<dynamic>;
+      final categoryExpense = catExpenseList.firstWhere(
+        (element) => (element as Map<String, dynamic>)['id'] == categoryId,
+        orElse: () => <String, dynamic>{},
       );
 
       if (categoryExpense != null) {
