@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/dollar_rate/data/models/dollar_rate_model.dart';
-import 'package:my_money_v3/injection_container.dart' as di;
+import 'package:my_money_v3/features/dollar_rate/domain/entities/dollar_rate.dart';
 
-import '../../../../core/db/db.dart';
+import '../cubit/dollar_rate_cubit.dart';
 
 class DollarRateScreen extends StatefulWidget {
   const DollarRateScreen({super.key});
@@ -12,37 +13,23 @@ class DollarRateScreen extends StatefulWidget {
 }
 
 class _DollarRateScreenState extends State<DollarRateScreen> {
-  late final DatabaseHelper _db;
-  List<DollarRateModel> _rates = const [];
-  bool _loading = true;
-
   @override
   void initState() {
     super.initState();
-    _db = di.sl<DatabaseHelper>();
-    _load();
+    context.read<DollarRateCubit>().getAllDollarRates();
   }
 
-  Future<void> _load() async {
-    final list = await _db.getAllDollarRates();
-    setState(() {
-      _rates = list;
-      _loading = false;
-    });
-  }
-
-  Future<void> _addOrEdit({DollarRateModel? initial}) async {
+  Future<void> _addOrEdit({DollarRate? initial}) async {
     final result = await showDialog<DollarRateModel>(
       context: context,
       builder: (_) => _DollarRateDialog(initial: initial),
     );
-    if (result != null) {
-      await _db.upsertDollarRate(result);
-      await _load();
+    if (result != null && mounted) {
+      context.read<DollarRateCubit>().upsertDollarRate(result);
     }
   }
 
-  Future<void> _delete(DollarRateModel item) async {
+  Future<void> _delete(DollarRate item) async {
     final ok = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
@@ -60,9 +47,8 @@ class _DollarRateScreenState extends State<DollarRateScreen> {
         ],
       ),
     );
-    if (ok == true) {
-      await _db.deleteDollarRate(item.year, item.month);
-      await _load();
+    if (ok == true && mounted) {
+      context.read<DollarRateCubit>().deleteDollarRate(item.year, item.month);
     }
   }
 
@@ -75,14 +61,40 @@ class _DollarRateScreenState extends State<DollarRateScreen> {
         icon: const Icon(Icons.add),
         label: const Text('افزودن نرخ'),
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.separated(
+      body: BlocBuilder<DollarRateCubit, DollarRateState>(
+        builder: (context, state) {
+          if (state is DollarRateLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is DollarRateError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    state.message,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () =>
+                        context.read<DollarRateCubit>().getAllDollarRates(),
+                    child: const Text('تلاش مجدد'),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is DollarRateLoaded) {
+            if (state.rates.isEmpty) {
+              return const Center(
+                child: Text('هیچ نرخ دلاری ثبت نشده است'),
+              );
+            }
+            return ListView.separated(
               padding: const EdgeInsets.all(16),
-              itemCount: _rates.length,
+              itemCount: state.rates.length,
               separatorBuilder: (_, __) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
-                final item = _rates[index];
+                final item = state.rates[index];
                 return Card(
                   child: ListTile(
                     title: Text('سال ${item.year} - ماه ${item.month}'),
@@ -95,13 +107,17 @@ class _DollarRateScreenState extends State<DollarRateScreen> {
                   ),
                 );
               },
-            ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
 
 class _DollarRateDialog extends StatefulWidget {
-  final DollarRateModel? initial;
+  final DollarRate? initial;
   const _DollarRateDialog({this.initial});
 
   @override

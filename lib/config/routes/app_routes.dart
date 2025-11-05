@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_money_v3/features/dollar_rate/presentation/cubit/dollar_rate_cubit.dart';
 import 'package:my_money_v3/features/dollar_rate/presentation/screens/dollar_rate_screen.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/cubit/add_edit_expense_cubit.dart';
 import 'package:my_money_v3/features/expense/presentation/add_edit_expense/screens/add_edit_expense_screen.dart';
@@ -136,7 +137,10 @@ class AppRoutes {
       case Routes.dollarRatesRoute:
         return MaterialPageRoute(
           builder: (context) {
-            return const DollarRateScreen();
+            return BlocProvider(
+              create: (context) => di.sl<DollarRateCubit>(),
+              child: const DollarRateScreen(),
+            );
           },
         );
       case Routes.filterExpenseRoute:

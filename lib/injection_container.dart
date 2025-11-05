@@ -42,6 +42,9 @@ void _initDataSourceDependencies() {
   sl.registerLazySingleton<FilterExpenseLocalDataSource>(
     () => FilterExpenseLocalDataSourceImpl(databaseHelper: sl()),
   );
+  sl.registerLazySingleton<DollarRateLocalDataSource>(
+    () => DollarRateLocalDataSourceImpl(databaseHelper: sl()),
+  );
 }
 
 void _initRepositoryDependencies() {
@@ -70,6 +73,9 @@ void _initRepositoryDependencies() {
   );
   sl.registerLazySingleton<FilterExpenseRepository>(
     () => FilterExpenseRepositoryImpl(dataSource: sl()),
+  );
+  sl.registerLazySingleton<DollarRateRepository>(
+    () => DollarRateRepositoryImpl(localDataSource: sl()),
   );
 }
 
@@ -126,6 +132,15 @@ void _initUseCaseDependencies() {
   sl.registerLazySingleton<SaveUserThemeUsecase>(
     () => SaveUserThemeUsecase(settingsRepository: sl()),
   );
+  sl.registerLazySingleton<GetAllDollarRatesUseCase>(
+    () => GetAllDollarRatesUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<UpsertDollarRateUseCase>(
+    () => UpsertDollarRateUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<DeleteDollarRateUseCase>(
+    () => DeleteDollarRateUseCase(repository: sl()),
+  );
 }
 
 void _initBlocDependencies() {
@@ -169,5 +184,12 @@ void _initBlocDependencies() {
   );
   sl.registerFactory<SplashBloc>(
     () => SplashBloc(initializeAppUseCase: sl()),
+  );
+  sl.registerFactory<DollarRateCubit>(
+    () => DollarRateCubit(
+      getAllDollarRatesUseCase: sl(),
+      upsertDollarRateUseCase: sl(),
+      deleteDollarRateUseCase: sl(),
+    ),
   );
 }
