@@ -12,6 +12,7 @@ Future<void> main() async {
     await Hive.initFlutter();
     Hive.registerAdapter(CategoryDbModelAdapter());
     Hive.registerAdapter(ExpenseDbModelAdapter());
+    Hive.registerAdapter(DollarRateDbModelAdapter());
 
     // Handle database migrations
     await migrateData();
