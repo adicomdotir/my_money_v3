@@ -3,21 +3,25 @@ import 'dart:convert';
 class ReportModel {
   final String monthName;
   final int sumPrice;
+  final double sumPriceUsd;
   final List<CatExpenseModel> catExpneseList;
   ReportModel({
     required this.monthName,
     required this.sumPrice,
+    required this.sumPriceUsd,
     required this.catExpneseList,
   });
 
   ReportModel copyWith({
     String? monthName,
     int? sumPrice,
+    double? sumPriceUsd,
     List<CatExpenseModel>? categories,
   }) {
     return ReportModel(
       monthName: monthName ?? this.monthName,
       sumPrice: sumPrice ?? this.sumPrice,
+      sumPriceUsd: sumPriceUsd ?? this.sumPriceUsd,
       catExpneseList: categories ?? catExpneseList,
     );
   }
@@ -26,6 +30,7 @@ class ReportModel {
     return <String, dynamic>{
       'monthName': monthName,
       'sumPrice': sumPrice,
+      'sumPriceUsd': sumPriceUsd,
       'catExpenseList': catExpneseList.map((x) => x.toMap()).toList(),
     };
   }
@@ -42,6 +47,7 @@ class ReportModel {
     return ReportModel(
       monthName: map['monthName'] as String,
       sumPrice: map['sumPrice'].toInt() as int,
+      sumPriceUsd: (map['sumPriceUsd'] ?? 0).toDouble() as double,
       catExpneseList: ls,
     );
   }
@@ -60,6 +66,7 @@ class CatExpenseModel {
   final String title;
   final String id;
   final int price;
+  final double usdPrice;
   final int transactionCount;
   final double percent;
   final String color;
@@ -68,6 +75,7 @@ class CatExpenseModel {
     required this.title,
     required this.id,
     required this.price,
+    required this.usdPrice,
     required this.transactionCount,
     required this.percent,
     required this.color,
@@ -76,6 +84,7 @@ class CatExpenseModel {
   CatExpenseModel copyWith({
     String? title,
     int? price,
+    double? usdPrice,
     int? transactionCount,
     double? percent,
     String? color,
@@ -84,6 +93,7 @@ class CatExpenseModel {
     return CatExpenseModel(
       title: title ?? this.title,
       price: price ?? this.price,
+      usdPrice: usdPrice ?? this.usdPrice,
       transactionCount: transactionCount ?? this.transactionCount,
       percent: percent ?? this.percent,
       color: color ?? this.color,
@@ -95,6 +105,7 @@ class CatExpenseModel {
     return <String, dynamic>{
       'title': title,
       'price': price,
+      'usdPrice': usdPrice,
       'transactionCount': transactionCount,
       'percent': percent,
       'color': color,
@@ -105,6 +116,7 @@ class CatExpenseModel {
     return CatExpenseModel(
       title: map['title'] as String,
       price: map['price'].toInt() as int,
+      usdPrice: (map['usdPrice'] ?? 0).toDouble() as double,
       transactionCount: (map['transactionCount'] ?? 0).toInt() as int,
       percent: (map['percent'] ?? 0).toDouble() as double,
       color: (map['color'] ?? '') as String,

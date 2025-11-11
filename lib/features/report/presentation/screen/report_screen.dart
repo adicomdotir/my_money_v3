@@ -208,6 +208,15 @@ class ReportScreen extends StatelessWidget {
             color: Colors.green[700],
           ),
         ),
+        SizedBox(height: 8),
+        Text(
+          '${report.sumPriceUsd.toStringAsFixed(1)} دلار',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.green[700],
+          ),
+        ),
       ],
     );
   }
@@ -333,6 +342,15 @@ class ReportScreen extends StatelessWidget {
                       catExpense.price,
                       context.read<GlobalBloc>().state.settings.unit,
                     ),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red[600],
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    '${catExpense.usdPrice.toStringAsFixed(1)} دلار',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

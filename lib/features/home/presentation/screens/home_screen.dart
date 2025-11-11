@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            '1.1.5+28',
+                            '1.1.6+29',
                             style: TextStyle(
                               fontSize: 14,
                               color: Theme.of(context).primaryColor,

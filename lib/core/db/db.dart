@@ -238,6 +238,7 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getReport() async {
     final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
     final categories = await _openBox<CategoryDbModel>('categories_v2');
+    final dollarRates = await _openBox<DollarRateDbModel>('dollar_rates_v1');
 
     // Sort expenses by date
     final sortedExpenses = expenses.values.toList()
@@ -253,6 +254,15 @@ class DatabaseHelper {
         category.id.toString(): category.color,
     };
 
+    // Prepare a quick lookup for (year,month) -> rate
+    double rateForMonth(int year, int month) {
+      final key = '$year-$month';
+      final r = dollarRates.get(key);
+      if (r == null || r.price <= 0) return 0;
+      // prices are in Toman; usd = toman / price
+      return r.price.toDouble();
+    }
+
     // Group expenses by month and category
     final Map<String, Map<String, dynamic>> reportMap = {};
     for (var expense in sortedExpenses) {
@@ -265,30 +275,42 @@ class DatabaseHelper {
         reportMap[monthKey] = {
           'monthName': monthKey,
           'sumPrice': 0,
+          'sumPriceUsd': 0.0,
           'catExpenseList': <dynamic>[],
+          '_year': jalali.year,
+          '_month': jalali.month,
         };
       }
 
       final monthData = reportMap[monthKey]!;
       monthData['sumPrice'] += expense.price;
+      final rate = rateForMonth(jalali.year, jalali.month);
+      if (rate > 0) {
+        monthData['sumPriceUsd'] =
+            (monthData['sumPriceUsd'] as double) + (expense.price / rate);
+      }
 
       final categoryId = expense.categoryId.toString();
       final catExpenseList = monthData['catExpenseList'] as List<dynamic>;
-      final categoryExpense = catExpenseList.firstWhere(
-        (element) => (element as Map<String, dynamic>)['id'] == categoryId,
-        orElse: () => <String, dynamic>{},
-      );
-
-      if (categoryExpense != null) {
-        categoryExpense['price'] += expense.price;
-        categoryExpense['transactionCount'] += 1;
+      final existing = catExpenseList.cast<Map<String, dynamic>?>().firstWhere(
+            (e) => e?['id'] == categoryId,
+            orElse: () => null,
+          );
+      if (existing != null) {
+        existing['price'] += expense.price;
+        existing['transactionCount'] += 1;
+        if (rate > 0) {
+          existing['usdPrice'] =
+              (existing['usdPrice'] as double) + (expense.price / rate);
+        }
       } else {
-        monthData['catExpenseList'].add({
+        catExpenseList.add({
           'id': categoryId,
           'title': categoriesMap[categoryId],
           'transactionCount': 1,
           'color': categoriesColorMap[categoryId],
           'price': expense.price,
+          'usdPrice': rate > 0 ? (expense.price / rate) : 0.0,
         });
       }
     }
@@ -304,6 +326,9 @@ class DatabaseHelper {
       catExpenses.sort(
         (a, b) => (b['price'] as num).toInt() - (a['price'] as num).toInt(),
       );
+      // cleanup temp keys
+      monthData.remove('_year');
+      monthData.remove('_month');
     }
 
     return reportList;
