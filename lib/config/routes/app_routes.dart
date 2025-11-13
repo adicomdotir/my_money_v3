@@ -11,6 +11,7 @@ import 'package:my_money_v3/features/filter_expense/presentation/screens/filter_
 import 'package:my_money_v3/features/home/presentation/cubit/home_drawer_cubit.dart';
 import 'package:my_money_v3/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:my_money_v3/features/settings/presentation/screens/settings_screen.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../features/category/presentation/cubit/category_cubit.dart';
@@ -22,6 +23,7 @@ import '../../features/report/presentation/bloc/report_bloc.dart';
 import '../../features/report/presentation/screen/report_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../../injection_container.dart' as di;
+import '../../shared/components/category_dropdown/category_dropdown_cubit.dart';
 import '../../shared/components/components.dart';
 
 class Routes {
@@ -144,14 +146,48 @@ class AppRoutes {
           },
         );
       case Routes.filterExpenseRoute:
-        final arguments = routeSettings.arguments as Map<String, dynamic>;
-        final id = arguments['id'] as String;
-        final String? fromDate = arguments['fromDate'] as String?;
+        final arguments =
+            routeSettings.arguments as Map<String, dynamic>? ?? {};
+        final id =
+            (arguments['categoryId'] ?? arguments['id']) as String? ?? '';
+        final int? fromMillis = arguments['fromMillis'] as int?;
+        final int? toMillis = arguments['toMillis'] as int?;
+        final bool defaultToCurrentMonth =
+            arguments['defaultToCurrentMonth'] as bool? ??
+                (fromMillis == null && toMillis == null);
+        int? parsedFrom = fromMillis;
+        int? parsedTo = toMillis;
+        final String? fromDateLabel = arguments['fromDate'] as String?;
+        if (fromDateLabel != null && parsedFrom == null && parsedTo == null) {
+          final parts = fromDateLabel.split('/');
+          if (parts.length >= 2) {
+            final year = int.tryParse(parts[0]);
+            final month = int.tryParse(parts[1]);
+            if (year != null && month != null) {
+              final start = Jalali(year, month, 1);
+              final end = start.addMonths(1);
+              parsedFrom = start.toDateTime().millisecondsSinceEpoch;
+              parsedTo = end.toDateTime().millisecondsSinceEpoch;
+            }
+          }
+        }
         return MaterialPageRoute(
           builder: (context) {
-            return BlocProvider(
-              create: (context) => di.sl<FilterExpneseBloc>(),
-              child: FilterExpenseScreen(id: id, fromDate: fromDate),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => di.sl<FilterExpneseBloc>(),
+                ),
+                BlocProvider(
+                  create: (context) => di.sl<CategoryDropdownCubit>(),
+                ),
+              ],
+              child: FilterExpenseScreen(
+                categoryId: id,
+                initialFromMillis: parsedFrom,
+                initialToMillis: parsedTo,
+                defaultToCurrentMonth: defaultToCurrentMonth,
+              ),
             );
           },
         );

@@ -95,35 +95,42 @@ class DatabaseHelper {
     final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
     final categories = await _openBox<CategoryDbModel>('categories_v2');
 
-    final filteredExpenses = fromDate != null
-        ? expenses.values
-            .where(
-              (expense) =>
-                  expense.date >= fromDate &&
-                  expense.date < toDate! &&
-                  (categoryId == null || expense.categoryId == categoryId),
-            )
-            .toList()
-        : expenses.values.toList();
+    Iterable<ExpenseDbModel> filtered = expenses.values;
 
-    // Sort expenses by date and ID
-    filteredExpenses.sort((a, b) {
-      int dateComparison = b.date - a.date;
-      return dateComparison != 0
-          ? dateComparison
-          : int.parse(b.id) - int.parse(a.id);
-    });
+    if (fromDate != null) {
+      filtered = filtered.where((expense) => expense.date >= fromDate);
+    }
 
-    return filteredExpenses.map(
-      (exp) {
-        final category = categories.values.where(
-          (cat) {
-            return cat.id == exp.categoryId;
-          },
-        ).first;
-        return exp.toExpenseModel(category.toCategoryModel());
-      },
-    ).toList();
+    if (toDate != null) {
+      filtered = filtered.where((expense) => expense.date < toDate);
+    }
+
+    if (categoryId != null && categoryId.isNotEmpty) {
+      filtered = filtered.where((expense) => expense.categoryId == categoryId);
+    }
+
+    final filteredExpenses = filtered.toList()
+      ..sort((a, b) {
+        final dateComparison = b.date - a.date;
+        if (dateComparison != 0) return dateComparison;
+        final aId = int.tryParse(a.id) ?? 0;
+        final bId = int.tryParse(b.id) ?? 0;
+        return bId - aId;
+      });
+
+    return filteredExpenses.map((exp) {
+      final category = categories.get(exp.categoryId);
+      final categoryModel = category != null
+          ? category.toCategoryModel()
+          : CategoryModel(
+              id: exp.categoryId,
+              parentId: '',
+              title: 'دسته نامشخص',
+              color: '#000000',
+              iconKey: 'ic_other',
+            );
+      return exp.toExpenseModel(categoryModel);
+    }).toList();
   }
 
   // Get home dashboard information (expenses by category, today's expenses, etc.)

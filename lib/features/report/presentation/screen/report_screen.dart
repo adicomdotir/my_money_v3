@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_money_v3/features/report/domain/entities/report_entity.dart';
 import 'package:my_money_v3/features/report/presentation/widgets/linear_painter.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../../../core/bloc/global_bloc.dart';
@@ -423,10 +424,28 @@ class ReportScreen extends StatelessWidget {
     String id,
     String monthName,
   ) {
+    int? fromMillis;
+    int? toMillis;
+    final parts = monthName.split('/');
+    if (parts.length >= 2) {
+      final year = int.tryParse(parts[0]);
+      final month = int.tryParse(parts[1]);
+      if (year != null && month != null) {
+        final start = Jalali(year, month, 1);
+        final end = start.addMonths(1);
+        fromMillis = start.toDateTime().millisecondsSinceEpoch;
+        toMillis = end.toDateTime().millisecondsSinceEpoch;
+      }
+    }
     Navigator.pushNamed(
       context,
       Routes.filterExpenseRoute,
-      arguments: {'id': id, 'fromDate': monthName},
+      arguments: {
+        'categoryId': id,
+        'fromMillis': fromMillis,
+        'toMillis': toMillis,
+        'defaultToCurrentMonth': false,
+      },
     );
   }
 }

@@ -25,19 +25,25 @@ class FilterExpneseBloc extends Bloc<FilterExpenseEvent, FilterExpenseState> {
     try {
       emit(FilterExpenseLoading());
 
-      Jalali fromDate = Jalali.now();
-      fromDate = Jalali(fromDate.year, fromDate.month, 1);
-      if (event.fromDate != null) {
-        final date = event.fromDate?.split('/');
-        fromDate = Jalali(int.parse(date![0]), int.parse(date[1]));
+      int? fromMillis = event.fromDateMillis;
+      int? toMillis = event.toDateMillis;
+
+      if (fromMillis == null && toMillis == null) {
+        final now = Jalali.now();
+        final start = Jalali(now.year, now.month, 1);
+        final end = start.addMonths(1);
+        fromMillis = start.toDateTime().millisecondsSinceEpoch;
+        toMillis = end.toDateTime().millisecondsSinceEpoch;
       }
-      Jalali toDate = Jalali.now();
-      toDate = fromDate.addMonths(1);
+
+      if (fromMillis != null && toMillis != null && toMillis <= fromMillis) {
+        toMillis = fromMillis + const Duration(days: 1).inMilliseconds;
+      }
 
       final res = await getFilterExpenseUseCase.call(
         GetFilterExpenseParams(
-          fromDate.toDateTime().millisecondsSinceEpoch,
-          toDate.toDateTime().millisecondsSinceEpoch,
+          fromMillis,
+          toMillis,
           event.categoryId,
         ),
       );
