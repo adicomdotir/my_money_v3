@@ -279,6 +279,8 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
     final unit = context.read<GlobalBloc>().state.settings.unit;
     final totalAmount =
         expenses.fold<int>(0, (sum, expense) => sum + expense.price);
+    final totalUsd =
+        expenses.fold<double>(0, (sum, expense) => sum + expense.usdPrice);
     final categoryTitle = expenses.isNotEmpty
         ? (expenses.first.category?.title ?? 'نامشخص')
         : (_selectedCategoryId == null ? 'انتخاب نشده' : 'بدون نتیجه');
@@ -335,6 +337,18 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
                   color: Colors.green[700],
                 ),
               ),
+              if (totalUsd > 0)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    'معادل دلاری: ${formatUsd(totalUsd)}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.blueGrey[700],
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -363,6 +377,11 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
                     ? '-'
                     : formatPrice(_getMaxExpense(expenses), unit),
                 Icons.arrow_upward,
+              ),
+              _buildStatItem(
+                'جمع دلاری',
+                totalUsd > 0 ? formatUsd(totalUsd) : '-',
+                Icons.attach_money,
               ),
             ],
           ),
@@ -473,6 +492,17 @@ class _FilterExpenseScreenState extends State<FilterExpenseScreen> {
                       color: Colors.grey[600],
                     ),
                   ),
+                  if (expense.usdPrice > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(
+                        formatUsd(expense.usdPrice),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blueGrey[600],
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

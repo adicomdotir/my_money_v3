@@ -8,6 +8,7 @@ class Expense extends Equatable {
   final int date;
   final String categoryId;
   final Category? category;
+  final double usdPrice;
 
   const Expense({
     required this.id,
@@ -16,8 +17,9 @@ class Expense extends Equatable {
     required this.date,
     required this.categoryId,
     this.category,
+    this.usdPrice = 0,
   });
 
   @override
-  List<Object?> get props => [title, id, date, categoryId, price];
+  List<Object?> get props => [title, id, date, categoryId, price, usdPrice];
 }

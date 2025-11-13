@@ -94,6 +94,7 @@ class DatabaseHelper {
   ]) async {
     final expenses = await _openBox<ExpenseDbModel>('expenses_v2');
     final categories = await _openBox<CategoryDbModel>('categories_v2');
+    final dollarRates = await _openBox<DollarRateDbModel>('dollar_rates_v1');
 
     Iterable<ExpenseDbModel> filtered = expenses.values;
 
@@ -107,6 +108,12 @@ class DatabaseHelper {
 
     if (categoryId != null && categoryId.isNotEmpty) {
       filtered = filtered.where((expense) => expense.categoryId == categoryId);
+    }
+
+    double rateForMonth(int year, int month) {
+      final key = '$year-$month';
+      final rate = dollarRates.get(key);
+      return rate?.price.toDouble() ?? 0;
     }
 
     final filteredExpenses = filtered.toList()
@@ -129,7 +136,11 @@ class DatabaseHelper {
               color: '#000000',
               iconKey: 'ic_other',
             );
-      return exp.toExpenseModel(categoryModel);
+      final jalali =
+          Jalali.fromDateTime(DateTime.fromMillisecondsSinceEpoch(exp.date));
+      final rate = rateForMonth(jalali.year, jalali.month);
+      final usdPrice = rate > 0 ? exp.price / rate : 0.0;
+      return exp.toExpenseModel(categoryModel, usdPrice: usdPrice);
     }).toList();
   }
 

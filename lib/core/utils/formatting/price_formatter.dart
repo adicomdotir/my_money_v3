@@ -54,3 +54,14 @@ String addThousandsSeparator(String numberString) {
 String formatPriceOnly(int price) {
   return addThousandsSeparator(price.toString());
 }
+
+String formatUsd(double amount) {
+  final sign = amount < 0 ? '-' : '';
+  final absolute = amount.abs();
+  final intPart = absolute.floor();
+  final decimalPart = absolute - intPart;
+  final formattedInt = addThousandsSeparator(intPart.toString());
+  final decimals =
+      decimalPart > 0 ? decimalPart.toStringAsFixed(2).substring(1) : '.00';
+  return '$sign\$$formattedInt$decimals';
+}

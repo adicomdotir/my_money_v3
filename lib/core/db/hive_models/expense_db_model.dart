@@ -25,12 +25,17 @@ class ExpenseDbModel {
   @HiveField(4)
   final String categoryId;
 
-  ExpenseModel toExpenseModel(CategoryModel categoryModel) => ExpenseModel(
+  ExpenseModel toExpenseModel(
+    CategoryModel? categoryModel, {
+    double usdPrice = 0,
+  }) =>
+      ExpenseModel(
         id: id,
         title: title,
         categoryId: categoryId,
         date: date,
         price: price,
+        usdPrice: usdPrice,
         categoryModel: categoryModel,
       );
 }

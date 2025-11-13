@@ -8,6 +8,7 @@ class ExpenseModel extends Expense {
     required super.categoryId,
     required super.date,
     required super.price,
+    super.usdPrice = 0,
     CategoryModel? categoryModel,
   }) : super(
           category: categoryModel,
@@ -20,6 +21,7 @@ class ExpenseModel extends Expense {
       categoryId: json['categoryId'] as String,
       date: json['date'] as int,
       price: json['price'] as int,
+      usdPrice: (json['usdPrice'] as num?)?.toDouble() ?? 0,
       categoryModel:
           CategoryModel.fromMap(json['category'] as Map<String, dynamic>),
     );
@@ -31,5 +33,6 @@ class ExpenseModel extends Expense {
         'categoryId': categoryId,
         'date': date,
         'price': price,
+        'usdPrice': usdPrice,
       };
 }
