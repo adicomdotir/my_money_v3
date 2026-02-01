@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_money_v3/core/db/hive_models/category_db_model.dart';
 import 'package:my_money_v3/shared/data/models/category_model.dart';
@@ -96,7 +98,18 @@ class DatabaseHelper {
     final categories = await _openBox<CategoryDbModel>('categories_v2');
     final dollarRates = await _openBox<DollarRateDbModel>('dollar_rates_v1');
 
-    Iterable<ExpenseDbModel> filtered = expenses.values;
+    Iterable<ExpenseDbModel> filtered = expenses.values.map((e) {
+      if (e.categoryId.isEmpty) {
+        return ExpenseDbModel(
+          id: e.id,
+          title: e.title,
+          price: e.price,
+          date: e.date,
+          categoryId: categories.values.first.id,
+        );
+      }
+      return e;
+    });
 
     if (fromDate != null) {
       filtered = filtered.where((expense) => expense.date >= fromDate);
@@ -259,7 +272,18 @@ class DatabaseHelper {
     final dollarRates = await _openBox<DollarRateDbModel>('dollar_rates_v1');
 
     // Sort expenses by date
-    final sortedExpenses = expenses.values.toList()
+    final sortedExpenses = expenses.values.map((e) {
+      if (e.categoryId.isEmpty) {
+        return ExpenseDbModel(
+          id: e.id,
+          title: e.title,
+          price: e.price,
+          date: e.date,
+          categoryId: categories.values.first.id,
+        );
+      }
+      return e;
+    }).toList()
       ..sort((a, b) => b.date - a.date);
 
     // Create maps for category titles and colors
