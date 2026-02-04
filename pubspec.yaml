@@ -1,7 +1,7 @@
 name: my_money_v3
 description: A money tracker application.
 
-version: 1.1.6+29
+version: 1.1.7+30
 
 environment:
   sdk: ^3.5.4
@@ -42,7 +42,6 @@ flutter:
     - lang/fa.json
     - lang/en.json
     - assets/images/logo.png
-    - assets/expense_categories/expense_categories/
 
   fonts:
     - family: Vazir
